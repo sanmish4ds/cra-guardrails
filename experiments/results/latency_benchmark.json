@@ -1,0 +1,61 @@
+{
+  "device": "cpu",
+  "spacy_model": "en_core_web_sm",
+  "embedding_model": "all-MiniLM-L6-v2",
+  "n_timed": 20,
+  "per_turn_signals_cpu": {
+    "8": {
+      "mean_ms": 72.877,
+      "p50_ms": 72.866,
+      "p95_ms": 75.413
+    },
+    "32": {
+      "mean_ms": 406.775,
+      "p50_ms": 406.02,
+      "p95_ms": 418.933
+    },
+    "128": {
+      "mean_ms": 1742.677,
+      "p50_ms": 1731.088,
+      "p95_ms": 1805.699
+    }
+  },
+  "cranet_session_cpu": {
+    "8": {
+      "mean_ms": 0.199,
+      "p50_ms": 0.199,
+      "p95_ms": 0.212
+    },
+    "32": {
+      "mean_ms": 0.587,
+      "p50_ms": 0.555,
+      "p95_ms": 0.675
+    },
+    "128": {
+      "mean_ms": 2.076,
+      "p50_ms": 2.033,
+      "p95_ms": 2.249
+    }
+  },
+  "iag_footprint": {
+    "8": {
+      "estimated_nodes": 8,
+      "estimated_edges": 7
+    },
+    "32": {
+      "estimated_nodes": 32,
+      "estimated_edges": 31
+    },
+    "128": {
+      "estimated_nodes": 128,
+      "estimated_edges": 127
+    }
+  },
+  "guards_full_transcript": {
+    "llama_guard3_1b_ollama": {
+      "mean_ms": 83.846,
+      "p50_ms": 83.759,
+      "p95_ms": 84.951
+    }
+  }
+}

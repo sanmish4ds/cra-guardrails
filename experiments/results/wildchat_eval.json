@@ -1,0 +1,44 @@
+{
+  "dataset": "WildChat-1M",
+  "n_pos": 59,
+  "n_neg": 59,
+  "positive_criterion": "Escalating: early asst max_score < 0.2, late asst max_score > 0.5",
+  "negative_criterion": "Benign: all asst max_score < 0.05",
+  "pos_length_dist": {
+    "2": 23,
+    "3": 22,
+    "4": 6,
+    "5": 8
+  },
+  "neg_length_dist": {
+    "2": 29,
+    "3": 13,
+    "4": 10,
+    "5": 7
+  },
+  "length_only": {
+    "method": "Length-only",
+    "auroc": 0.6823,
+    "ci_lo": 0.5823,
+    "ci_hi": 0.7802,
+    "sfpr": 1.0,
+    "threshold": 2
+  },
+  "cra_convex": {
+    "method": "CRA-convex",
+    "auroc": 0.5863,
+    "ci_lo": 0.4685,
+    "ci_hi": 0.6983,
+    "sfpr": 0.6102,
+    "threshold": 0.55
+  },
+  "cranet_lam005": {
+    "method": "CRA-Net \u03bb=0.05 (CoSafe\u2192WildChat)",
+    "auroc": 1.0,
+    "ci_lo": 1.0,
+    "ci_hi": 1.0,
+    "sfpr": 1.0,
+    "threshold": 1.0,
+    "mean_ttd": 1.9
+  }
+}

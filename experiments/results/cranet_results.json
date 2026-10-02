@@ -1,0 +1,28 @@
+{
+  "cranet_lam0.0": {
+    "lambda": 0.0,
+    "n_folds": 5,
+    "n_sessions": 1800,
+    "n_pos": 750,
+    "n_neg": 1050,
+    "auroc_turn_max": 1.0,
+    "auroc_tm_ci_lo": 0.9907,
+    "auroc_tm_ci_hi": 0.9971,
+    "sfpr_at_tpr90": 0.0,
+    "threshold": 1.0,
+    "mean_ttd": 0.2347
+  },
+  "cranet_lam0.05": {
+    "lambda": 0.05,
+    "n_folds": 5,
+    "n_sessions": 1800,
+    "n_pos": 750,
+    "n_neg": 1050,
+    "auroc_turn_max": 1.0,
+    "auroc_tm_ci_lo": 0.853,
+    "auroc_tm_ci_hi": 0.9018,
+    "sfpr_at_tpr90": 0.0,
+    "threshold": 0.999982,
+    "mean_ttd": 1.0563
+  }
+}

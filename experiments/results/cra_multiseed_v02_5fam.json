@@ -1,0 +1,145 @@
+{
+  "bench": "/Users/sanjaymishra/SQLclMCP/data/cra_bench_v02_5fam/sessions.jsonl",
+  "split_seed": 42,
+  "train_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "methods": {
+    "CRA-Net_full": {
+      "per_seed": [
+        {
+          "auroc": 0.785875,
+          "sfpr_at_tpr90": 0.665,
+          "train_seed": 42
+        },
+        {
+          "auroc": 0.861175,
+          "sfpr_at_tpr90": 0.885,
+          "train_seed": 43
+        },
+        {
+          "auroc": 0.7733,
+          "sfpr_at_tpr90": 1.0,
+          "train_seed": 44
+        },
+        {
+          "auroc": 0.7142,
+          "sfpr_at_tpr90": 0.745,
+          "train_seed": 45
+        },
+        {
+          "auroc": 0.883425,
+          "sfpr_at_tpr90": 0.9,
+          "train_seed": 46
+        }
+      ],
+      "auroc_mean": 0.8036,
+      "auroc_std": 0.0615,
+      "sfpr_mean": 0.839,
+      "sfpr_std": 0.1191
+    },
+    "CRA-Net_no_GRL": {
+      "per_seed": [
+        {
+          "auroc": 0.926325,
+          "sfpr_at_tpr90": 0.385,
+          "train_seed": 42
+        },
+        {
+          "auroc": 0.9543,
+          "sfpr_at_tpr90": 0.145,
+          "train_seed": 43
+        },
+        {
+          "auroc": 0.959775,
+          "sfpr_at_tpr90": 0.135,
+          "train_seed": 44
+        },
+        {
+          "auroc": 0.94575,
+          "sfpr_at_tpr90": 0.22,
+          "train_seed": 45
+        },
+        {
+          "auroc": 0.9411,
+          "sfpr_at_tpr90": 0.375,
+          "train_seed": 46
+        }
+      ],
+      "auroc_mean": 0.9455,
+      "auroc_std": 0.0116,
+      "sfpr_mean": 0.252,
+      "sfpr_std": 0.1086
+    },
+    "CRA-Net_DA_lam01": {
+      "per_seed": [
+        {
+          "auroc": 0.655575,
+          "sfpr_at_tpr90": 0.75,
+          "train_seed": 42
+        },
+        {
+          "auroc": 0.877275,
+          "sfpr_at_tpr90": 0.465,
+          "train_seed": 43
+        },
+        {
+          "auroc": 0.6798,
+          "sfpr_at_tpr90": 0.87,
+          "train_seed": 44
+        },
+        {
+          "auroc": 0.83875,
+          "sfpr_at_tpr90": 0.81,
+          "train_seed": 45
+        },
+        {
+          "auroc": 0.844875,
+          "sfpr_at_tpr90": 0.82,
+          "train_seed": 46
+        }
+      ],
+      "auroc_mean": 0.7793,
+      "auroc_std": 0.0923,
+      "sfpr_mean": 0.743,
+      "sfpr_std": 0.1441
+    },
+    "CRA-Net_DA_lam03": {
+      "per_seed": [
+        {
+          "auroc": 0.545925,
+          "sfpr_at_tpr90": 0.795,
+          "train_seed": 42
+        },
+        {
+          "auroc": 0.638225,
+          "sfpr_at_tpr90": 0.83,
+          "train_seed": 43
+        },
+        {
+          "auroc": 0.59535,
+          "sfpr_at_tpr90": 0.775,
+          "train_seed": 44
+        },
+        {
+          "auroc": 0.7026,
+          "sfpr_at_tpr90": 0.69,
+          "train_seed": 45
+        },
+        {
+          "auroc": 0.7918,
+          "sfpr_at_tpr90": 0.635,
+          "train_seed": 46
+        }
+      ],
+      "auroc_mean": 0.6548,
+      "auroc_std": 0.0857,
+      "sfpr_mean": 0.745,
+      "sfpr_std": 0.0718
+    }
+  }
+}

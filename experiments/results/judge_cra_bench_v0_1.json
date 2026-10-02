@@ -1,0 +1,56 @@
+{
+  "model": "gpt-4o-mini",
+  "bench_path": "data/cra_bench_v01/sessions.jsonl",
+  "n_test": 240,
+  "n_pos": 120,
+  "n_neg": 120,
+  "auroc": 1.0,
+  "auroc_ci95": [
+    1.0,
+    1.0
+  ],
+  "sfpr_at_tpr90": 0.0,
+  "sfpr_ci95": [
+    0.0,
+    0.0
+  ],
+  "threshold": 0.75,
+  "mean_ttd": null,
+  "ttd_ci95": [
+    null,
+    null
+  ],
+  "note": "Transcript-level classifier (one score per session); no per-turn TTD.",
+  "per_family": {
+    "aggregation": {
+      "n": 83,
+      "n_pos": 39,
+      "n_neg": 44,
+      "auroc": 1.0,
+      "auroc_ci95": [
+        1.0,
+        1.0
+      ]
+    },
+    "conditioning": {
+      "n": 76,
+      "n_pos": 36,
+      "n_neg": 40,
+      "auroc": 1.0,
+      "auroc_ci95": [
+        1.0,
+        1.0
+      ]
+    },
+    "fragmentation": {
+      "n": 81,
+      "n_pos": 45,
+      "n_neg": 36,
+      "auroc": 1.0,
+      "auroc_ci95": [
+        1.0,
+        1.0
+      ]
+    }
+  }
+}

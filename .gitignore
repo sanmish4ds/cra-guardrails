@@ -1,0 +1,18 @@
+# Secrets
+.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Large / regenerable artifacts
+# S3 refusal classifier (~255 MB) — regenerate with experiments/train_s3_refusal_classifier.py
+experiments/models/
+# Signal cache — rebuilt automatically by experiments/signal_cache.py
+experiments/cache/
+experiments/logs/
+
+.DS_Store

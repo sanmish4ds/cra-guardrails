@@ -1,0 +1,11 @@
+{
+  "model": "gpt-4o-mini",
+  "n_sessions": 1800,
+  "n_pos": 750,
+  "n_neg": 1050,
+  "auroc_turn_max": 0.6591,
+  "auroc_sliding_window": 0.6591,
+  "sfpr_at_tpr90": 0.9133,
+  "threshold": 0.8,
+  "mean_ttd": "N/A (transcript-level classifier; no per-turn scores)"
+}

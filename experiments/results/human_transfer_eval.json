@@ -1,0 +1,84 @@
+{
+  "protocol": "human_transfer_v1",
+  "description": "Train on CRA-Bench v0.2 synthetic (standard split train/val); zero-shot eval on CoSafe gradual-escalation positives + ShareGPT 3-turn benign negatives. Thresholds from synthetic val @ TPR=0.90.",
+  "synthetic_bench": "/Users/sanjaymishra/SQLclMCP/data/cra_bench_v02_5fam/sessions.jsonl",
+  "human_corpus": "/Users/sanjaymishra/SQLclMCP/data/human_cra_transfer/sessions.jsonl",
+  "n_human_total": 972,
+  "n_human_pos_cosafe": 750,
+  "n_human_neg_sharegpt": 222,
+  "auroc_length_only": 0.5,
+  "wall_seconds": 389.6,
+  "methods": {
+    "CRA-convex": {
+      "auroc": 0.0628,
+      "auroc_ci95": [
+        0.0416,
+        0.0878
+      ],
+      "sfpr_at_tpr90": 0.9865,
+      "sfpr_ci95": [
+        0.9701,
+        1.0
+      ],
+      "threshold_tpr90": 0.1456
+    },
+    "Turn-max S1": {
+      "auroc": 0.6157,
+      "auroc_ci95": [
+        0.5647,
+        0.6652
+      ],
+      "sfpr_at_tpr90": 0.6441,
+      "sfpr_ci95": [
+        0.5769,
+        0.7105
+      ],
+      "threshold_tpr90": 0.0923
+    },
+    "Feature-MLP": {
+      "auroc": 0.4906,
+      "auroc_ci95": [
+        0.449,
+        0.5312
+      ],
+      "sfpr_at_tpr90": 0.8649,
+      "sfpr_ci95": [
+        0.816,
+        0.9589
+      ],
+      "threshold_tpr90": 0.5998
+    },
+    "CRA-Net (lambda=0.05)": {
+      "auroc": 0.9191,
+      "auroc_ci95": [
+        0.89,
+        0.9432
+      ],
+      "sfpr_at_tpr90": 0.1622,
+      "sfpr_ci95": [
+        0.1019,
+        0.2285
+      ],
+      "threshold_tpr90": 0.4785,
+      "synth_val_threshold": 0.4937,
+      "tpr_at_synth_threshold": 0.2067,
+      "fpr_at_synth_threshold": 0.018
+    },
+    "CRA-Net DA": {
+      "auroc": 0.9293,
+      "auroc_ci95": [
+        0.9027,
+        0.9527
+      ],
+      "sfpr_at_tpr90": 0.1532,
+      "sfpr_ci95": [
+        0.0946,
+        0.2593
+      ],
+      "threshold_tpr90": 0.4819,
+      "synth_val_threshold": 0.6776,
+      "tpr_at_synth_threshold": 0.128,
+      "fpr_at_synth_threshold": 0.0135
+    }
+  }
+}

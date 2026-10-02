@@ -1,0 +1,118 @@
+{
+  "n_sessions": 50,
+  "formula": "S2_tiered = sum_k [w(type)*coverage^2] / Z; coverage = min(1, mentions/max_attrs)",
+  "tier_weights": {
+    "PERSON": 0.35,
+    "MONEY": 0.2,
+    "PRODUCT": 0.2,
+    "LAW": 0.2,
+    "ORG": 0.1,
+    "CARDINAL": 0.05,
+    "GPE": 0.05,
+    "LOC": 0.05,
+    "DEFAULT": 0.05
+  },
+  "max_attrs": {
+    "PERSON": 6,
+    "ORG": 4,
+    "GPE": 2,
+    "LOC": 2,
+    "MONEY": 2,
+    "DEFAULT": 2
+  },
+  "final_turn_stats": {
+    "tiered": {
+      "n": 50,
+      "mean": 0.0569,
+      "std": 0.1589,
+      "min": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "max": 1.0
+    },
+    "proxy": {
+      "n": 50,
+      "mean": 0.044,
+      "std": 0.1235,
+      "min": 0.0,
+      "p25": 0.0,
+      "p50": 0.0,
+      "p75": 0.0,
+      "max": 0.8
+    }
+  },
+  "pearson_r_tiered_proxy": 0.5163,
+  "tiered_higher_than_proxy": 6,
+  "proxy_higher_than_tiered": 5,
+  "both_equal": 39,
+  "mean_diff_tiered_minus_proxy": 0.0129,
+  "interpretation": "Tiered S2 weights PERSON/MONEY entities more heavily than ORG/LOC. If sessions have more personal data disclosure, tiered > proxy. Pearson r measures rank consistency; low r means the scores diverge \u2014 useful sessions to distinguish are those with high-tier entities.",
+  "sample_sessions": [
+    {
+      "n_turns": 3,
+      "tiered_trajectory": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "proxy_trajectory": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "n_turns": 3,
+      "tiered_trajectory": [
+        0.25,
+        0.25,
+        0.25
+      ],
+      "proxy_trajectory": [
+        0.1,
+        0.2,
+        0.2
+      ]
+    },
+    {
+      "n_turns": 3,
+      "tiered_trajectory": [
+        0.0,
+        0.25,
+        0.25
+      ],
+      "proxy_trajectory": [
+        0.0,
+        0.1,
+        0.1
+      ]
+    },
+    {
+      "n_turns": 3,
+      "tiered_trajectory": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "proxy_trajectory": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "n_turns": 3,
+      "tiered_trajectory": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "proxy_trajectory": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

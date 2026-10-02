@@ -1,0 +1,28 @@
+{
+  "bench": "data/cra_bench_v02_5fam/sessions.jsonl",
+  "generated_by": "run_s3_comparison_protocol.py",
+  "keyword": {
+    "s3_mode": "keyword",
+    "overall_auroc": 0.6556,
+    "per_family": {
+      "aggregation": 0.7882,
+      "conditioning": 0.99,
+      "fragmentation": 0.6046,
+      "persona": 0.2783,
+      "stuffing": 0.5368
+    },
+    "conditioning_auroc": 0.99
+  },
+  "classifier": {
+    "s3_mode": "classifier",
+    "overall_auroc": 0.8526,
+    "per_family": {
+      "aggregation": 1.0,
+      "conditioning": 1.0,
+      "fragmentation": 0.9744,
+      "persona": 1.0,
+      "stuffing": 0.8607
+    },
+    "conditioning_auroc": 1.0
+  }
+}

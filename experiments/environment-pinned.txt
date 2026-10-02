@@ -1,0 +1,16 @@
+# Pinned environment for CRA-Bench reproduction (May 2026)
+# Install: pip install -r experiments/environment-pinned.txt
+# spaCy model: pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+torch==2.6.0
+sentence-transformers==3.4.1
+spacy==3.8.4
+scikit-learn==1.6.1
+numpy==2.2.4
+datasets==3.5.0
+huggingface-hub==0.30.2
+transformers==4.51.3
+accelerate==1.6.0
+requests==2.32.3
+matplotlib==3.10.1
+python-dotenv==1.1.0
+# Ollama guard snapshot (local): llama-guard3:1b — record `ollama show llama-guard3:1b` digest in paper

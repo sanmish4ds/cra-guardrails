@@ -1,0 +1,27 @@
+{
+  "length_only_auroc": 1.0,
+  "lambda_0.0": {
+    "lam": 0.0,
+    "auroc_cosafe_sanity": 1.0,
+    "auroc_length_matched": 1.0,
+    "auroc_lm_ci_lo": 1.0,
+    "auroc_lm_ci_hi": 1.0,
+    "sfpr_length_matched": 1.0,
+    "threshold": 1.0,
+    "mean_ttd_cosafe": 1.21,
+    "n_pos": 750,
+    "n_neg": 132
+  },
+  "lambda_0.05": {
+    "lam": 0.05,
+    "auroc_cosafe_sanity": 1.0,
+    "auroc_length_matched": 0.9917,
+    "auroc_lm_ci_lo": 0.9865,
+    "auroc_lm_ci_hi": 0.996,
+    "sfpr_length_matched": 0.4545,
+    "threshold": 1.0,
+    "mean_ttd_cosafe": 1.35,
+    "n_pos": 750,
+    "n_neg": 132
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "n_requested": 200,
+  "n_scored": 200,
+  "n_skipped_no_ollama": 0,
+  "guard_reference": "llama-guard3:1b (Ollama) per-window unsafe label",
+  "keyword_proxy_threshold": 0.5,
+  "cohen_kappa": 0.0,
+  "raw_agreement": 0.115,
+  "meets_kappa_07": false,
+  "note": "Keyword S3 is retained as the reproducible default in all tables; Llama Guard window labels are a stronger refusal proxy for calibration audits."
+}

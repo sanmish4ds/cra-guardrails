@@ -1,0 +1,14 @@
+{
+  "n_audit": 200,
+  "n_train_labeled": 400,
+  "guard_reference": "llama-guard3:1b",
+  "keyword_vs_guard": {
+    "cohen_kappa": -0.0187,
+    "raw_agreement": 0.875
+  },
+  "classifier_vs_guard": {
+    "cohen_kappa": 0.0745,
+    "raw_agreement": 0.89
+  },
+  "meets_kappa_07_classifier": false
+}

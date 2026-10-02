@@ -1,0 +1,805 @@
+{
+  "protocol": "cra_extended_v1",
+  "bench_path": "data/cra_bench_v02/sessions.jsonl",
+  "bench_versions": [
+    "v0.2"
+  ],
+  "n_sessions_total": 1200,
+  "families": [
+    "fragmentation",
+    "conditioning",
+    "aggregation"
+  ],
+  "standard_split": {
+    "splits": {
+      "train": 720,
+      "val": 240,
+      "test": 240
+    },
+    "calibrated_theta_cranet_full": 0.6428106427192688,
+    "calibrated_theta_cranet_da": 0.6970176100730896,
+    "lam_fam_std": 0.3,
+    "overall_test": {
+      "CRA-convex": {
+        "n": 240,
+        "n_pos": 120,
+        "n_neg": 120,
+        "auroc": 0.5685,
+        "auroc_ci95": [
+          0.4921,
+          0.6426
+        ],
+        "sfpr_at_tpr90": 0.725,
+        "sfpr_ci95": [
+          0.6423,
+          0.806
+        ],
+        "threshold": 0.223818,
+        "mean_ttd": null,
+        "ttd_ci95": [
+          null,
+          null
+        ]
+      },
+      "Turn-max S1": {
+        "n": 240,
+        "n_pos": 120,
+        "n_neg": 120,
+        "auroc": 0.6164,
+        "auroc_ci95": [
+          0.5389,
+          0.6945
+        ],
+        "sfpr_at_tpr90": 0.7083,
+        "sfpr_ci95": [
+          0.6153,
+          0.7966
+        ],
+        "threshold": 0.175942,
+        "mean_ttd": null,
+        "ttd_ci95": [
+          null,
+          null
+        ]
+      },
+      "Sliding-window S1": {
+        "n": 240,
+        "n_pos": 120,
+        "n_neg": 120,
+        "auroc": 0.591,
+        "auroc_ci95": [
+          0.5145,
+          0.6676
+        ],
+        "sfpr_at_tpr90": 0.75,
+        "sfpr_ci95": [
+          0.6667,
+          0.8318
+        ],
+        "threshold": 0.147611,
+        "mean_ttd": null,
+        "ttd_ci95": [
+          null,
+          null
+        ]
+      },
+      "CRA-convex \\ S1": {
+        "n": 240,
+        "n_pos": 120,
+        "n_neg": 120,
+        "auroc": 0.5874,
+        "auroc_ci95": [
+          0.5123,
+          0.6606
+        ],
+        "sfpr_at_tpr90": 0.8167,
+        "sfpr_ci95": [
+          0.5703,
+          0.8739
+        ],
+        "threshold": 0.145,
+        "mean_ttd": null,
+        "ttd_ci95": [
+          null,
+          null
+        ]
+      },
+      "CRA-convex \\ S2": {
+        "n": 240,
+        "n_pos": 120,
+        "n_neg": 120,
+        "auroc": 0.6547,
+        "auroc_ci95": [
+          0.5796,
+          0.7318
+        ],
+        "sfpr_at_tpr90": 0.55,
+        "sfpr_ci95": [
+          0.4513,
+          0.6942
+        ],
+        "threshold": 0.178818,
+        "mean_ttd": null,
+        "ttd_ci95": [
+          null,
+          null
+        ]
+      },
+      "CRA-convex \\ S3": {
+        "n": 240,
+        "n_pos": 120,
+        "n_neg": 120,
+        "auroc": 0.5662,
+        "auroc_ci95": [
+          0.4899,
+          0.6383
+        ],
+        "sfpr_at_tpr90": 0.7417,
+        "sfpr_ci95": [
+          0.6579,
+          0.8182
+        ],
+        "threshold": 0.10658,
+        "mean_ttd": null,
+        "ttd_ci95": [
+          null,
+          null
+        ]
+      },
+      "Feature-MLP": {
+        "n": 240,
+        "n_pos": 120,
+        "n_neg": 120,
+        "auroc": 0.7994,
+        "auroc_ci95": [
+          0.743,
+          0.8517
+        ],
+        "sfpr_at_tpr90": 0.7167,
+        "sfpr_ci95": [
+          0.2649,
+          0.7857
+        ],
+        "threshold": 0.258705,
+        "mean_ttd": null,
+        "ttd_ci95": [
+          null,
+          null
+        ]
+      },
+      "CRA-Net (lambda=0.05)": {
+        "n": 240,
+        "n_pos": 120,
+        "n_neg": 120,
+        "auroc": 0.8286,
+        "auroc_ci95": [
+          0.7793,
+          0.8752
+        ],
+        "sfpr_at_tpr90": 0.425,
+        "sfpr_ci95": [
+          0.3257,
+          0.5397
+        ],
+        "threshold": 0.637709,
+        "mean_ttd": 4.75,
+        "ttd_ci95": [
+          4.3495,
+          5.0841
+        ]
+      },
+      "CRA-Net no GRL (lambda=0)": {
+        "n": 240,
+        "n_pos": 120,
+        "n_neg": 120,
+        "auroc": 0.9306,
+        "auroc_ci95": [
+          0.8958,
+          0.9646
+        ],
+        "sfpr_at_tpr90": 0.2417,
+        "sfpr_ci95": [
+          0.008,
+          0.6138
+        ],
+        "threshold": 0.693078,
+        "mean_ttd": null,
+        "ttd_ci95": [
+          null,
+          null
+        ]
+      },
+      "CRA-Net no S2/S3": {
+        "n": 240,
+        "n_pos": 120,
+        "n_neg": 120,
+        "auroc": 0.7285,
+        "auroc_ci95": [
+          0.6629,
+          0.7918
+        ],
+        "sfpr_at_tpr90": 0.7167,
+        "sfpr_ci95": [
+          0.6046,
+          0.9167
+        ],
+        "threshold": 0.501241,
+        "mean_ttd": null,
+        "ttd_ci95": [
+          null,
+          null
+        ]
+      },
+      "CRA-Net DA (lambda=0.05, lam_fam=0.3)": {
+        "n": 240,
+        "n_pos": 120,
+        "n_neg": 120,
+        "auroc": 0.9187,
+        "auroc_ci95": [
+          0.8814,
+          0.9525
+        ],
+        "sfpr_at_tpr90": 0.175,
+        "sfpr_ci95": [
+          0.0866,
+          0.579
+        ],
+        "threshold": 0.647434,
+        "mean_ttd": 4.0648,
+        "ttd_ci95": [
+          3.8113,
+          4.3149
+        ]
+      }
+    },
+    "per_family_test_auroc": {
+      "CRA-convex": {
+        "aggregation": {
+          "n": 71,
+          "n_pos": 26,
+          "n_neg": 45,
+          "auroc": 0.3359,
+          "auroc_ci95": [
+            0.2192,
+            0.4552
+          ]
+        },
+        "conditioning": {
+          "n": 82,
+          "n_pos": 49,
+          "n_neg": 33,
+          "auroc": 0.9808,
+          "auroc_ci95": [
+            0.9551,
+            0.9968
+          ]
+        },
+        "fragmentation": {
+          "n": 87,
+          "n_pos": 45,
+          "n_neg": 42,
+          "auroc": 0.9709,
+          "auroc_ci95": [
+            0.935,
+            0.9963
+          ]
+        }
+      },
+      "Turn-max S1": {
+        "aggregation": {
+          "n": 71,
+          "n_pos": 26,
+          "n_neg": 45,
+          "auroc": 0.3128,
+          "auroc_ci95": [
+            0.1963,
+            0.4426
+          ]
+        },
+        "conditioning": {
+          "n": 82,
+          "n_pos": 49,
+          "n_neg": 33,
+          "auroc": 0.9357,
+          "auroc_ci95": [
+            0.8736,
+            0.9842
+          ]
+        },
+        "fragmentation": {
+          "n": 87,
+          "n_pos": 45,
+          "n_neg": 42,
+          "auroc": 0.9984,
+          "auroc_ci95": [
+            0.9935,
+            1.0
+          ]
+        }
+      },
+      "Sliding-window S1": {
+        "aggregation": {
+          "n": 71,
+          "n_pos": 26,
+          "n_neg": 45,
+          "auroc": 0.2479,
+          "auroc_ci95": [
+            0.1421,
+            0.363
+          ]
+        },
+        "conditioning": {
+          "n": 82,
+          "n_pos": 49,
+          "n_neg": 33,
+          "auroc": 0.8936,
+          "auroc_ci95": [
+            0.8023,
+            0.9667
+          ]
+        },
+        "fragmentation": {
+          "n": 87,
+          "n_pos": 45,
+          "n_neg": 42,
+          "auroc": 1.0,
+          "auroc_ci95": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "CRA-convex \\ S1": {
+        "aggregation": {
+          "n": 71,
+          "n_pos": 26,
+          "n_neg": 45,
+          "auroc": 0.5487,
+          "auroc_ci95": [
+            0.4122,
+            0.692
+          ]
+        },
+        "conditioning": {
+          "n": 82,
+          "n_pos": 49,
+          "n_neg": 33,
+          "auroc": 0.992,
+          "auroc_ci95": [
+            0.971,
+            1.0
+          ]
+        },
+        "fragmentation": {
+          "n": 87,
+          "n_pos": 45,
+          "n_neg": 42,
+          "auroc": 0.8069,
+          "auroc_ci95": [
+            0.7037,
+            0.9006
+          ]
+        }
+      },
+      "CRA-convex \\ S2": {
+        "aggregation": {
+          "n": 71,
+          "n_pos": 26,
+          "n_neg": 45,
+          "auroc": 0.3128,
+          "auroc_ci95": [
+            0.1963,
+            0.4426
+          ]
+        },
+        "conditioning": {
+          "n": 82,
+          "n_pos": 49,
+          "n_neg": 33,
+          "auroc": 0.9672,
+          "auroc_ci95": [
+            0.9301,
+            0.9917
+          ]
+        },
+        "fragmentation": {
+          "n": 87,
+          "n_pos": 45,
+          "n_neg": 42,
+          "auroc": 0.9984,
+          "auroc_ci95": [
+            0.9935,
+            1.0
+          ]
+        }
+      },
+      "CRA-convex \\ S3": {
+        "aggregation": {
+          "n": 71,
+          "n_pos": 26,
+          "n_neg": 45,
+          "auroc": 0.3359,
+          "auroc_ci95": [
+            0.2192,
+            0.4552
+          ]
+        },
+        "conditioning": {
+          "n": 82,
+          "n_pos": 49,
+          "n_neg": 33,
+          "auroc": 0.9598,
+          "auroc_ci95": [
+            0.9019,
+            0.9975
+          ]
+        },
+        "fragmentation": {
+          "n": 87,
+          "n_pos": 45,
+          "n_neg": 42,
+          "auroc": 0.9709,
+          "auroc_ci95": [
+            0.935,
+            0.9963
+          ]
+        }
+      },
+      "Feature-MLP": {
+        "aggregation": {
+          "n": 71,
+          "n_pos": 26,
+          "n_neg": 45,
+          "auroc": 0.2769,
+          "auroc_ci95": [
+            0.1756,
+            0.394
+          ]
+        },
+        "conditioning": {
+          "n": 82,
+          "n_pos": 49,
+          "n_neg": 33,
+          "auroc": 0.9957,
+          "auroc_ci95": [
+            0.9855,
+            1.0
+          ]
+        },
+        "fragmentation": {
+          "n": 87,
+          "n_pos": 45,
+          "n_neg": 42,
+          "auroc": 0.9979,
+          "auroc_ci95": [
+            0.9915,
+            1.0
+          ]
+        }
+      },
+      "CRA-Net (lambda=0.05)": {
+        "aggregation": {
+          "n": 71,
+          "n_pos": 26,
+          "n_neg": 45,
+          "auroc": 0.8667,
+          "auroc_ci95": [
+            0.7709,
+            0.9483
+          ]
+        },
+        "conditioning": {
+          "n": 82,
+          "n_pos": 49,
+          "n_neg": 33,
+          "auroc": 0.8955,
+          "auroc_ci95": [
+            0.7835,
+            0.9807
+          ]
+        },
+        "fragmentation": {
+          "n": 87,
+          "n_pos": 45,
+          "n_neg": 42,
+          "auroc": 0.4169,
+          "auroc_ci95": [
+            0.2979,
+            0.5495
+          ]
+        }
+      },
+      "CRA-Net no GRL (lambda=0)": {
+        "aggregation": {
+          "n": 71,
+          "n_pos": 26,
+          "n_neg": 45,
+          "auroc": 0.9906,
+          "auroc_ci95": [
+            0.9713,
+            1.0
+          ]
+        },
+        "conditioning": {
+          "n": 82,
+          "n_pos": 49,
+          "n_neg": 33,
+          "auroc": 1.0,
+          "auroc_ci95": [
+            1.0,
+            1.0
+          ]
+        },
+        "fragmentation": {
+          "n": 87,
+          "n_pos": 45,
+          "n_neg": 42,
+          "auroc": 0.8333,
+          "auroc_ci95": [
+            0.7282,
+            0.9211
+          ]
+        }
+      },
+      "CRA-Net no S2/S3": {
+        "aggregation": {
+          "n": 71,
+          "n_pos": 26,
+          "n_neg": 45,
+          "auroc": 0.9641,
+          "auroc_ci95": [
+            0.9231,
+            0.9934
+          ]
+        },
+        "conditioning": {
+          "n": 82,
+          "n_pos": 49,
+          "n_neg": 33,
+          "auroc": 0.71,
+          "auroc_ci95": [
+            0.585,
+            0.8244
+          ]
+        },
+        "fragmentation": {
+          "n": 87,
+          "n_pos": 45,
+          "n_neg": 42,
+          "auroc": 0.8603,
+          "auroc_ci95": [
+            0.7716,
+            0.9396
+          ]
+        }
+      },
+      "CRA-Net DA (lambda=0.05, lam_fam=0.3)": {
+        "aggregation": {
+          "n": 71,
+          "n_pos": 26,
+          "n_neg": 45,
+          "auroc": 0.9786,
+          "auroc_ci95": [
+            0.948,
+            0.9983
+          ]
+        },
+        "conditioning": {
+          "n": 82,
+          "n_pos": 49,
+          "n_neg": 33,
+          "auroc": 0.9963,
+          "auroc_ci95": [
+            0.9873,
+            1.0
+          ]
+        },
+        "fragmentation": {
+          "n": 87,
+          "n_pos": 45,
+          "n_neg": 42,
+          "auroc": 0.7354,
+          "auroc_ci95": [
+            0.6097,
+            0.8471
+          ]
+        }
+      }
+    }
+  },
+  "lofo_cranet": {
+    "fragmentation": {
+      "n_train": 640,
+      "n_val": 160,
+      "n_test": 400,
+      "calibrated_theta": 0.7506173849105835,
+      "metrics": {
+        "n": 400,
+        "n_pos": 200,
+        "n_neg": 200,
+        "auroc": 0.1607,
+        "auroc_ci95": [
+          0.1229,
+          0.2005
+        ],
+        "sfpr_at_tpr90": 1.0,
+        "sfpr_ci95": [
+          1.0,
+          1.0
+        ],
+        "threshold": 0.547018,
+        "mean_ttd": 7.0,
+        "ttd_ci95": [
+          7.0,
+          7.0
+        ]
+      }
+    },
+    "conditioning": {
+      "n_train": 640,
+      "n_val": 160,
+      "n_test": 400,
+      "calibrated_theta": 0.5041975975036621,
+      "metrics": {
+        "n": 400,
+        "n_pos": 200,
+        "n_neg": 200,
+        "auroc": 0.9139,
+        "auroc_ci95": [
+          0.8859,
+          0.9375
+        ],
+        "sfpr_at_tpr90": 0.33,
+        "sfpr_ci95": [
+          0.2174,
+          0.4217
+        ],
+        "threshold": 0.65778,
+        "mean_ttd": 0.5,
+        "ttd_ci95": [
+          0.4301,
+          0.5787
+        ]
+      }
+    },
+    "aggregation": {
+      "n_train": 640,
+      "n_val": 160,
+      "n_test": 400,
+      "calibrated_theta": 0.5753076672554016,
+      "metrics": {
+        "n": 400,
+        "n_pos": 200,
+        "n_neg": 200,
+        "auroc": 0.0764,
+        "auroc_ci95": [
+          0.0502,
+          0.106
+        ],
+        "sfpr_at_tpr90": 1.0,
+        "sfpr_ci95": [
+          1.0,
+          1.0
+        ],
+        "threshold": 0.757058,
+        "mean_ttd": 3.9056,
+        "ttd_ci95": [
+          3.7444,
+          4.0553
+        ]
+      }
+    }
+  },
+  "lofo_cranet_da": {
+    "fragmentation": {
+      "n_train": 640,
+      "n_val": 160,
+      "n_test": 400,
+      "lam_fam": 0.5,
+      "calibrated_theta": 0.8674957752227783,
+      "metrics": {
+        "n": 400,
+        "n_pos": 200,
+        "n_neg": 200,
+        "auroc": 0.1672,
+        "auroc_ci95": [
+          0.1281,
+          0.2081
+        ],
+        "sfpr_at_tpr90": 1.0,
+        "sfpr_ci95": [
+          1.0,
+          1.0
+        ],
+        "threshold": 0.519645,
+        "mean_ttd": 7.0,
+        "ttd_ci95": [
+          7.0,
+          7.0
+        ]
+      }
+    },
+    "conditioning": {
+      "n_train": 640,
+      "n_val": 160,
+      "n_test": 400,
+      "lam_fam": 0.5,
+      "calibrated_theta": 0.5846909880638123,
+      "metrics": {
+        "n": 400,
+        "n_pos": 200,
+        "n_neg": 200,
+        "auroc": 0.4768,
+        "auroc_ci95": [
+          0.4105,
+          0.5373
+        ],
+        "sfpr_at_tpr90": 0.725,
+        "sfpr_ci95": [
+          0.6548,
+          0.7833
+        ],
+        "threshold": 0.631432,
+        "mean_ttd": 2.4389,
+        "ttd_ci95": [
+          2.3204,
+          2.5544
+        ]
+      }
+    },
+    "aggregation": {
+      "n_train": 640,
+      "n_val": 160,
+      "n_test": 400,
+      "lam_fam": 0.5,
+      "calibrated_theta": 0.9291292428970337,
+      "metrics": {
+        "n": 400,
+        "n_pos": 200,
+        "n_neg": 200,
+        "auroc": 0.1331,
+        "auroc_ci95": [
+          0.0982,
+          0.1695
+        ],
+        "sfpr_at_tpr90": 1.0,
+        "sfpr_ci95": [
+          1.0,
+          1.0
+        ],
+        "threshold": 0.942138,
+        "mean_ttd": 2.9611,
+        "ttd_ci95": [
+          2.7976,
+          3.1236
+        ]
+      }
+    }
+  },
+  "benign_fpr": {
+    "n_benign": 1000,
+    "n_benign_before_filter": 1000,
+    "length_filter": "2..16 user turns",
+    "theta_cranet_full_val": 0.6428106427192688,
+    "theta_cranet_da_val": 0.6970176100730896,
+    "convex": {
+      "exceed_count": 0,
+      "benign_fpr": 0.0,
+      "mean_score": 0.2781,
+      "max_score": 0.4496
+    },
+    "cranet_full": {
+      "exceed_count": 200,
+      "benign_fpr": 0.2,
+      "mean_score": 0.5811,
+      "max_score": 0.7435
+    },
+    "cranet_da": {
+      "exceed_count": 0,
+      "benign_fpr": 0.0,
+      "mean_score": 0.5865,
+      "max_score": 0.6683
+    },
+    "note": "FPR for each CRA-Net variant is the fraction of benign ShareGPT sessions whose max-turn CRA-Net score exceeds that variant's own CRA-Bench-calibrated threshold (TPR=0.90 on the mixed validation split). Convex is reported at the CRA-Net full threshold for comparison."
+  }
+}

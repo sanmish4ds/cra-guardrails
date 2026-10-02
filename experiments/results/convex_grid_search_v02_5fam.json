@@ -1,0 +1,109 @@
+{
+  "bench": "/Users/sanjaymishra/SQLclMCP/data/cra_bench_v02_5fam/sessions.jsonl",
+  "n_grid_valid": 231,
+  "default_weights": {
+    "alpha": 0.35,
+    "beta": 0.45,
+    "gamma": 0.2
+  },
+  "default_test_auroc": 0.5234,
+  "best_on_val": {
+    "alpha": 0.0,
+    "beta": 0.0,
+    "gamma": 1.0,
+    "val_auroc": 1.0,
+    "test_auroc": 1.0,
+    "auroc": 1.0
+  },
+  "best_on_test": {
+    "alpha": 0.0,
+    "beta": 0.0,
+    "gamma": 1.0,
+    "val_auroc": 1.0,
+    "test_auroc": 1.0,
+    "auroc": 1.0
+  },
+  "best_proper_mix_on_val": {
+    "alpha": 0.0,
+    "beta": 0.05,
+    "gamma": 0.95,
+    "val_auroc": 0.754,
+    "test_auroc": 0.7838,
+    "auroc": 0.754
+  },
+  "min_weight_proper_mix": 0.05,
+  "top10_by_val": [
+    {
+      "alpha": 0.0,
+      "beta": 0.0,
+      "gamma": 1.0,
+      "val_auroc": 1.0,
+      "test_auroc": 1.0
+    },
+    {
+      "alpha": 0.0,
+      "beta": 0.05,
+      "gamma": 0.95,
+      "val_auroc": 0.754,
+      "test_auroc": 0.7838
+    },
+    {
+      "alpha": 0.0,
+      "beta": 0.1,
+      "gamma": 0.9,
+      "val_auroc": 0.754,
+      "test_auroc": 0.7838
+    },
+    {
+      "alpha": 0.0,
+      "beta": 0.15,
+      "gamma": 0.85,
+      "val_auroc": 0.754,
+      "test_auroc": 0.7838
+    },
+    {
+      "alpha": 0.0,
+      "beta": 0.2,
+      "gamma": 0.8,
+      "val_auroc": 0.754,
+      "test_auroc": 0.7838
+    },
+    {
+      "alpha": 0.0,
+      "beta": 0.25,
+      "gamma": 0.75,
+      "val_auroc": 0.754,
+      "test_auroc": 0.7838
+    },
+    {
+      "alpha": 0.1,
+      "beta": 0.05,
+      "gamma": 0.85,
+      "val_auroc": 0.7528,
+      "test_auroc": 0.7872
+    },
+    {
+      "alpha": 0.2,
+      "beta": 0.1,
+      "gamma": 0.7,
+      "val_auroc": 0.7528,
+      "test_auroc": 0.7872
+    },
+    {
+      "alpha": 0.25,
+      "beta": 0.1,
+      "gamma": 0.65,
+      "val_auroc": 0.752,
+      "test_auroc": 0.7853
+    },
+    {
+      "alpha": 0.15,
+      "beta": 0.05,
+      "gamma": 0.8,
+      "val_auroc": 0.7511,
+      "test_auroc": 0.7868
+    }
+  ],
+  "recovered_auroc_ge_085_on_val": false,
+  "recovered_auroc_ge_085_corner_only": true
+}

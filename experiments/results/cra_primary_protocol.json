@@ -1,0 +1,247 @@
+{
+  "protocol": "cra_primary_v1",
+  "bench_path": "/Users/sanjaymishra/SQLclMCP/data/cra_bench_v01/sessions.jsonl",
+  "splits": {
+    "train": 720,
+    "val": 240,
+    "test": 240
+  },
+  "same_length": true,
+  "n_user_turns": 8,
+  "baselines_test": {
+    "CRA-convex": {
+      "auroc": 0.5983,
+      "auroc_ci95": [
+        0.5273,
+        0.6668
+      ],
+      "sfpr_at_tpr90": 0.6667,
+      "sfpr_ci95": [
+        0.5798,
+        0.7431
+      ],
+      "threshold": 0.256001,
+      "mean_ttd": null,
+      "ttd_ci95": [
+        null,
+        null
+      ],
+      "n": 240
+    },
+    "CoSafe-native (convex max)": {
+      "auroc": 0.5983,
+      "auroc_ci95": [
+        0.5273,
+        0.6668
+      ],
+      "sfpr_at_tpr90": 0.6667,
+      "sfpr_ci95": [
+        0.5798,
+        0.7431
+      ],
+      "threshold": 0.256001,
+      "mean_ttd": null,
+      "ttd_ci95": [
+        null,
+        null
+      ],
+      "n": 240
+    },
+    "Turn-max S1": {
+      "auroc": 0.5531,
+      "auroc_ci95": [
+        0.482,
+        0.6355
+      ],
+      "sfpr_at_tpr90": 0.6667,
+      "sfpr_ci95": [
+        0.5798,
+        0.7431
+      ],
+      "threshold": 0.139645,
+      "mean_ttd": null,
+      "ttd_ci95": [
+        null,
+        null
+      ],
+      "n": 240
+    },
+    "Sliding-window S1": {
+      "auroc": 0.5376,
+      "auroc_ci95": [
+        0.4649,
+        0.6194
+      ],
+      "sfpr_at_tpr90": 0.7917,
+      "sfpr_ci95": [
+        0.621,
+        0.8605
+      ],
+      "threshold": 0.116437,
+      "mean_ttd": null,
+      "ttd_ci95": [
+        null,
+        null
+      ],
+      "n": 240
+    },
+    "Feature-MLP (train only)": {
+      "auroc": 0.787,
+      "auroc_ci95": [
+        0.7268,
+        0.8433
+      ],
+      "sfpr_at_tpr90": 0.6083,
+      "sfpr_ci95": [
+        0.5113,
+        0.6822
+      ],
+      "threshold": 0.37172,
+      "mean_ttd": null,
+      "ttd_ci95": [
+        null,
+        null
+      ],
+      "n": 240
+    }
+  },
+  "cranet_test": {
+    "CRA-Net full (\u03bb=0.05)": {
+      "auroc": 0.9926,
+      "auroc_ci95": [
+        0.9808,
+        1.0
+      ],
+      "sfpr_at_tpr90": 0.0083,
+      "sfpr_ci95": [
+        0.0,
+        0.0254
+      ],
+      "threshold": 0.993923,
+      "mean_ttd": 1.8273,
+      "ttd_ci95": [
+        1.5369,
+        2.1009
+      ],
+      "n": 240
+    },
+    "CRA-Net no GRL (\u03bb=0)": {
+      "auroc": 0.8809,
+      "auroc_ci95": [
+        0.8381,
+        0.9191
+      ],
+      "sfpr_at_tpr90": 0.45,
+      "sfpr_ci95": [
+        0.3451,
+        0.5344
+      ],
+      "threshold": 0.537697,
+      "mean_ttd": 3.8435,
+      "ttd_ci95": [
+        3.5088,
+        4.1709
+      ],
+      "n": 240
+    },
+    "CRA-Net no S2/S3 features": {
+      "auroc": 0.5019,
+      "auroc_ci95": [
+        0.4172,
+        0.5734
+      ],
+      "sfpr_at_tpr90": 0.625,
+      "sfpr_ci95": [
+        0.5455,
+        0.9917
+      ],
+      "threshold": 0.547688,
+      "mean_ttd": 4.0,
+      "ttd_ci95": [
+        4.0,
+        4.0
+      ],
+      "n": 240
+    }
+  },
+  "calibrated_threshold_val": 0.9939231276512146,
+  "convex_ablations_test": {
+    "CRA minus S1": {
+      "auroc": 0.6715,
+      "auroc_ci95": [
+        0.6002,
+        0.7383
+      ],
+      "sfpr_at_tpr90": 0.6083,
+      "sfpr_ci95": [
+        0.5229,
+        0.6847
+      ],
+      "threshold": 0.229828,
+      "mean_ttd": null,
+      "ttd_ci95": [
+        null,
+        null
+      ],
+      "n": 240
+    },
+    "CRA minus S2": {
+      "auroc": 0.6288,
+      "auroc_ci95": [
+        0.5508,
+        0.7199
+      ],
+      "sfpr_at_tpr90": 0.3917,
+      "sfpr_ci95": [
+        0.3009,
+        0.4733
+      ],
+      "threshold": 0.211001,
+      "mean_ttd": null,
+      "ttd_ci95": [
+        null,
+        null
+      ],
+      "n": 240
+    },
+    "CRA minus S3": {
+      "auroc": 0.5983,
+      "auroc_ci95": [
+        0.5273,
+        0.6668
+      ],
+      "sfpr_at_tpr90": 0.6667,
+      "sfpr_ci95": [
+        0.5798,
+        0.7431
+      ],
+      "threshold": 0.093876,
+      "mean_ttd": null,
+      "ttd_ci95": [
+        null,
+        null
+      ],
+      "n": 240
+    }
+  },
+  "evasion_convex": {
+    "interleave": {
+      "n_pos": 120,
+      "mean_score_clean": 0.4895,
+      "mean_score_evaded": 0.3185,
+      "ttd_proxy_delta": "lower mean max-CRA under evasion delays detection"
+    },
+    "paraphrase_drift": {
+      "n_pos": 120,
+      "mean_score_clean": 0.4895,
+      "mean_score_evaded": 0.4903,
+      "ttd_proxy_delta": "lower mean max-CRA under evasion delays detection"
+    },
+    "entity_fragment": {
+      "n_pos": 120,
+      "mean_score_clean": 0.4895,
+      "mean_score_evaded": 0.4513,
+      "ttd_proxy_delta": "lower mean max-CRA under evasion delays detection"
+    }
+  }
+}
