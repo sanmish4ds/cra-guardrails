@@ -1,5 +1,5 @@
 {
-  "bench": "/Users/sanjaymishra/SQLclMCP/data/cra_bench_v02_5fam/sessions.jsonl",
+  "bench": "./data/cra_bench_v02_5fam/sessions.jsonl",
   "n_grid_valid": 231,
   "default_weights": {
     "alpha": 0.35,

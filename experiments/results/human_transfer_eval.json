@@ -1,8 +1,8 @@
 {
   "protocol": "human_transfer_v1",
   "description": "Train on CRA-Bench v0.2 synthetic (standard split train/val); zero-shot eval on CoSafe gradual-escalation positives + ShareGPT 3-turn benign negatives. Thresholds from synthetic val @ TPR=0.90.",
-  "synthetic_bench": "/Users/sanjaymishra/SQLclMCP/data/cra_bench_v02_5fam/sessions.jsonl",
-  "human_corpus": "/Users/sanjaymishra/SQLclMCP/data/human_cra_transfer/sessions.jsonl",
+  "synthetic_bench": "./data/cra_bench_v02_5fam/sessions.jsonl",
+  "human_corpus": "./data/human_cra_transfer/sessions.jsonl",
   "n_human_total": 972,
   "n_human_pos_cosafe": 750,
   "n_human_neg_sharegpt": 222,

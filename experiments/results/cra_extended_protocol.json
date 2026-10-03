@@ -1,6 +1,6 @@
 {
   "protocol": "cra_extended_v1",
-  "bench_path": "/Users/sanjaymishra/SQLclMCP/data/cra_bench_v01/sessions.jsonl",
+  "bench_path": "./data/cra_bench_v01/sessions.jsonl",
   "n_sessions_total": 1200,
   "families": [
     "fragmentation",

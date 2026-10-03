@@ -2,6 +2,9 @@
 .env
 .env.local
 
+# Externally sourced conversations are not part of the public artifact.
+data/human_cra_transfer/sessions.jsonl
+
 # Python
 __pycache__/
 *.pyc
