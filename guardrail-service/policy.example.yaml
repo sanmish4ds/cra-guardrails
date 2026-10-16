@@ -1,0 +1,35 @@
+# Example policy for a natural-language-to-SQL tutor over the TPC-H schema.
+# Copy to policy.yaml, adjust, and start with GUARDRAIL_POLICY=policy.yaml.
+
+service:
+  api_keys_env: GUARDRAIL_API_KEYS        # comma-separated keys, set in the environment
+  allow_unauthenticated: false
+  cors_origins: []                        # usually empty: call the service from your server, not the browser
+  audit_log: audit.jsonl                  # hashes and lengths only, never raw text
+
+text_guard:
+  backend: ollama                         # ollama | none
+  model: llama-guard3:1b
+  url: http://localhost:11434
+  input_threshold: 0.5                    # placeholders: calibrate with `python -m guardrail.calibrate`
+  output_threshold: 0.5
+  warn_margin: 0.15
+  on_error: block                         # fail closed if the classifier is down
+
+sql_guard:
+  dialect: oracle
+  allowed_tables: [customer, orders, lineitem, part, supplier, partsupp, nation, region, dual]
+  allowed_schemas: []                     # e.g. [tpch]
+  sensitive_columns:
+    customer: [c_phone, c_address]
+    supplier: [s_phone, s_address]
+  sensitive_action: warn                  # warn | block
+  require_limit_for_star: true
+  max_rows: 1000
+  blocked_identifier_prefixes: [utl_, dbms_, sys., v$, gv$, dba_, all_users]
+
+session:                                  # per-user data-exposure budget
+  window_seconds: 86400
+  sensitive_rows_warn: 200
+  sensitive_rows_block: 1000
+  total_rows_block: 50000

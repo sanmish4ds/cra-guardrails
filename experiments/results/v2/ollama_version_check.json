@@ -1,0 +1,23 @@
+{
+ "ollama_version": "0.35.1",
+ "checks": [
+  {
+   "corpus": "hh_rt",
+   "model": "llama-guard3:1b",
+   "n_sessions": 12,
+   "n_scores": 117,
+   "max_abs_diff": 1.5556475086719e-05,
+   "median_abs_diff": 0.0,
+   "frac_gt_1e-3": 0.0
+  },
+  {
+   "corpus": "bad",
+   "model": "granite3-guardian:2b",
+   "n_sessions": 12,
+   "n_scores": 240,
+   "max_abs_diff": 0.0005596390930429074,
+   "median_abs_diff": 0.0,
+   "frac_gt_1e-3": 0.0
+  }
+ ]
+}

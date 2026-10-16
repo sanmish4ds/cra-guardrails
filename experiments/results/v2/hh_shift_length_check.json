@@ -1,0 +1,166 @@
+{
+ "reps": [
+  {
+   "len_mean_pos": 2.72972972972973,
+   "len_mean_neg": 3.5419847328244276,
+   "length_auroc_test": 0.27181761914586344,
+   "length_auroc_train": 0.45302705177956604,
+   "Turn-LR": {
+    "auroc": 0.6009301286018843,
+    "length_stratified_auroc": 0.6743052203989703
+   },
+   "CRA-Acc[L]": {
+    "auroc": 0.7048517983632487,
+    "length_stratified_auroc": 0.718943265650855
+   },
+   "CRA-Acc[L] (no t)": {
+    "auroc": 0.6821057698920295,
+    "length_stratified_auroc": 0.7186128970169149
+   },
+   "CRA-Acc (no t)": {
+    "auroc": 0.680644384842858,
+    "length_stratified_auroc": 0.7254352965848502
+   }
+  },
+  {
+   "len_mean_pos": 3.1971830985915495,
+   "len_mean_neg": 3.6144,
+   "length_auroc_test": 0.3779943661971831,
+   "length_auroc_train": 0.4568916483502831,
+   "Turn-LR": {
+    "auroc": 0.7101521126760564,
+    "length_stratified_auroc": 0.6875671842290162
+   },
+   "CRA-Acc[L]": {
+    "auroc": 0.6712112676056338,
+    "length_stratified_auroc": 0.6110469053070848
+   },
+   "CRA-Acc[L] (no t)": {
+    "auroc": 0.6817577464788733,
+    "length_stratified_auroc": 0.6293651975411657
+   },
+   "CRA-Acc (no t)": {
+    "auroc": 0.688630985915493,
+    "length_stratified_auroc": 0.63956526430141
+   }
+  },
+  {
+   "len_mean_pos": 3.103448275862069,
+   "len_mean_neg": 3.736180904522613,
+   "length_auroc_test": 0.3292911602346709,
+   "length_auroc_train": 0.45632476871459493,
+   "Turn-LR": {
+    "auroc": 0.5836015050622572,
+    "length_stratified_auroc": 0.6383649870422607
+   },
+   "CRA-Acc[L]": {
+    "auroc": 0.6285739040027726,
+    "length_stratified_auroc": 0.6458185304592778
+   },
+   "CRA-Acc[L] (no t)": {
+    "auroc": 0.6282954179765824,
+    "length_stratified_auroc": 0.659601808759059
+   },
+   "CRA-Acc (no t)": {
+    "auroc": 0.6075822462064016,
+    "length_stratified_auroc": 0.6388287679587996
+   }
+  },
+  {
+   "len_mean_pos": 3.0584795321637426,
+   "len_mean_neg": 3.7540415704387993,
+   "length_auroc_test": 0.3065279634806801,
+   "length_auroc_train": 0.45727002120864013,
+   "Turn-LR": {
+    "auroc": 0.591527895952352,
+    "length_stratified_auroc": 0.6557323775260728
+   },
+   "CRA-Acc[L]": {
+    "auroc": 0.6671123536323487,
+    "length_stratified_auroc": 0.6876615831830426
+   },
+   "CRA-Acc[L] (no t)": {
+    "auroc": 0.6644719960023229,
+    "length_stratified_auroc": 0.7001042958015591
+   },
+   "CRA-Acc (no t)": {
+    "auroc": 0.6658023040665559,
+    "length_stratified_auroc": 0.7002225038424914
+   }
+  },
+  {
+   "len_mean_pos": 3.113861386138614,
+   "len_mean_neg": 3.542503863987635,
+   "length_auroc_test": 0.3845471100433072,
+   "length_auroc_train": 0.49737259675473583,
+   "Turn-LR": {
+    "auroc": 0.6104947434465239,
+    "length_stratified_auroc": 0.6724403873805915
+   },
+   "CRA-Acc[L]": {
+    "auroc": 0.6501675669885381,
+    "length_stratified_auroc": 0.6885049580006244
+   },
+   "CRA-Acc[L] (no t)": {
+    "auroc": 0.649884462943976,
+    "length_stratified_auroc": 0.6978616776048936
+   },
+   "CRA-Acc (no t)": {
+    "auroc": 0.6247035058992763,
+    "length_stratified_auroc": 0.6633775641617697
+   }
+  }
+ ],
+ "detectors": [
+  "Turn-LR",
+  "CRA-Acc[L]",
+  "CRA-Acc[L] (no t)",
+  "CRA-Acc (no t)"
+ ],
+ "summary": {
+  "Turn-LR": {
+   "auroc": {
+    "mean": 0.6193412771478147,
+    "sd": 0.04629201849325101
+   },
+   "length_stratified_auroc": {
+    "mean": 0.6656820313153824,
+    "sd": 0.016995359384699132
+   }
+  },
+  "CRA-Acc[L]": {
+   "auroc": {
+    "mean": 0.6643833781185083,
+    "sd": 0.025203841539880336
+   },
+   "length_stratified_auroc": {
+    "mean": 0.670395048520177,
+    "sd": 0.03770739654248432
+   }
+  },
+  "CRA-Acc[L] (no t)": {
+   "auroc": {
+    "mean": 0.6613030786587567,
+    "sd": 0.0204013621303086
+   },
+   "length_stratified_auroc": {
+    "mean": 0.6811091753447185,
+    "sd": 0.032211787062493544
+   }
+  },
+  "CRA-Acc (no t)": {
+   "auroc": {
+    "mean": 0.6534726853861169,
+    "sd": 0.031812025841620434
+   },
+   "length_stratified_auroc": {
+    "mean": 0.6734858793698643,
+    "sd": 0.03425635874255857
+   }
+  },
+  "len_mean_pos": 3.040540404497141,
+  "len_mean_neg": 3.6378222143546948,
+  "length_auroc_test": 0.33403564382034096,
+  "length_auroc_train": 0.464177217361564
+ }
+}

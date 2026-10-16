@@ -19,3 +19,9 @@ experiments/cache/
 experiments/logs/
 
 .DS_Store
+
+# v2 external corpora (third-party conversation text; never commit)
+data/external/
+
+# Research manuscripts are kept out of this repository
+paper/v2/

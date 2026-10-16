@@ -1,0 +1,21 @@
+{
+ "n_raw": 610,
+ "n_labeled": 610,
+ "n_dropped_unparsed": 0,
+ "by_target": {
+  "deepseek-r1:1.5b": {
+   "n": 200,
+   "attack_success_rate": 0.07
+  },
+  "llama3.2:latest": {
+   "n": 410,
+   "attack_success_rate": 0.1048780487804878
+  }
+ },
+ "agreement": {
+  "secondary_judge": "mistral",
+  "n": 610,
+  "raw_agreement": 0.8819672131147541,
+  "cohen_kappa": 0.08807773763547953
+ }
+}

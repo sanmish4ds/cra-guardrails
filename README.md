@@ -20,6 +20,9 @@ accumulation in conversational AI systems.
 | `data/human_cra_transfer/` | Local-only CoSafe/ShareGPT-derived transfer corpus; excluded from Git distribution pending rights review |
 | `paper/figures/` | Figures used in the manuscript |
 | `integration/cra-telemetry.js` | Reference telemetry integration; not a production-ready enforcement layer |
+| `experiments/v2/` | Confound-controlled evaluation of stateful guardrails: corpus builders, guard/goal feature extraction, detectors, evaluation; run with `experiments/v2/pipeline.sh` (see `experiments/v2/PROTOCOL.md`) |
+| `experiments/results/v2/` | Aggregate metrics from that evaluation (no third-party conversation text) |
+| `guardrail-service/` | Pluggable HTTP guardrail service: text safety scores, SQL action guard, per-user data-exposure budgets (see its README) |
 
 ## What the benchmark does and does not show
 
@@ -43,6 +46,16 @@ source-confounding audit:
 node experiments/audit_transfer_confounding.mjs
 node --test experiments/tests/audit_transfer_confounding.test.mjs
 ```
+
+## What the v2 evaluation found
+
+Once length and source shortcuts are removed, the original CRA signals are
+near chance, and carrying conversational state rarely improves on a
+stateless detector given the same per-exchange evidence. Judging the
+assistant's reply, and enforcing rules on actions (for example SQL) rather
+than on conversation shape, matter far more. `guardrail-service/` packages
+those controls; `integration/cra-telemetry.js` is kept for reference only and
+should not be used as an enforcement layer.
 
 ## Quick start
 
