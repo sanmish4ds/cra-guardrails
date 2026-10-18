@@ -26,6 +26,7 @@ accumulation in conversational AI systems.
 | `experiments/v2/` | Confound-controlled evaluation of stateful guardrails: corpus builders, guard/goal feature extraction, detectors, evaluation; run with `experiments/v2/pipeline.sh` (see `experiments/v2/PROTOCOL.md`) |
 | `experiments/results/v2/` | Aggregate metrics from that evaluation (no third-party conversation text) |
 | `experiments/purpose_sql/` | Purpose-anchored session signals for SQL agents (column-footprint drift, small-cell / differencing audit, entity breadth) on a synthetic TPC-H benchmark; see its README |
+| `experiments/task_capability/` | Gateway step 1: LLM-derived column-level capabilities for BIRD tasks vs role / table grants (needs a local BIRD copy) |
 | `guardrail-service/` | Pluggable HTTP guardrail service: text safety scores, SQL action guard, per-user data-exposure budgets (see its README) |
 
 ## What the benchmark does and does not show

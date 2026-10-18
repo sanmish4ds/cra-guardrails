@@ -89,3 +89,9 @@ def test_breadth_over_budget(run):
 def test_no_executor_keeps_data_signals_off():
     s = PurposeMonitor(policy(), "finance").check("SELECT AVG(c_acctbal) FROM customer WHERE c_custkey = 1")
     assert s.cell == 0.0 and s.breadth == 0.0
+
+
+def test_count_is_filter_and_projected_max_is_raw():
+    q = analyze("SELECT COUNT(c_name), MAX(c_acctbal) FROM customer WHERE c_seg IN "
+                "(SELECT c_seg FROM customer GROUP BY c_seg HAVING MAX(c_acctbal) > 5)", policy())
+    assert q.uses == {"customer.c_name": "filter", "customer.c_acctbal": "raw", "customer.c_seg": "filter"}

@@ -1,8 +1,9 @@
 """Purpose-anchored session monitor for SQL agents (research prototype).
 
 Each session declares a purpose. A purpose lists the columns it may touch and
-how: ``filter`` (WHERE / JOIN / GROUP BY only), ``agg`` (inside an aggregate)
-or ``raw`` (values returned to the caller). The monitor parses every query
+how: ``filter`` (WHERE / JOIN / GROUP BY only, or inside COUNT), ``agg``
+(inside SUM / AVG and similar) or ``raw`` (values returned to the caller,
+including a projected MIN / MAX, which returns one row's value). The monitor parses every query
 before it runs and reports, per query (stateless) and per session (stateful):
 
 * drift   -- sensitivity-weighted use of columns beyond what the purpose
@@ -82,6 +83,18 @@ class PurposeSignals:
     reasons: list[str] = field(default_factory=list)
 
 
+def _mode(col: exp.Column, projected: bool) -> str:
+    """COUNT reveals cardinality only (filter); MIN / MAX return an actual value (raw when projected)."""
+    agg = col.find_ancestor(exp.AggFunc)
+    if agg is None:
+        return "raw" if projected else "filter"
+    if isinstance(agg, exp.Count):
+        return "filter"
+    if projected and isinstance(agg, (exp.Min, exp.Max)):
+        return "raw"
+    return "agg"
+
+
 def analyze(sql: str, policy: PurposePolicy) -> QueryUses:
     """Resolve every column to table.column and the mode it is used in."""
     try:
@@ -107,10 +120,10 @@ def analyze(sql: str, policy: PurposePolicy) -> QueryUses:
         for e in sel.expressions:
             for c in e.find_all(exp.Column):
                 projected.add(id(c))
-                note(c, "agg" if c.find_ancestor(exp.AggFunc) else "raw")
+                note(c, _mode(c, projected=True))
     for c in tree.find_all(exp.Column):
         if id(c) not in projected:
-            note(c, "agg" if c.find_ancestor(exp.AggFunc) else "filter")
+            note(c, _mode(c, projected=False))
     return QueryUses(uses, aliases, tree)
 
 
