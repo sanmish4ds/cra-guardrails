@@ -1,5 +1,5 @@
 {
-  "n_sessions": 2000,
+  "n_sessions": 2100,
   "auroc": {
     "drift": {
       "queries": 0.531,
@@ -34,7 +34,7 @@
       "cell_q": 0.486,
       "breadth_q": 0.475,
       "drift": 0.325,
-      "cell": 0.903,
+      "cell": 0.916,
       "breadth": 0.475
     },
     "enumeration": {
@@ -48,6 +48,18 @@
       "drift": 0.35,
       "cell": 0.5,
       "breadth": 1.0
+    },
+    "tracker3": {
+      "queries": 0.514,
+      "sqlguard_any": 0.5,
+      "sqlguard_count": 0.571,
+      "row_ledger": 0.412,
+      "drift_q": 0.325,
+      "cell_q": 0.501,
+      "breadth_q": 0.475,
+      "drift": 0.325,
+      "cell": 0.481,
+      "breadth": 0.475
     }
   },
   "operating": {
@@ -137,79 +149,92 @@
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "sqlguard_any": {
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "sqlguard_count": {
           "drift": 0.0,
           "small_cell": 0.01,
           "tracker": 0.0,
-          "enumeration": 0.86
+          "enumeration": 0.86,
+          "tracker3": 0.0
         },
         "row_ledger": {
           "drift": 0.22,
           "small_cell": 0.01,
           "tracker": 0.01,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         },
         "drift_q": {
           "drift": 0.47,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "cell_q": {
           "drift": 0.0,
           "small_cell": 0.87,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "breadth_q": {
           "drift": 0.22,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.87
+          "enumeration": 0.87,
+          "tracker3": 0.0
         },
         "drift": {
           "drift": 0.66,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "cell": {
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "breadth": {
           "drift": 0.22,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         },
         "stateless_or": {
           "drift": 0.47,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.87
+          "enumeration": 0.87,
+          "tracker3": 0.0
         },
         "stateful_or": {
           "drift": 0.66,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         },
         "existing_or": {
           "drift": 0.22,
           "small_cell": 0.01,
           "tracker": 0.01,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         }
       },
       "prevented": {
@@ -217,79 +242,92 @@
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "sqlguard_any": {
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "sqlguard_count": {
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.26
+          "enumeration": 0.26,
+          "tracker3": 0.0
         },
         "row_ledger": {
           "drift": 0.22,
           "small_cell": 0.0,
           "tracker": 0.01,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         },
         "drift_q": {
           "drift": 0.47,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "cell_q": {
           "drift": 0.0,
           "small_cell": 0.87,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "breadth_q": {
           "drift": 0.22,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.79
+          "enumeration": 0.79,
+          "tracker3": 0.0
         },
         "drift": {
           "drift": 0.66,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "cell": {
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "breadth": {
           "drift": 0.22,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         },
         "stateless_or": {
           "drift": 0.47,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.79
+          "enumeration": 0.79,
+          "tracker3": 0.0
         },
         "stateful_or": {
           "drift": 0.66,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         },
         "existing_or": {
           "drift": 0.22,
           "small_cell": 0.0,
           "tracker": 0.01,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         }
       }
     },
@@ -379,79 +417,92 @@
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "sqlguard_any": {
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "sqlguard_count": {
           "drift": 0.0,
           "small_cell": 0.06,
           "tracker": 0.06,
-          "enumeration": 0.96
+          "enumeration": 0.96,
+          "tracker3": 0.05
         },
         "row_ledger": {
           "drift": 0.43,
           "small_cell": 0.08,
           "tracker": 0.02,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.03
         },
         "drift_q": {
           "drift": 0.47,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "cell_q": {
           "drift": 0.0,
           "small_cell": 1.0,
           "tracker": 0.02,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.03
         },
         "breadth_q": {
           "drift": 0.43,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.87
+          "enumeration": 0.87,
+          "tracker3": 0.0
         },
         "drift": {
           "drift": 0.66,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "cell": {
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "breadth": {
           "drift": 0.43,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         },
         "stateless_or": {
           "drift": 0.47,
           "small_cell": 0.87,
           "tracker": 0.0,
-          "enumeration": 0.87
+          "enumeration": 0.87,
+          "tracker3": 0.0
         },
         "stateful_or": {
           "drift": 0.66,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         },
         "existing_or": {
           "drift": 0.22,
           "small_cell": 0.03,
           "tracker": 0.02,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         }
       },
       "prevented": {
@@ -459,79 +510,92 @@
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "sqlguard_any": {
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "sqlguard_count": {
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.01,
-          "enumeration": 0.48
+          "enumeration": 0.48,
+          "tracker3": 0.01
         },
         "row_ledger": {
           "drift": 0.43,
           "small_cell": 0.02,
           "tracker": 0.02,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         },
         "drift_q": {
           "drift": 0.47,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "cell_q": {
           "drift": 0.0,
           "small_cell": 1.0,
           "tracker": 0.01,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.03
         },
         "breadth_q": {
           "drift": 0.43,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.79
+          "enumeration": 0.79,
+          "tracker3": 0.0
         },
         "drift": {
           "drift": 0.66,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "cell": {
           "drift": 0.0,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 0.0
+          "enumeration": 0.0,
+          "tracker3": 0.0
         },
         "breadth": {
           "drift": 0.43,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         },
         "stateless_or": {
           "drift": 0.47,
           "small_cell": 0.87,
           "tracker": 0.0,
-          "enumeration": 0.79
+          "enumeration": 0.79,
+          "tracker3": 0.0
         },
         "stateful_or": {
           "drift": 0.66,
           "small_cell": 0.0,
           "tracker": 0.0,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         },
         "existing_or": {
           "drift": 0.22,
           "small_cell": 0.0,
           "tracker": 0.02,
-          "enumeration": 1.0
+          "enumeration": 1.0,
+          "tracker3": 0.0
         }
       }
     }
@@ -543,15 +607,35 @@
         "benign_session_hit_rate": 0.005,
         "attack_prevented": {
           "small_cell": 0.87,
-          "tracker": 0.0
+          "tracker": 0.0,
+          "tracker3": 0.0
         }
       },
-      "stateful": {
+      "pairwise": {
         "benign_query_refusal_rate": 0.0151,
         "benign_session_hit_rate": 0.138,
         "attack_prevented": {
           "small_cell": 0.87,
-          "tracker": 0.83
+          "tracker": 0.85,
+          "tracker3": 0.08
+        }
+      },
+      "linear": {
+        "benign_query_refusal_rate": 0.0151,
+        "benign_session_hit_rate": 0.138,
+        "attack_prevented": {
+          "small_cell": 0.87,
+          "tracker": 0.85,
+          "tracker3": 1.0
+        }
+      },
+      "strict": {
+        "benign_query_refusal_rate": 0.2558,
+        "benign_session_hit_rate": 0.94,
+        "attack_prevented": {
+          "small_cell": 0.94,
+          "tracker": 0.96,
+          "tracker3": 1.0
         }
       }
     },
@@ -561,15 +645,35 @@
         "benign_session_hit_rate": 0.025,
         "attack_prevented": {
           "small_cell": 1.0,
-          "tracker": 0.01
+          "tracker": 0.01,
+          "tracker3": 0.03
         }
       },
-      "stateful": {
+      "pairwise": {
         "benign_query_refusal_rate": 0.0286,
         "benign_session_hit_rate": 0.233,
         "attack_prevented": {
           "small_cell": 1.0,
-          "tracker": 0.97
+          "tracker": 1.0,
+          "tracker3": 0.12
+        }
+      },
+      "linear": {
+        "benign_query_refusal_rate": 0.0286,
+        "benign_session_hit_rate": 0.233,
+        "attack_prevented": {
+          "small_cell": 1.0,
+          "tracker": 1.0,
+          "tracker3": 1.0
+        }
+      },
+      "strict": {
+        "benign_query_refusal_rate": 0.2558,
+        "benign_session_hit_rate": 0.94,
+        "attack_prevented": {
+          "small_cell": 1.0,
+          "tracker": 1.0,
+          "tracker3": 1.0
         }
       }
     },
@@ -579,15 +683,35 @@
         "benign_session_hit_rate": 0.757,
         "attack_prevented": {
           "small_cell": 1.0,
-          "tracker": 0.6
+          "tracker": 0.6,
+          "tracker3": 0.61
         }
       },
-      "stateful": {
+      "pairwise": {
         "benign_query_refusal_rate": 0.1347,
         "benign_session_hit_rate": 0.757,
         "attack_prevented": {
           "small_cell": 1.0,
-          "tracker": 1.0
+          "tracker": 1.0,
+          "tracker3": 0.61
+        }
+      },
+      "linear": {
+        "benign_query_refusal_rate": 0.1347,
+        "benign_session_hit_rate": 0.757,
+        "attack_prevented": {
+          "small_cell": 1.0,
+          "tracker": 1.0,
+          "tracker3": 1.0
+        }
+      },
+      "strict": {
+        "benign_query_refusal_rate": 0.3731,
+        "benign_session_hit_rate": 0.978,
+        "attack_prevented": {
+          "small_cell": 1.0,
+          "tracker": 1.0,
+          "tracker3": 1.0
         }
       }
     }

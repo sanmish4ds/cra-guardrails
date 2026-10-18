@@ -22,9 +22,19 @@ gets them by running a rewritten key-only query through ``executor`` (a
 read-only connection), before the original query runs. Without an executor
 those two signals stay 0.
 
+With ``linear_audit`` the monitor also treats every answered aggregate over a
+protected column as a linear equation over per-entity values (SUM directly;
+AVG together with the COUNT any caller can obtain) and refuses a query that
+would make some entity's value exactly derivable from the answered set, by
+any combination of queries (the classic audit-expert test of Chin and
+Ozsoyoglu). Pairwise differencing remains the k-anonymity-style check for
+"fewer than k" rather than "exactly one".
+
 Limits of the prototype: CTEs, set operations and correlated subqueries are
 not rewritten; HAVING is dropped from key-set rewrites (groups it would hide
-still count); differencing is checked between pairs of queries only.
+still count); entities joined several times count once; refusal decisions
+depend on which entities match a query, so a refusal can itself leak
+membership (audits are not simulatable).
 """
 from __future__ import annotations
 
@@ -32,6 +42,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Callable
 
+import numpy as np
 import sqlglot
 from pydantic import BaseModel, Field
 from sqlglot import exp
@@ -55,8 +66,12 @@ class PurposePolicy(BaseModel):
     default_sensitivity: float = 0.1
     protected_threshold: float = 0.5   # sensitivity at which a column gets cell / breadth checks
     default_entity_budget: int = 25
-    max_tracked_sets: int = 200
+    max_tracked_sets: int = 5000       # aggregate entity sets kept per protected column for pairwise checks
     min_isolation: int | None = None   # audit mode: refuse a query whose aggregate isolates fewer entities
+    linear_audit: bool = False         # also refuse a query that makes one entity's value exactly derivable
+    max_linear_sets: int = 2000        # groups per query the linear audit will handle; more are refused
+    strict_protected: bool = False     # refuse predicates on protected columns: audit decisions then
+                                       # depend only on non-protected data (simulatable)
     purposes: dict[str, PurposeSpec]
 
     def weight(self, col: str) -> float:
@@ -68,6 +83,7 @@ class QueryUses:
     uses: dict[str, str]          # "table.column" -> highest mode it is used in
     aliases: dict[str, str]       # alias -> table
     tree: exp.Expression | None   # qualified tree, None if unparseable
+    predicates: set = field(default_factory=set)   # columns used outside aggregates and the select list
 
 
 @dataclass
@@ -107,12 +123,15 @@ def analyze(sql: str, policy: PurposePolicy) -> QueryUses:
                                                        if s.parent_select is None]
     projected: set[int] = set()
     uses: dict[str, str] = {}
+    predicates: set[str] = set()
 
     def note(col: exp.Column, mode: str) -> None:
         table = aliases.get(col.table)
         if not table:
             return                                     # output alias or CTE column
         key = f"{table}.{col.name.lower()}"
+        if mode == "filter" and col.find_ancestor(exp.AggFunc) is None:
+            predicates.add(key)
         if LEVEL[mode] > LEVEL.get(uses.get(key, "none"), 0):
             uses[key] = mode
 
@@ -124,7 +143,7 @@ def analyze(sql: str, policy: PurposePolicy) -> QueryUses:
     for c in tree.find_all(exp.Column):
         if id(c) not in projected:
             note(c, _mode(c, projected=False))
-    return QueryUses(uses, aliases, tree)
+    return QueryUses(uses, aliases, tree, predicates)
 
 
 def violations(q: QueryUses, spec: PurposeSpec, policy: PurposePolicy) -> dict[str, float]:
@@ -159,6 +178,50 @@ def _key_sets(tree: exp.Expression, alias: str, key: str, executor: Executor, di
     return [frozenset(s) for s in sets.values() if s]
 
 
+class LinearAuditor:
+    """Orthonormal basis of the answered query-set indicator vectors.
+
+    Entity i's value is exactly derivable iff the unit vector e_i lies in the
+    span, i.e. the i-th diagonal entry of the projection Q Q^T equals 1.
+    """
+
+    TOL = 1e-9
+
+    def __init__(self):
+        self.index: dict = {}
+        self.Q = np.zeros((0, 0))
+
+    def _grow(self, keys) -> None:
+        new = [k for k in keys if k not in self.index]
+        for k in new:
+            self.index[k] = len(self.index)
+        if new:
+            self.Q = np.vstack([self.Q, np.zeros((len(new), self.Q.shape[1]))])
+
+    def _add(self, Q: np.ndarray, keys) -> np.ndarray:
+        v = np.zeros(Q.shape[0])
+        v[[self.index[k] for k in keys]] = 1.0
+        for _ in range(2):                       # re-orthogonalise for stability
+            v = v - Q @ (Q.T @ v)
+        n = np.linalg.norm(v)
+        return np.hstack([Q, (v / n)[:, None]]) if n > 1e-7 else Q
+
+    def disclosed(self, sets: list[frozenset]) -> list:
+        """Entities whose value would become exactly derivable if ``sets`` were answered."""
+        self._grow(set().union(*sets))
+        Q = self.Q
+        for s in sets:
+            Q = self._add(Q, s)
+        diag = (Q ** 2).sum(axis=1)
+        keys = list(self.index)
+        return [keys[i] for i in np.nonzero(diag > 1 - self.TOL)[0]]
+
+    def commit(self, sets: list[frozenset]) -> None:
+        self._grow(set().union(*sets))
+        for s in sets:
+            self.Q = self._add(self.Q, s)
+
+
 class PurposeMonitor:
     """One session (subject + declared purpose). Call ``check`` before each query runs."""
 
@@ -168,6 +231,7 @@ class PurposeMonitor:
         self.policy, self.spec, self.executor = policy, policy.purposes[purpose], executor
         self.seen_violations: dict[str, float] = {}
         self.agg_sets: dict[str, list[frozenset]] = defaultdict(list)   # entity.protected col -> sets
+        self.linear: dict[str, LinearAuditor] = defaultdict(LinearAuditor)
         self.revealed: dict[str, set] = defaultdict(set)                 # entity table -> keys
         self.cell = 0.0
 
@@ -191,6 +255,13 @@ class PurposeMonitor:
         if v:
             s.reasons.append("beyond purpose: " + ", ".join(sorted(v)))
 
+        if p.strict_protected:
+            bad = sorted(c for c in q.predicates if c in self._protected_cols())
+            if bad:
+                s.refuse = True
+                s.reasons.append("refused: predicate on protected column " + ", ".join(bad))
+                return self._finish(s)
+
         if self.executor is not None and q.tree is not None:
             by_table = {t: a for a, t in q.aliases.items()}
             for col in self._protected_agg(q):
@@ -210,11 +281,24 @@ class PurposeMonitor:
                         d = len(big) - len(small)
                         if d and small <= big:
                             isolated = min(isolated, d)
+                exact = []
+                if p.linear_audit and not (p.min_isolation and isolated < p.min_isolation):
+                    if len(sets) > p.max_linear_sets:     # too many groups to audit exactly: refuse
+                        isolated = 0
+                        s.reasons.append(f"{len(sets)} groups exceed the linear audit limit")
+                    else:
+                        exact = self.linear[col].disclosed(sets)
+                if exact:
+                    isolated = 1
                 if p.min_isolation and isolated < p.min_isolation:
                     s.refuse = True
-                    s.reasons.append(f"refused: aggregate over {col} would isolate {isolated} entities "
-                                     f"(minimum {p.min_isolation})")
+                    why = (f"would make {len(exact)} entities' {col} exactly derivable" if exact
+                           else "exceeds the audit limit" if isolated == 0
+                           else f"would isolate {isolated} entities")
+                    s.reasons.append(f"refused: aggregate over {col} {why} (minimum {p.min_isolation})")
                     continue                     # a refused query reveals nothing; keep state unchanged
+                if p.linear_audit:
+                    self.linear[col].commit(sets)
                 prior.extend(sets)
                 del prior[:-p.max_tracked_sets]
                 if 1.0 / isolated > self.cell:
@@ -235,6 +319,15 @@ class PurposeMonitor:
                     s.reasons.append(f"{table}: sensitive columns returned for "
                                      f"{len(self.revealed[table])} entities (budget {budget})")
 
+        return self._finish(s)
+
+    def _protected_cols(self) -> set[str]:
+        p = self.policy
+        return {c for c, m in self.spec.columns.items() if m == "agg" and p.weight(c) >= p.protected_threshold
+                and c.split(".")[0] in p.entities}
+
+    def _finish(self, s: PurposeSignals) -> PurposeSignals:
+        p = self.policy
         s.drift = sum(self.seen_violations.values())
         s.cell = self.cell
         s.breadth = max((len(k) / self.spec.entity_budget.get(t, p.default_entity_budget)

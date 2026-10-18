@@ -1,0 +1,56 @@
+[
+ {
+  "n": 1000,
+  "rank": 10,
+  "check_ms": 0.04,
+  "basis_mb": 0.1
+ },
+ {
+  "n": 1000,
+  "rank": 100,
+  "check_ms": 0.09,
+  "basis_mb": 0.8
+ },
+ {
+  "n": 1000,
+  "rank": 500,
+  "check_ms": 0.53,
+  "basis_mb": 4.0
+ },
+ {
+  "n": 10000,
+  "rank": 10,
+  "check_ms": 0.25,
+  "basis_mb": 0.8
+ },
+ {
+  "n": 10000,
+  "rank": 100,
+  "check_ms": 1.57,
+  "basis_mb": 8.0
+ },
+ {
+  "n": 10000,
+  "rank": 500,
+  "check_ms": 11.35,
+  "basis_mb": 40.0
+ },
+ {
+  "n": 50000,
+  "rank": 10,
+  "check_ms": 1.92,
+  "basis_mb": 4.0
+ },
+ {
+  "n": 50000,
+  "rank": 100,
+  "check_ms": 18.54,
+  "basis_mb": 40.0
+ },
+ {
+  "n": 50000,
+  "rank": 500,
+  "check_ms": 60.18,
+  "basis_mb": 200.0
+ }
+]

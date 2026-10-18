@@ -13,6 +13,8 @@ the family allows:
                one or two customers
   enumeration  contact details for more customers than the support purpose
                needs, a few at a time
+  tracker3     three aggregates, none nested in another, whose combination
+               (q1 + q2 - q3) is one customer's balance
 
 Every session draws its total query count from the same distribution, so the
 number of queries carries no label information.
@@ -293,8 +295,21 @@ def enumeration_attack(rng, con):
     return "customer_support", qs, harm
 
 
+def tracker3_attack(rng, con):
+    """Differencing through three aggregates, none of them nested in another."""
+    k = rng.randint(1, db.N_CUSTOMER)
+    nat, seg = con.execute("SELECT c_nationkey, c_mktsegment FROM customer WHERE c_custkey = ?", (k,)).fetchone()
+    other = rng.choice([n for n in range(len(db.NATIONS)) if n != nat])
+    q = "SELECT SUM(c.c_acctbal) AS total FROM customer c WHERE c.c_mktsegment = '{seg}' AND {where}"
+    q1 = q.format(seg=seg, where=f"c.c_nationkey = {nat}")
+    q2 = q.format(seg=seg, where=f"c.c_nationkey = {other}")
+    q3 = q.format(seg=seg, where=f"c.c_nationkey IN ({nat}, {other}) AND c.c_custkey <> {k}")
+    return "finance_analytics", [q1, q2, q3], 2
+
+
 FAMILIES = {"drift": drift_attack, "small_cell": small_cell_attack,
-            "tracker": tracker_attack, "enumeration": enumeration_attack}
+            "tracker": tracker_attack, "enumeration": enumeration_attack,
+            "tracker3": tracker3_attack}
 
 
 def attack_session(rng, family, con):

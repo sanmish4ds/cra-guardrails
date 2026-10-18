@@ -1,0 +1,160 @@
+{
+  "financial": {
+    "n_gold_queries": 106,
+    "n_sessions": 200,
+    "mode_refusal_rate": 0.038,
+    "protected_aggregate_queries": 11,
+    "key_set_coverage": 0.818,
+    "audit": {
+      "k=2/stateless": {
+        "query_refusal_rate": 0.0168,
+        "session_hit_rate": 0.17
+      },
+      "k=2/pairwise": {
+        "query_refusal_rate": 0.0168,
+        "session_hit_rate": 0.17
+      },
+      "k=2/linear": {
+        "query_refusal_rate": 0.0168,
+        "session_hit_rate": 0.17
+      },
+      "k=2/strict": {
+        "query_refusal_rate": 0.1889,
+        "session_hit_rate": 0.87
+      },
+      "k=3/stateless": {
+        "query_refusal_rate": 0.0168,
+        "session_hit_rate": 0.17
+      },
+      "k=3/pairwise": {
+        "query_refusal_rate": 0.0168,
+        "session_hit_rate": 0.17
+      },
+      "k=3/linear": {
+        "query_refusal_rate": 0.0168,
+        "session_hit_rate": 0.17
+      },
+      "k=3/strict": {
+        "query_refusal_rate": 0.1889,
+        "session_hit_rate": 0.87
+      },
+      "k=5/stateless": {
+        "query_refusal_rate": 0.0168,
+        "session_hit_rate": 0.17
+      },
+      "k=5/pairwise": {
+        "query_refusal_rate": 0.0168,
+        "session_hit_rate": 0.17
+      },
+      "k=5/linear": {
+        "query_refusal_rate": 0.0168,
+        "session_hit_rate": 0.17
+      },
+      "k=5/strict": {
+        "query_refusal_rate": 0.1889,
+        "session_hit_rate": 0.87
+      }
+    },
+    "latency_ms_k3": {
+      "stateless": {
+        "median": 0.55,
+        "p95": 2.7
+      },
+      "pairwise": {
+        "median": 0.55,
+        "p95": 2.43
+      },
+      "linear": {
+        "median": 0.55,
+        "p95": 2.6
+      },
+      "strict": {
+        "median": 0.57,
+        "p95": 2.85
+      }
+    },
+    "query_exec_ms": {
+      "median": 0.39,
+      "p95": 147.85
+    }
+  },
+  "debit_card_specializing": {
+    "n_gold_queries": 64,
+    "n_sessions": 200,
+    "mode_refusal_rate": 0.031,
+    "protected_aggregate_queries": 31,
+    "key_set_coverage": 0.903,
+    "audit": {
+      "k=2/stateless": {
+        "query_refusal_rate": 0.2181,
+        "session_hit_rate": 0.925
+      },
+      "k=2/pairwise": {
+        "query_refusal_rate": 0.2181,
+        "session_hit_rate": 0.925
+      },
+      "k=2/linear": {
+        "query_refusal_rate": 0.2181,
+        "session_hit_rate": 0.925
+      },
+      "k=2/strict": {
+        "query_refusal_rate": 0.3279,
+        "session_hit_rate": 0.97
+      },
+      "k=3/stateless": {
+        "query_refusal_rate": 0.2181,
+        "session_hit_rate": 0.925
+      },
+      "k=3/pairwise": {
+        "query_refusal_rate": 0.2181,
+        "session_hit_rate": 0.925
+      },
+      "k=3/linear": {
+        "query_refusal_rate": 0.2181,
+        "session_hit_rate": 0.925
+      },
+      "k=3/strict": {
+        "query_refusal_rate": 0.3279,
+        "session_hit_rate": 0.97
+      },
+      "k=5/stateless": {
+        "query_refusal_rate": 0.2368,
+        "session_hit_rate": 0.945
+      },
+      "k=5/pairwise": {
+        "query_refusal_rate": 0.2368,
+        "session_hit_rate": 0.945
+      },
+      "k=5/linear": {
+        "query_refusal_rate": 0.2368,
+        "session_hit_rate": 0.945
+      },
+      "k=5/strict": {
+        "query_refusal_rate": 0.3465,
+        "session_hit_rate": 0.97
+      }
+    },
+    "latency_ms_k3": {
+      "stateless": {
+        "median": 0.75,
+        "p95": 93.05
+      },
+      "pairwise": {
+        "median": 0.74,
+        "p95": 94.15
+      },
+      "linear": {
+        "median": 0.75,
+        "p95": 121.19
+      },
+      "strict": {
+        "median": 0.8,
+        "p95": 123.5
+      }
+    },
+    "query_exec_ms": {
+      "median": 0.61,
+      "p95": 61.63
+    }
+  }
+}

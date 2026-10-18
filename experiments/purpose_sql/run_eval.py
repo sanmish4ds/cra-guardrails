@@ -34,7 +34,8 @@ SESSIONS = ROOT / "data" / "purpose_sql" / "sessions.jsonl"
 OUT = ROOT / "experiments" / "results" / "purpose_sql" / "results.json"
 ALPHAS = (0.01, 0.05)
 FAMILY_PURPOSES = {"drift": ("sales_reporting", "supply_chain"), "small_cell": ("finance_analytics",),
-                   "tracker": ("finance_analytics",), "enumeration": ("customer_support",)}
+                   "tracker": ("finance_analytics",), "enumeration": ("customer_support",),
+                   "tracker3": ("finance_analytics",)}
 
 SINGLE = ["queries", "sqlguard_any", "sqlguard_count", "row_ledger",
           "drift_q", "cell_q", "breadth_q", "drift", "cell", "breadth"]
@@ -159,36 +160,46 @@ def audit_eval(sessions: list[dict], policy: PurposePolicy, con: sqlite3.Connect
     """Query-level refusal instead of session alarms, for the aggregate families.
 
     stateless: refuse a query whose own smallest group has < k entities (cell suppression).
-    stateful:  also refuse a query that, with an earlier answered aggregate, isolates < k entities.
+    pairwise:  also refuse a query that, with one earlier answered aggregate, isolates < k entities.
+    linear:    pairwise, plus refuse a query that makes any entity's value exactly derivable
+               from all answered aggregates together.
+    strict:    linear, plus refuse predicates on protected columns (simulatable decisions).
     """
     run = lambda sql: con.execute(sql).fetchall()                       # noqa: E731
     fin = [s for s in sessions if s["purpose"] == "finance_analytics"]
+    modes = ("stateless", "pairwise", "linear", "strict")
     out = {}
     for k in (2, 3, 5):
-        pol = policy.model_copy(update={"min_isolation": k})
+        pols = {"pairwise": policy.model_copy(update={"min_isolation": k}),
+                "linear": policy.model_copy(update={"min_isolation": k, "linear_audit": True}),
+                "strict": policy.model_copy(update={"min_isolation": k, "linear_audit": True,
+                                                    "strict_protected": True})}
         stats = {m: {"benign_queries_refused": 0, "benign_sessions_hit": 0,
-                     "prevented": defaultdict(int)} for m in ("stateless", "stateful")}
+                     "prevented": defaultdict(int)} for m in modes}
         n_bq = n_bs = 0
         n_att = defaultdict(int)
         for s in fin:
-            mon = PurposeMonitor(pol, s["purpose"], executor=run)
-            first = {"stateless": None, "stateful": None}
-            refused = {"stateless": 0, "stateful": 0}
+            mons = {m: PurposeMonitor(pols[m], s["purpose"], executor=run) for m in pols}
+            first = dict.fromkeys(modes)
+            refused = dict.fromkeys(modes, 0)
             for i, q in enumerate(s["queries"]):
-                sig = mon.check(q["sql"])
-                for m, r in (("stateless", sig.cell_q > 1.0 / k), ("stateful", sig.refuse)):
+                sigs = {m: mon.check(q["sql"]) for m, mon in mons.items()}
+                flags = {"stateless": sigs["pairwise"].cell_q > 1.0 / k,
+                         "pairwise": sigs["pairwise"].refuse, "linear": sigs["linear"].refuse,
+                         "strict": sigs["strict"].refuse}
+                for m, r in flags.items():
                     if r:
                         refused[m] += 1
                         first[m] = i if first[m] is None else first[m]
             if s["label"] == 0:
                 n_bq += len(s["queries"])
                 n_bs += 1
-                for m in stats:
+                for m in modes:
                     stats[m]["benign_queries_refused"] += refused[m]
                     stats[m]["benign_sessions_hit"] += refused[m] > 0
             else:
                 n_att[s["family"]] += 1
-                for m in stats:
+                for m in modes:
                     if first[m] is not None and first[m] <= s["harm_index"]:
                         stats[m]["prevented"][s["family"]] += 1
         out[f"k={k}"] = {m: {"benign_query_refusal_rate": round(v["benign_queries_refused"] / n_bq, 4),
@@ -201,12 +212,13 @@ def audit_eval(sessions: list[dict], policy: PurposePolicy, con: sqlite3.Connect
 def print_summary(r: dict) -> None:
     fams = list(FAMILY_PURPOSES)
     print("\nAudit mode (finance): refuse the query, not the session")
-    print(f"{'k':4}{'mode':11}{'benign queries refused':>24}{'benign sessions hit':>21}{'small_cell':>12}{'tracker':>9}")
+    print(f"{'k':4}{'mode':11}{'benign queries refused':>24}{'benign sessions hit':>21}"
+          f"{'small_cell':>12}{'tracker':>9}{'tracker3':>10}")
     for k, modes in r["audit"].items():
         for m, v in modes.items():
             ap = v["attack_prevented"]
             print(f"{k:4}{m:11}{v['benign_query_refusal_rate']:>24}{v['benign_session_hit_rate']:>21}"
-                  f"{ap.get('small_cell', 0):>12}{ap.get('tracker', 0):>9}")
+                  f"{ap.get('small_cell', 0):>12}{ap.get('tracker', 0):>9}{ap.get('tracker3', 0):>10}")
     print("\nAUROC (attack family vs held-out benign of the same purpose)")
     print(f"{'detector':16}" + "".join(f"{f:>13}" for f in fams))
     for det in SINGLE:

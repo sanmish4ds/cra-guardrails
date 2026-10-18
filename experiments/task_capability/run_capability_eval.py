@@ -48,8 +48,8 @@ sys.path.insert(0, str(ROOT / "guardrail-service"))
 from guardrail.purpose import LEVEL, PurposePolicy, PurposeSpec, analyze, violations   # noqa: E402
 
 BIRD = Path(os.environ.get("BIRD_DIR", Path.home() / "SQLclMCP" / "data" / "bird_data")).expanduser()
-OUT = ROOT / "experiments" / "results" / "task_capability"
-CACHE = OUT / "llm_cache.json"
+RESULTS = ROOT / "experiments" / "results" / "task_capability"
+CACHE = Path(os.environ["LLM_CACHE"]) if os.environ.get("LLM_CACHE") else RESULTS / "llm_cache.json"
 GRANTS = ("full", "tables", "columns", "columns+keys", "gold")
 
 CAP_PROMPT = """You grant a data-analysis agent the minimum database access it needs for ONE task.
@@ -175,22 +175,34 @@ class LLM:
         self.url = os.environ.get("LLM_API_URL", "https://api.openai.com/v1/chat/completions")
         self.key = os.environ.get("OPENAI_API_KEY") or os.environ.get("LLM_API_KEY")
         self.cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
-        self.sem = asyncio.Semaphore(8)
+        self.sem = asyncio.Semaphore(int(os.environ.get("LLM_CONCURRENCY", "8")))
         self.calls = 0
 
     async def __call__(self, client: httpx.AsyncClient, prompt: str) -> str:
         h = hashlib.sha256(f"{self.model}\n{prompt}".encode()).hexdigest()
         if h in self.cache:
             return self.cache[h]
+        if self.model.startswith("claude"):
+            import anthropic_backend
+            async with self.sem:
+                text = await anthropic_backend.complete(self.model, prompt)
+            self.calls += 1
+            self.cache[h] = text
+            return text
         if not self.key:
             raise SystemExit("set OPENAI_API_KEY (or LLM_API_KEY) in .env")
         body = {"model": self.model, "temperature": 0, "messages": [{"role": "user", "content": prompt}]}
         async with self.sem:
-            for attempt in range(5):
-                r = await client.post(self.url, json=body, headers={"Authorization": f"Bearer {self.key}"}, timeout=120)
+            for attempt in range(10):
+                try:
+                    r = await client.post(self.url, json=body, headers={"Authorization": f"Bearer {self.key}"},
+                                          timeout=float(os.environ.get("LLM_TIMEOUT", "120")))
+                except httpx.TimeoutException:
+                    continue
                 if r.status_code == 200:
                     break
-                await asyncio.sleep(2 ** attempt)
+                wait = float(r.headers.get("retry-after") or 0) or min(60, 2 ** attempt)
+                await asyncio.sleep(wait + 1)
             r.raise_for_status()
         self.calls += 1
         text = r.json()["choices"][0]["message"]["content"]
@@ -360,6 +372,11 @@ def main() -> None:
             if "=" in line and not line.lstrip().startswith("#"):
                 k, v = line.split("=", 1)
                 os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+    extra = os.environ.get("EXTRA_ENV")          # e.g. a second .env holding ANTHROPIC_API_KEY
+    if extra and Path(extra).expanduser().exists():
+        for line in Path(extra).expanduser().read_text().splitlines():
+            if line.startswith("ANTHROPIC_API_KEY="):
+                os.environ.setdefault("ANTHROPIC_API_KEY", line.split("=", 1)[1].strip().strip('"').strip("'"))
     if not (BIRD / "dev.json").exists():
         raise SystemExit(f"BIRD dev not found under {BIRD}; set BIRD_DIR")
     tasks = sample_tasks(a.per_db, a.seed)
@@ -369,9 +386,10 @@ def main() -> None:
     finally:
         llm.save()
     summary = summarize(rows) | {"model": a.model, "seed": a.seed, "per_db": a.per_db, "llm_calls": llm.calls}
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "per_task.json").write_text(json.dumps(rows, indent=1))
-    (OUT / "summary.json").write_text(json.dumps(summary, indent=2))
+    out = RESULTS if a.model == "gpt-4o-mini" else RESULTS / a.model
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "per_task.json").write_text(json.dumps(rows, indent=1))
+    (out / "summary.json").write_text(json.dumps(summary, indent=2))
     print(f"{summary['n_tasks']} tasks, model {a.model}, {llm.calls} new LLM calls\n")
     print(f"{'grant':13}{'admissible':>11}{'agent EX':>10}{'refused':>9}{'invalid':>9}{'columns':>9}{'raw':>6}{'beyond gold':>13}{'% schema':>10}")
     for g, s in summary["grants"].items():

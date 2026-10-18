@@ -1,0 +1,4210 @@
+[
+ {
+  "question_id": 33,
+  "db_id": "california_schools",
+  "difficulty": "moderate",
+  "n_schema_columns": 89,
+  "gold_footprint": {
+   "schools.website": "raw",
+   "frpm.school name": "raw",
+   "frpm.cdscode": "filter",
+   "schools.cdscode": "filter",
+   "frpm.free meal count (ages 5-17)": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 89,
+    "n_raw": 89,
+    "beyond_gold": 87,
+    "admissible": true,
+    "agent_sql": "SELECT \n    s.schools.Website,\n    s.schools.School AS SchoolName\nFROM \n    frpm\nJOIN \n    schools s ON frpm.School Code = s.School\nWHERE \n    frpm.\"Free Meal Count (Ages 5-17)\" BETWEEN 1900 AND 2000",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 78,
+    "n_raw": 78,
+    "beyond_gold": 76,
+    "admissible": true,
+    "agent_sql": "SELECT \n    schools.Website,\n    schools.School AS SchoolName\nFROM \n    frpm\nJOIN \n    schools ON frpm.CDSCode = schools.CDSCode\nWHERE \n    frpm.\"Free Meal Count (Ages 5-17)\" BETWEEN 1900 AND 2000",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 3,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT \n    frpm.\"School Name\" AS \"School Name\", \n    schools.Website AS \"Website\"\nFROM \n    frpm\nJOIN \n    schools ON frpm.\"School Name\" = schools.\"School\"\nWHERE \n    frpm.\"Free Meal Count (Ages 5-17)\" BETWEEN 1900 AND 2000",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 6,
+    "n_raw": 3,
+    "beyond_gold": 1,
+    "admissible": true,
+    "agent_sql": "SELECT \n    schools.Website, \n    \"frpm\".\"School Name\"\nFROM \n    frpm\nJOIN \n    schools \nON \n    frpm.CDSCode = schools.CDSCode\nWHERE \n    \"frpm\".\"Free Meal Count (Ages 5-17)\" BETWEEN 1900 AND 2000",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 2,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    \"frpm\".\"School Name\" AS \"School Name\",\n    schools.Website AS \"Website\"\nFROM \n    frpm\nJOIN \n    schools ON frpm.CDSCode = schools.CDSCode\nWHERE \n    frpm.\"Free Meal Count (Ages 5-17)\" BETWEEN 1900 AND 2000",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "frpm.free meal count (ages 5-17)": "filter",
+   "frpm.school name": "raw",
+   "schools.website": "raw",
+   "schools.school": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 6,
+   "beyond_gold": 1,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 37,
+  "db_id": "california_schools",
+  "difficulty": "moderate",
+  "n_schema_columns": 89,
+  "gold_footprint": {
+   "schools.street": "raw",
+   "schools.city": "raw",
+   "schools.state": "raw",
+   "schools.zip": "raw",
+   "satscores.cds": "filter",
+   "schools.cdscode": "filter",
+   "satscores.numtsttakr": "filter",
+   "satscores.numge1500": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 89,
+    "n_raw": 89,
+    "beyond_gold": 85,
+    "admissible": true,
+    "agent_sql": "SELECT \n    s.Street,\n    s.City,\n    s.Zip,\n    s.State\nFROM \n    satscores\nJOIN \n    schools s ON satscores.cds = schools.CDSCode\nWHERE \n    satscores.NumTstTakr > 0\nORDER BY \n    (satscores.NumGE1500 * 1.0 / satscores.NumTstTakr) ASC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 60,
+    "n_raw": 60,
+    "beyond_gold": 56,
+    "admissible": true,
+    "agent_sql": "SELECT \n    schools.Street,\n    schools.City,\n    schools.Zip,\n    schools.State\nFROM \n    satscores\nJOIN \n    schools ON satscores.cds = schools.CDSCode\nWHERE \n    satscores.NumTstTakr > 0\nORDER BY \n    (satscores.NumGE1500 * 1.0 / satscores.NumTstTakr) ASC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 0,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT \n    s.Street, \n    s.City, \n    s.Zip, \n    s.State\nFROM \n    schools s\nJOIN \n    satscores sc \n    ON s.CDSCode = sc.cds\nORDER BY \n    CAST(sc.NumGE1500 AS FLOAT) / NULLIF(sc.NumTstTakr, 0) ASC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 4,
+    "n_raw": 0,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT \n    s.Street, \n    s.City, \n    s.Zip, \n    s.State\nFROM \n    schools s\nJOIN \n    satscores sc \n    ON s.CDSCode = sc.cds\nORDER BY \n    CAST(sc.NumGE1500 AS FLOAT) / NULLIF(sc.NumTstTakr, 0) ASC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 8,
+    "n_raw": 4,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    schools.Street,\n    schools.City,\n    schools.Zip,\n    schools.State\nFROM \n    satscores\nJOIN \n    schools ON satscores.cds = schools.CDSCode\nORDER BY \n    CAST(satscores.NumGE1500 AS FLOAT) / satscores.NumTstTakr ASC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "satscores.numge1500": "agg",
+   "satscores.numtsttakr": "agg",
+   "satscores.cds": "filter",
+   "schools.cdscode": "filter"
+  },
+  "escalation": {
+   "requested_columns": 4,
+   "n_columns": 8,
+   "beyond_gold": 2,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 87,
+  "db_id": "california_schools",
+  "difficulty": "challenging",
+  "n_schema_columns": 89,
+  "gold_footprint": {
+   "schools.admemail1": "raw",
+   "schools.admemail2": "raw",
+   "frpm.cdscode": "filter",
+   "schools.cdscode": "filter",
+   "schools.soc": "filter",
+   "schools.doc": "filter",
+   "schools.county": "filter",
+   "schools.city": "filter",
+   "schools.opendate": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 89,
+    "n_raw": 89,
+    "beyond_gold": 87,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT schools.AdmEmail1\nFROM schools\nJOIN frpm ON schools.CDSCode = frpm.CDSCode\nWHERE schools.County = 'San Bernardino'\n  AND schools.City = 'San Bernardino'\n  AND schools.District = 'City Unified'\n  AND schools.OpenDate BETWEEN '2009-01-01' AND '2010-12-31'\n  AND schools.SOC = '62'\n  AND schools.DOC = '54'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 49,
+    "n_raw": 49,
+    "beyond_gold": 47,
+    "admissible": false,
+    "agent_sql": "SELECT DISTINCT schools.AdmEmail1, schools.AdmEmail2, schools.AdmEmail3\nFROM schools\nWHERE schools.County = 'San Bernardino'\n  AND schools.City = 'San Bernardino'\n  AND schools.District = 'City Unified'\n  AND schools.OpenDate BETWEEN '2009-01-01' AND '2010-12-31'\n  AND schools.SOC = '62'\n  AND schools.DOC = '54'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 7,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT schools.AdmEmail1 \nFROM schools \nWHERE schools.County = 'San Bernardino' \n  AND schools.District = 'City of San Bernardino City Unified' \n  AND schools.OpenDate BETWEEN '2009-01-01' AND '2010-12-31' \n  AND schools.SOC IN ('62', '54')",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 8,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT schools.AdmEmail1 \nFROM schools \nWHERE schools.County = 'San Bernardino' \n  AND schools.District = 'City of San Bernardino City Unified' \n  AND schools.OpenDate BETWEEN '2009-01-01' AND '2010-12-31' \n  AND schools.SOC IN ('62', '54')",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 9,
+    "n_raw": 2,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT schools.AdmEmail1, schools.AdmEmail2\nFROM schools\nWHERE schools.County = 'San Bernardino'\n  AND schools.City = 'San Bernardino City Unified'\n  AND schools.OpenDate BETWEEN '2009-01-01' AND '2010-12-31'\n  AND schools.SOC = '62'\n  AND schools.DOC = '54'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "schools.admemail1": "raw",
+   "schools.county": "filter",
+   "schools.district": "filter",
+   "schools.school": "filter",
+   "schools.opendate": "filter",
+   "schools.soc": "filter",
+   "schools.doc": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 8,
+   "beyond_gold": 2,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 23,
+  "db_id": "california_schools",
+  "difficulty": "moderate",
+  "n_schema_columns": 89,
+  "gold_footprint": {
+   "schools.school": "raw",
+   "schools.street": "raw",
+   "schools.cdscode": "filter",
+   "frpm.cdscode": "filter",
+   "frpm.enrollment (k-12)": "filter",
+   "frpm.enrollment (ages 5-17)": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 89,
+    "n_raw": 89,
+    "beyond_gold": 87,
+    "admissible": true,
+    "agent_sql": "SELECT \n    frpm.School Name AS SchoolName,\n    schools.Street AS Street,\n    schools.StreetAbr AS StreetAbr,\n    schools.City AS City,\n    schools.Zip AS Zip,\n    schools.State AS State,\n    schools.MailStreet AS MailStreet,\n    schools.MailStrAbr AS MailStrAbr,\n    schools.MailCity AS MailCity,\n    schools.MailZip AS MailZip,\n    schools.MailState AS MailState\nFROM \n    frpm\nJOIN \n    schools ON frpm.School Code = schools.School\nWHERE \n    (frpm.\"Enrollment (K-12)\" - frpm.\"Enrollment (Ages 5-17)\") > 30",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 78,
+    "n_raw": 78,
+    "beyond_gold": 76,
+    "admissible": true,
+    "agent_sql": "SELECT \n    schools.School AS SchoolName,\n    schools.Street AS Street,\n    schools.StreetAbr AS StreetAbbreviation,\n    schools.City AS City,\n    schools.Zip AS Zip,\n    schools.State AS State,\n    frpm.\"Enrollment (K-12)\" - frpm.\"Enrollment (Ages 5-17)\" AS EnrollmentDifference\nFROM \n    frpm\nJOIN \n    schools ON frpm.CDSCode = schools.CDSCode\nWHERE \n    frpm.\"Enrollment (K-12)\" - frpm.\"Enrollment (Ages 5-17)\" > 30",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 14,
+    "n_raw": 11,
+    "beyond_gold": 12,
+    "admissible": false,
+    "agent_sql": "SELECT \n    frpm.\"School Name\" AS \"School Name\",\n    schools.Street AS \"Street\",\n    schools.StreetAbr AS \"StreetAbr\",\n    schools.City AS \"City\",\n    schools.Zip AS \"Zip\",\n    schools.State AS \"State\"\nFROM \n    frpm\nJOIN \n    schools ON frpm.\"School Name\" = schools.School\nWHERE \n    frpm.\"Enrollment (K-12)\" - frpm.\"Enrollment (Ages 5-17)\" > 30",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 16,
+    "n_raw": 11,
+    "beyond_gold": 12,
+    "admissible": false,
+    "agent_sql": "SELECT \n    \"frpm\".\"School Name\" AS \"School Name\",\n    schools.Street AS \"Street\",\n    schools.StreetAbr AS \"StreetAbr\",\n    schools.City AS \"City\",\n    schools.Zip AS \"Zip\",\n    schools.State AS \"State\"\nFROM \n    frpm\nJOIN \n    schools ON frpm.CDSCode = schools.CDSCode\nWHERE \n    frpm.\"Enrollment (K-12)\" - frpm.\"Enrollment (Ages 5-17)\" > 30",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 6,
+    "n_raw": 2,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    schools.School,\n    schools.Street\nFROM \n    frpm\nJOIN \n    schools \nON \n    frpm.CDSCode = schools.CDSCode\nWHERE \n    frpm.\"Enrollment (K-12)\" - frpm.\"Enrollment (Ages 5-17)\" > 30",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "frpm.school name": "raw",
+   "frpm.enrollment (k-12)": "agg",
+   "frpm.enrollment (ages 5-17)": "agg",
+   "schools.school": "filter",
+   "schools.street": "raw",
+   "schools.streetabr": "raw",
+   "schools.city": "raw",
+   "schools.zip": "raw",
+   "schools.state": "raw",
+   "schools.mailstreet": "raw",
+   "schools.mailstrabr": "raw",
+   "schools.mailcity": "raw",
+   "schools.mailzip": "raw",
+   "schools.mailstate": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 16,
+   "beyond_gold": 12,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 83,
+  "db_id": "california_schools",
+  "difficulty": "challenging",
+  "n_schema_columns": 89,
+  "gold_footprint": {
+   "schools.city": "raw",
+   "schools.cdscode": "filter",
+   "frpm.cdscode": "filter",
+   "frpm.nslp provision status": "filter",
+   "schools.magnet": "filter",
+   "schools.gsoffered": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 89,
+    "n_raw": 89,
+    "beyond_gold": 88,
+    "admissible": true,
+    "agent_sql": "SELECT \n    COUNT(DISTINCT s.City) AS city_count,\n    COUNT(s.School) AS school_count\nFROM frpm\nJOIN schools s ON frpm.School Code = s.School\nWHERE frpm.GSserved LIKE '%K%' AND frpm.GSserved LIKE '%8%'\n  AND s.Magnet = 1\n  AND frpm.\"NSLP Provision Status\" = 'Multiple Provision Types'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 78,
+    "n_raw": 78,
+    "beyond_gold": 77,
+    "admissible": true,
+    "agent_sql": "SELECT \n    COUNT(DISTINCT s.City) AS city_count,\n    COUNT(s.School) AS school_count\nFROM frpm\nJOIN schools s ON frpm.CDSCode = s.CDSCode\nWHERE \n    frpm.\"GSserved\" LIKE '%K-%' AND frpm.\"GSserved\" LIKE '%8%'\n    AND frpm.\"Magnet School (Y/N)\" = 1\n    AND frpm.\"NSLP Provision Status\" = 'Multiple Provision Types'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 2,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT \n    COUNT(DISTINCT schools.City) AS city_count,\n    COUNT(schools.School) AS school_count\nFROM schools\nWHERE schools.School IN (\n    SELECT s.School \n    FROM schools s\n    WHERE s.Magnet = 1 \n      AND s.\"Grade Span\" = 'K-8'\n)\nAND schools.\"NSLP Provision Status\" = 'Multiple Provision Types'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 5,
+    "n_raw": 2,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT \n    COUNT(DISTINCT schools.City) AS city_count,\n    COUNT(schools.School) AS school_count\nFROM schools\nJOIN frpm ON schools.CDSCode = frpm.CDSCode\nWHERE frpm.\"NSLP Provision Status\" = 'Multiple Provision Types'\n  AND schools.Magnet = 1\n  AND schools.GradeSpan = 'K-8'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 6,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    schools.City AS city,\n    COUNT(*) AS school_count\nFROM \n    schools\nJOIN \n    frpm ON schools.CDSCode = frpm.CDSCode\nWHERE \n    schools.GSoffered = 'K-8' \n    AND schools.Magnet = 1 \n    AND frpm.\"NSLP Provision Status\" = 'Multiple Provision Types'\nGROUP BY \n    schools.City\nORDER BY \n    schools.City",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "frpm.nslp provision status": "raw",
+   "schools.city": "raw",
+   "schools.school": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 5,
+   "beyond_gold": 2,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 399,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "n_schema_columns": 115,
+  "gold_footprint": {
+   "cards.subtypes": "raw",
+   "cards.supertypes": "raw",
+   "cards.availability": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 115,
+    "n_raw": 115,
+    "beyond_gold": 113,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT cards.type \nFROM cards \nWHERE cards.availability = 'arena'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 74,
+    "n_raw": 74,
+    "beyond_gold": 72,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT cards.types \nFROM cards \nWHERE cards.availability = 'arena'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT cards.type \nFROM cards \nWHERE cards.availability = 'arena'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT cards.type \nFROM cards \nWHERE cards.availability = 'arena'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 3,
+    "n_raw": 2,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT \n    TRIM(SUBSTR(c.supertypes, INSTR(c.supertypes, ' ') + 1, INSTR(c.supertypes, ' ', INSTR(c.supertypes, ' ') + 1) - INSTR(c.supertypes, ' ') - 1)) AS supertype,\n    TRIM(SUBSTR(c.subtypes, INSTR(c.subtypes, ' ') + 1, INSTR(c.subtypes, ' ', INSTR(c.subtypes, ' ') + 1) - INSTR(c.subtypes, ' ') - 1)) AS subtype\nFROM cards c\nWHERE c.availability = 'arena' AND c.supertypes != ''\n   OR c.subtypes != ''",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "cards.type": "raw",
+   "cards.availability": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 3,
+   "beyond_gold": 2,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 510,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "n_schema_columns": 115,
+  "gold_footprint": {
+   "cards.artist": "raw",
+   "cards.side": "filter",
+   "cards.convertedmanacost": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 115,
+    "n_raw": 115,
+    "beyond_gold": 114,
+    "admissible": true,
+    "agent_sql": "SELECT cards.artist \nFROM cards \nWHERE cards.side IS NULL \nORDER BY cards.convertedManaCost DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 74,
+    "n_raw": 74,
+    "beyond_gold": 73,
+    "admissible": true,
+    "agent_sql": "SELECT artist \nFROM cards \nWHERE side IS NULL \nORDER BY convertedManaCost DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": true,
+    "agent_sql": "SELECT artist \nFROM cards \nWHERE side IS NULL \nORDER BY convertedManaCost DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns+keys": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": true,
+    "agent_sql": "SELECT artist \nFROM cards \nWHERE side IS NULL \nORDER BY convertedManaCost DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT artist \nFROM cards \nWHERE side IS NULL \nORDER BY convertedManaCost DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "cards.artist": "raw",
+   "cards.convertedmanacost": "agg",
+   "cards.side": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 4,
+   "beyond_gold": 2,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 377,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "n_schema_columns": 115,
+  "gold_footprint": {
+   "cards.id": "filter",
+   "cards.originaltype": "filter",
+   "cards.subtypes": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 115,
+    "n_raw": 115,
+    "beyond_gold": 115,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*)\nFROM cards\nWHERE originalType LIKE '%Summon - Angel%'\n  AND subtypes NOT LIKE '%Angel%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 74,
+    "n_raw": 74,
+    "beyond_gold": 74,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM cards \nWHERE originalType LIKE '%Summon - Angel%' \n  AND subtypes NOT LIKE '%Angel%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(*) \nFROM cards \nWHERE cards.originalType = 'Summon - Angel' \n  AND cards.subtypes NOT LIKE '%Angel%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM cards \nWHERE cards.originalType = 'Summon - Angel' \n  AND cards.subtypes NOT LIKE '%Angel%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 3,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM cards \nWHERE cards.originalType = 'Summon - Angel' \n  AND cards.subtypes NOT LIKE '%Angel%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "cards.originaltype": "filter",
+   "cards.subtypes": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 3,
+   "beyond_gold": 1,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 397,
+  "db_id": "card_games",
+  "difficulty": "moderate",
+  "n_schema_columns": 115,
+  "gold_footprint": {
+   "cards.manacost": "raw",
+   "cards.layout": "filter",
+   "cards.frameversion": "filter",
+   "cards.availability": "filter",
+   "cards.bordercolor": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 115,
+    "n_raw": 115,
+    "beyond_gold": 114,
+    "admissible": true,
+    "agent_sql": "SELECT cards.manaCost \nFROM cards \nWHERE cards.layout = 'normal' \n  AND cards.frameVersion = '2003' \n  AND cards.borderColor = 'black' \n  AND cards.availability = 'mtgo,paper'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 74,
+    "n_raw": 74,
+    "beyond_gold": 73,
+    "admissible": true,
+    "agent_sql": "SELECT cards.manaCost \nFROM cards \nWHERE cards.layout = 'normal' \n  AND cards.frameVersion = '2003' \n  AND cards.borderColor = 'black' \n  AND cards.availability = 'mtgo,paper'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 5,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT cards.manaCost \nFROM cards \nWHERE cards.layout = 'normal' \n  AND cards.frameVersion = '2003' \n  AND cards.borderColor = 'black' \n  AND cards.availability = 'mtgo,paper'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns+keys": {
+    "n_columns": 6,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": true,
+    "agent_sql": "SELECT cards.manaCost \nFROM cards \nWHERE cards.layout = 'normal' \n  AND cards.frameVersion = '2003' \n  AND cards.borderColor = 'black' \n  AND cards.availability = 'mtgo,paper'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT cards.manaCost \nFROM cards \nWHERE cards.layout = 'normal' \n  AND cards.frameVersion = '2003' \n  AND cards.borderColor = 'black' \n  AND cards.availability = 'mtgo,paper'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "cards.manacost": "raw",
+   "cards.layout": "filter",
+   "cards.frameversion": "filter",
+   "cards.bordercolor": "filter",
+   "cards.availability": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 6,
+   "beyond_gold": 1,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 504,
+  "db_id": "card_games",
+  "difficulty": "simple",
+  "n_schema_columns": 115,
+  "gold_footprint": {
+   "cards.id": "filter",
+   "cards.setcode": "filter",
+   "cards.convertedmanacost": "filter",
+   "sets.code": "filter",
+   "sets.name": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 115,
+    "n_raw": 115,
+    "beyond_gold": 115,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM cards \nWHERE sets.name = 'World Championship Decks 2004' \n  AND cards.convertedManaCost = 3",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 95,
+    "n_raw": 95,
+    "beyond_gold": 95,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM cards \nJOIN sets ON cards.setCode = sets.code \nWHERE sets.name = 'World Championship Decks 2004' \n  AND cards.convertedManaCost = 3",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(*) \nFROM cards \nJOIN sets ON cards.set_id = sets.id \nWHERE sets.name = 'World Championship Decks 2004' \n  AND cards.convertedManaCost = 3",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 11,
+    "n_raw": 1,
+    "beyond_gold": 9,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(*) \nFROM cards \nJOIN sets ON cards.set = sets.id \nWHERE sets.name = 'World Championship Decks 2004' \n  AND cards.convertedManaCost = 3",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(cards.id) \nFROM cards \nJOIN sets ON cards.setCode = sets.code \nWHERE sets.name = 'World Championship Decks 2004' \n  AND cards.convertedManaCost = 3",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "sets.name": "filter",
+   "cards.convertedmanacost": "filter",
+   "cards.id": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 11,
+   "beyond_gold": 9,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 578,
+  "db_id": "codebase_community",
+  "difficulty": "moderate",
+  "n_schema_columns": 71,
+  "gold_footprint": {
+   "users.displayname": "raw",
+   "users.reputation": "raw",
+   "users.id": "filter",
+   "posts.owneruserid": "filter",
+   "posts.title": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 71,
+    "n_raw": 71,
+    "beyond_gold": 69,
+    "admissible": true,
+    "agent_sql": "SELECT \n    users.DisplayName AS user_display_name,\n    users.Reputation AS user_reputation\nFROM \n    posts\nJOIN \n    users ON posts.OwnerUserId = users.Id\nWHERE \n    posts.Title = 'Understanding what Dassault iSight is doing?'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 35,
+    "n_raw": 35,
+    "beyond_gold": 33,
+    "admissible": true,
+    "agent_sql": "SELECT users.DisplayName, users.Reputation\nFROM posts\nJOIN users ON posts.OwnerUserId = users.Id\nWHERE posts.Title = 'Understanding what Dassault iSight is doing?'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 3,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT users.DisplayName, users.Reputation\nFROM posts\nJOIN users ON posts.OwnerUserId = users.Id\nWHERE posts.Title = 'Understanding what Dassault iSight is doing?'",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 8,
+    "n_raw": 3,
+    "beyond_gold": 4,
+    "admissible": true,
+    "agent_sql": "SELECT users.DisplayName, users.Reputation\nFROM posts\nJOIN users ON posts.OwnerUserId = users.Id\nWHERE posts.Title = 'Understanding what Dassault iSight is doing?'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 2,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT users.DisplayName, users.Reputation\nFROM posts\nJOIN users ON posts.OwnerUserId = users.Id\nWHERE posts.Title = 'Understanding what Dassault iSight is doing?'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "posts.title": "raw",
+   "posts.owneruserid": "filter",
+   "users.displayname": "raw",
+   "users.reputation": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 8,
+   "beyond_gold": 4,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 564,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "n_schema_columns": 71,
+  "gold_footprint": {
+   "comments.text": "raw",
+   "posts.id": "filter",
+   "comments.postid": "filter",
+   "posts.parentid": "filter",
+   "posts.commentcount": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 71,
+    "n_raw": 71,
+    "beyond_gold": 70,
+    "admissible": true,
+    "agent_sql": "SELECT comments.Text\nFROM comments\nJOIN posts ON comments.PostId = posts.Id\nWHERE posts.ParentId = 107829\n  AND posts.CommentCount = 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 28,
+    "n_raw": 28,
+    "beyond_gold": 27,
+    "admissible": true,
+    "agent_sql": "SELECT c.Text \nFROM comments c\nJOIN posts p ON c.PostId = p.Id\nWHERE p.ParentId = 107829 \n  AND p.CommentCount = 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT comments.Text \nFROM comments \nWHERE posts.ParentId = 107829",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 10,
+    "n_raw": 1,
+    "beyond_gold": 6,
+    "admissible": false,
+    "agent_sql": "SELECT c.Text\nFROM comments c\nJOIN posts p ON c.PostId = p.Id\nWHERE p.ParentId = 107829",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT c.Text\nFROM comments c\nJOIN posts p ON c.PostId = p.Id\nWHERE p.ParentId = 107829 AND p.CommentCount = 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "posts.parentid": "filter",
+   "comments.text": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 10,
+   "beyond_gold": 6,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 549,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "n_schema_columns": 71,
+  "gold_footprint": {
+   "posts.body": "raw",
+   "posts.id": "filter",
+   "tags.excerptpostid": "filter",
+   "tags.tagname": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 71,
+    "n_raw": 71,
+    "beyond_gold": 70,
+    "admissible": true,
+    "agent_sql": "SELECT p.Body \nFROM tags t\nJOIN posts p ON t.ExcerptPostId = p.Id\nWHERE t.TagName = 'bayesian'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 26,
+    "n_raw": 26,
+    "beyond_gold": 25,
+    "admissible": true,
+    "agent_sql": "SELECT p.Body \nFROM posts p\nJOIN tags t ON p.Id = t.ExcerptPostId\nWHERE t.TagName = 'bayesian'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT p.Body \nFROM posts p\nJOIN tags t ON p.Id = t.ExcerptPostId \nWHERE t.TagName = 'bayesian'",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 7,
+    "n_raw": 1,
+    "beyond_gold": 4,
+    "admissible": false,
+    "agent_sql": "SELECT p.Body \nFROM posts p\nJOIN tags t ON p.Id = t.ExcerptPostId \nWHERE t.TagName = 'bayesian'",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT p.Body \nFROM posts p \nJOIN tags t ON p.Id = t.ExcerptPostId \nWHERE t.TagName = 'bayesian'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "tags.excerptpostid": "filter",
+   "posts.id": "filter",
+   "posts.body": "raw"
+  },
+  "escalation": {
+   "requested_columns": 1,
+   "n_columns": 8,
+   "beyond_gold": 4,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 667,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "n_schema_columns": 71,
+  "gold_footprint": {
+   "posts.title": "raw",
+   "postlinks.postid": "filter",
+   "posts.id": "filter",
+   "posts.creaiondate": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 71,
+    "n_raw": 71,
+    "beyond_gold": 70,
+    "admissible": true,
+    "agent_sql": "SELECT p.Title\nFROM posts p\nJOIN postLinks pl ON p.Id = pl.PostId\nORDER BY pl.CreationDate ASC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 26,
+    "n_raw": 26,
+    "beyond_gold": 25,
+    "admissible": true,
+    "agent_sql": "SELECT p.Title\nFROM postLinks pl\nJOIN posts p ON pl.PostId = p.Id\nORDER BY pl.CreationDate ASC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT posts.Title \nFROM postLinks \nJOIN posts ON postLinks.PostId = posts.PostId \nORDER BY postLinks.CreationDate ASC \nLIMIT 1",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 9,
+    "n_raw": 1,
+    "beyond_gold": 6,
+    "admissible": false,
+    "agent_sql": "SELECT posts.Title\nFROM postLinks\nJOIN posts ON postLinks.PostId = posts.Id\nORDER BY postLinks.CreationDate ASC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT posts.Title \nFROM posts \nJOIN postLinks ON posts.Id = postLinks.PostId \nORDER BY posts.CreationDate ASC \nLIMIT 1",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "postlinks.creationdate": "filter",
+   "posts.title": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 9,
+   "beyond_gold": 6,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 585,
+  "db_id": "codebase_community",
+  "difficulty": "simple",
+  "n_schema_columns": 71,
+  "gold_footprint": {
+   "votes.bountyamount": "agg",
+   "posts.id": "filter",
+   "votes.postid": "filter",
+   "posts.title": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 71,
+    "n_raw": 71,
+    "beyond_gold": 71,
+    "admissible": true,
+    "agent_sql": "SELECT SUM(votes.BountyAmount) AS total_bounty_amount\nFROM posts\nJOIN votes ON posts.Id = votes.PostId\nWHERE posts.Title LIKE '%data%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 27,
+    "n_raw": 27,
+    "beyond_gold": 27,
+    "admissible": true,
+    "agent_sql": "SELECT SUM(votes.BountyAmount) AS total_bounty_amount\nFROM posts\nJOIN votes ON posts.Id = votes.PostId\nWHERE posts.Title LIKE '%data%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT SUM(votes.BountyAmount) \nFROM posts \nJOIN votes ON posts.Title LIKE '%data%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 9,
+    "n_raw": 1,
+    "beyond_gold": 6,
+    "admissible": true,
+    "agent_sql": "SELECT SUM(votes.BountyAmount) AS total_bounty\nFROM posts\nJOIN votes ON posts.Id = votes.PostId\nWHERE posts.Title LIKE '%data%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT SUM(votes.BountyAmount) AS total_bounty\nFROM posts\nJOIN votes ON posts.Id = votes.PostId\nWHERE posts.Title LIKE '%data%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "posts.title": "filter",
+   "votes.bountyamount": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 9,
+   "beyond_gold": 6,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 1507,
+  "db_id": "debit_card_specializing",
+  "difficulty": "simple",
+  "n_schema_columns": 21,
+  "gold_footprint": {
+   "transactions_1k.time": "raw",
+   "transactions_1k.gasstationid": "filter",
+   "gasstations.gasstationid": "filter",
+   "gasstations.chainid": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 21,
+    "n_raw": 21,
+    "beyond_gold": 20,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT transactions_1k.Date \nFROM transactions_1k \nJOIN gasstations ON transactions_1k.GasStationID = gasstations.GasStationID \nWHERE gasstations.ChainID = 11",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 13,
+    "n_raw": 13,
+    "beyond_gold": 12,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT transactions_1k.Date \nFROM transactions_1k \nJOIN gasstations ON transactions_1k.GasStationID = gasstations.GasStationID \nWHERE gasstations.ChainID = 11",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT DISTINCT transactions_1k.Date \nFROM transactions_1k \nWHERE transactions_1k.Date IN (\n    SELECT transactions_1k.Date \n    FROM transactions_1k \n    JOIN gasstations ON transactions_1k.ChainID = gasstations.ChainID \n    WHERE gasstations.ChainID = 11\n)",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 5,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT DISTINCT transactions_1k.Date \nFROM transactions_1k \nJOIN gasstations ON transactions_1k.GasStationID = gasstations.GasStationID \nWHERE gasstations.ChainID = 11",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT transactions_1k.Time \nFROM transactions_1k \nJOIN gasstations ON transactions_1k.GasStationID = gasstations.GasStationID \nWHERE gasstations.ChainID = 11",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "gasstations.chainid": "filter",
+   "transactions_1k.date": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 5,
+   "beyond_gold": 2,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 1473,
+  "db_id": "debit_card_specializing",
+  "difficulty": "moderate",
+  "n_schema_columns": 21,
+  "gold_footprint": {
+   "yearmonth.consumption": "agg",
+   "customers.customerid": "filter",
+   "yearmonth.customerid": "filter",
+   "customers.segment": "filter",
+   "yearmonth.date": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 21,
+    "n_raw": 21,
+    "beyond_gold": 21,
+    "admissible": true,
+    "agent_sql": "SELECT AVG(Consumption) / 12.0 AS average_monthly_consumption\nFROM yearmonth\nJOIN customers ON yearmonth.CustomerID = customers.CustomerID\nWHERE customers.Segment = 'SME' \n  AND substr(yearmonth.Date, 1, 4) = '2013'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 3,
+    "n_raw": 3,
+    "beyond_gold": 3,
+    "admissible": false,
+    "agent_sql": "SELECT AVG(Consumption) / 12.0 AS average_monthly_consumption\nFROM yearmonth\nWHERE substr(Date, 1, 4) = '2013'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT AVG(Consumption) / 12.0 AS average_monthly_consumption\nFROM yearmonth\nWHERE substr(Date, 1, 4) = '2013'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 3,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT AVG(Consumption) / 12.0 AS average_monthly_consumption\nFROM yearmonth\nWHERE substr(Date, 1, 4) = '2013'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT AVG(Consumption) / 12.0 AS average_monthly_consumption\nFROM yearmonth\nJOIN customers ON yearmonth.CustomerID = customers.CustomerID\nWHERE customers.Segment = 'SME'\n  AND yearmonth.Date LIKE '2013%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "yearmonth.customerid": "filter",
+   "yearmonth.date": "filter",
+   "yearmonth.consumption": "agg"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 3,
+   "beyond_gold": 0,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 1525,
+  "db_id": "debit_card_specializing",
+  "difficulty": "simple",
+  "n_schema_columns": 21,
+  "gold_footprint": {
+   "transactions_1k.customerid": "filter",
+   "customers.currency": "agg",
+   "customers.customerid": "filter",
+   "transactions_1k.date": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 21,
+    "n_raw": 21,
+    "beyond_gold": 21,
+    "admissible": true,
+    "agent_sql": "SELECT \n    (COUNT(CASE WHEN customers.Currency = 'EUR' THEN 1 END) * 100.0 / COUNT(*)) AS percentage\nFROM \n    transactions_1k\nJOIN \n    customers ON transactions_1k.CustomerID = customers.CustomerID\nWHERE \n    transactions_1k.Date = '2012-08-25'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 12,
+    "n_raw": 12,
+    "beyond_gold": 12,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(COUNT(CASE WHEN customers.Currency = 'EUR' THEN 1 END) AS REAL) * 100.0 / COUNT(*) AS percentage\nFROM customers\nJOIN transactions_1k ON customers.CustomerID = transactions_1k.CustomerID\nWHERE transactions_1k.Date = '2012-08-25'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT \n    CAST(COUNT(CASE WHEN customers.Currency = 'EUR' THEN 1 END) AS FLOAT) * 100.0 / COUNT(*) AS percentage\nFROM transactions_1k\nJOIN customers ON transactions_1k.CustomerID = customers.CustomerID\nWHERE transactions_1k.Date = '2012-08-25'",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 5,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(COUNT(CASE WHEN customers.Currency = 'EUR' THEN 1 END) AS FLOAT) * 100.0 / COUNT(*) AS percentage\nFROM customers\nJOIN transactions_1k ON customers.CustomerID = transactions_1k.CustomerID\nWHERE transactions_1k.Date = '2012-08-25'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(COUNT(CASE WHEN transactions_1k.Date = '2012-08-25' THEN 1 END) AS FLOAT) * 100.0 / COUNT(*) AS percentage\nFROM customers\nJOIN transactions_1k ON customers.CustomerID = transactions_1k.CustomerID\nWHERE transactions_1k.Date = '2012-08-25'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "customers.currency": "raw",
+   "transactions_1k.date": "filter",
+   "transactions_1k.customerid": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 5,
+   "beyond_gold": 2,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 1486,
+  "db_id": "debit_card_specializing",
+  "difficulty": "simple",
+  "n_schema_columns": 21,
+  "gold_footprint": {
+   "customers.currency": "agg",
+   "customers.segment": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 21,
+    "n_raw": 21,
+    "beyond_gold": 21,
+    "admissible": true,
+    "agent_sql": "SELECT \n    SUM(CASE WHEN c.Currency = 'CZK' THEN 1 ELSE 0 END) - \n    SUM(CASE WHEN c.Currency = 'EUR' THEN 1 ELSE 0 END) AS difference\nFROM customers c\nJOIN transactions_1k t ON c.CustomerID = t.CustomerID\nWHERE c.Segment = 'SME' AND t.Amount > 0",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 12,
+    "n_raw": 12,
+    "beyond_gold": 12,
+    "admissible": true,
+    "agent_sql": "SELECT \n    SUM(CASE WHEN c.Segment = 'SME' AND t.Currency = 'CZK' THEN 1 ELSE 0 END) - \n    SUM(CASE WHEN c.Segment = 'SME' AND t.Currency = 'EUR' THEN 1 ELSE 0 END) AS difference\nFROM customers c\nJOIN transactions_1k t ON c.CustomerID = t.CustomerID",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 10,
+    "n_raw": 1,
+    "beyond_gold": 9,
+    "admissible": true,
+    "agent_sql": "SELECT \n    SUM(CASE WHEN customers.Currency = 'CZK' THEN 1 ELSE 0 END) - \n    SUM(CASE WHEN customers.Currency = 'EUR' THEN 1 ELSE 0 END) AS difference\nFROM \n    transactions_1k\nJOIN \n    customers ON transactions_1k.CustomerID = customers.CustomerID\nWHERE \n    customers.Segment = 'SME'",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 12,
+    "n_raw": 1,
+    "beyond_gold": 11,
+    "admissible": true,
+    "agent_sql": "SELECT \n    SUM(CASE WHEN customers.Currency = 'CZK' THEN 1 ELSE 0 END) - \n    SUM(CASE WHEN customers.Currency = 'EUR' THEN 1 ELSE 0 END) AS difference\nFROM customers\nJOIN transactions_1k ON customers.CustomerID = transactions_1k.CustomerID\nWHERE customers.Segment = 'SME'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 2,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    SUM(CASE WHEN customers.Currency = 'CZK' THEN 1 ELSE 0 END) - \n    SUM(CASE WHEN customers.Currency = 'EUR' THEN 1 ELSE 0 END) AS difference\nFROM customers\nWHERE customers.Segment = 'SME'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "customers.segment": "filter",
+   "customers.currency": "raw",
+   "transactions_1k.customerid": "filter",
+   "transactions_1k.amount": "filter",
+   "transactions_1k.price": "filter",
+   "transactions_1k.productid": "filter",
+   "transactions_1k.gasstationid": "filter",
+   "transactions_1k.date": "filter",
+   "transactions_1k.time": "filter",
+   "transactions_1k.cardid": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 12,
+   "beyond_gold": 11,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 1471,
+  "db_id": "debit_card_specializing",
+  "difficulty": "simple",
+  "n_schema_columns": 21,
+  "gold_footprint": {
+   "customers.currency": "agg"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 21,
+    "n_raw": 21,
+    "beyond_gold": 21,
+    "admissible": true,
+    "agent_sql": "SELECT \n    COUNT(CASE WHEN c.Currency = 'EUR' THEN 1 END) * 1.0 / \n    COUNT(CASE WHEN c.Currency = 'CZK' THEN 1 END) AS ratio\nFROM customers c",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 3,
+    "n_raw": 3,
+    "beyond_gold": 3,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(COUNT(CASE WHEN customers.Currency = 'EUR' THEN 1 END) AS FLOAT) / \n    COUNT(CASE WHEN customers.Currency = 'CZK' THEN 1 END) AS ratio\nFROM customers",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 1,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(COUNT(CASE WHEN customers.Currency = 'EUR' THEN 1 END) AS FLOAT) / \n    COUNT(CASE WHEN customers.Currency = 'CZK' THEN 1 END) AS ratio\nFROM customers",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns+keys": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(COUNT(CASE WHEN customers.Currency = 'EUR' THEN 1 END) AS FLOAT) / \n    COUNT(CASE WHEN customers.Currency = 'CZK' THEN 1 END) AS ratio\nFROM customers",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 1,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(COUNT(CASE WHEN customers.Currency = 'EUR' THEN 1 END) AS FLOAT) / \n    COUNT(CASE WHEN customers.Currency = 'CZK' THEN 1 END) AS ratio\nFROM customers",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "customers.currency": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 2,
+   "beyond_gold": 2,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 1090,
+  "db_id": "european_football_2",
+  "difficulty": "simple",
+  "n_schema_columns": 199,
+  "gold_footprint": {
+   "player_attributes.long_passing": "raw",
+   "player.player_api_id": "filter",
+   "player_attributes.player_api_id": "filter",
+   "player.birthday": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 199,
+    "n_raw": 199,
+    "beyond_gold": 198,
+    "admissible": true,
+    "agent_sql": "SELECT pa.long_passing\nFROM Player_Attributes pa\nJOIN Player p ON pa.player_api_id = p.player_api_id\nORDER BY p.birthday ASC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 7,
+    "n_raw": 7,
+    "beyond_gold": 7,
+    "admissible": false,
+    "agent_sql": "SELECT NULL AS long_passing_score -- No column named 'long_passing' exists in the provided columns, so this query cannot be fulfilled with the given data.",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 1,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT long_passing \nFROM Player \nORDER BY birthday ASC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 2,
+    "n_raw": 0,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT p1.long_passing \nFROM Player p1 \nORDER BY p1.birthday ASC \nLIMIT 1",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT long_passing \nFROM Player_Attributes \nJOIN Player ON Player_Attributes.player_api_id = Player.player_api_id \nORDER BY Player.birthday ASC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "player.birthday": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 2,
+   "beyond_gold": 1,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 1057,
+  "db_id": "european_football_2",
+  "difficulty": "moderate",
+  "n_schema_columns": 199,
+  "gold_footprint": {
+   "match.id": "filter",
+   "match.home_team_goal": "agg",
+   "country.id": "filter",
+   "match.country_id": "filter",
+   "country.name": "filter",
+   "match.season": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 199,
+    "n_raw": 199,
+    "beyond_gold": 199,
+    "admissible": true,
+    "agent_sql": "SELECT AVG(Match.home_team_goal) AS average_home_team_goal\nFROM Match\nJOIN League ON Match.league_id = League.id\nWHERE League.name = 'Poland' AND Match.season = '2010/2011'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 117,
+    "n_raw": 117,
+    "beyond_gold": 117,
+    "admissible": true,
+    "agent_sql": "SELECT AVG(Match.home_team_goal) AS average_home_team_goal\nFROM Match\nJOIN Country ON Match.country_id = Country.id\nWHERE Country.name = 'Poland' AND Match.season = '2010/2011'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT AVG(Match.home_team_goal) \nFROM Match \nJOIN Country ON Match.country_id = Country.id \nWHERE Country.name = 'Poland' AND Match.season = '2010/2011'",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 31,
+    "n_raw": 0,
+    "beyond_gold": 25,
+    "admissible": true,
+    "agent_sql": "SELECT AVG(Match.home_team_goal) \nFROM Match \nJOIN Country ON Match.country_id = Country.id \nWHERE Country.name = 'Poland' AND Match.season = '2010/2011'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 6,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT AVG(Match.home_team_goal) \nFROM Match \nJOIN Country ON Match.country_id = Country.id \nWHERE Country.name = 'Poland' AND Match.season = '2010/2011'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "match.home_team_goal": "agg",
+   "match.season": "filter",
+   "match.country_id": "filter",
+   "country.name": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 31,
+   "beyond_gold": 25,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 1041,
+  "db_id": "european_football_2",
+  "difficulty": "challenging",
+  "n_schema_columns": 199,
+  "gold_footprint": {
+   "team.team_long_name": "raw",
+   "team.team_api_id": "filter",
+   "team_attributes.team_api_id": "filter",
+   "team_attributes.chancecreationpassing": "agg",
+   "team_attributes.buildupplaydribblingclass": "filter",
+   "team.id": "filter",
+   "team_attributes.date": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 199,
+    "n_raw": 199,
+    "beyond_gold": 198,
+    "admissible": true,
+    "agent_sql": "SELECT T.team_long_name\nFROM Team_Attributes T\nWHERE T.buildUpPlayDribblingClass = 'Normal'\n  AND T.date >= '2014-01-01 00:00:00'\n  AND T.date <= '2014-01-31 00:00:00'\n  AND T.chanceCreationPassing < (\n    SELECT AVG(chanceCreationPassing)\n    FROM Team_Attributes\n    WHERE buildUpPlayDribblingClass = 'Normal'\n      AND date >= '2014-01-01 00:00:00'\n      AND date <= '2014-01-31 00:00:00'\n  )\nORDER BY T.chanceCreationPassing DESC",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 30,
+    "n_raw": 30,
+    "beyond_gold": 29,
+    "admissible": true,
+    "agent_sql": "SELECT \n    Team.team_long_name\nFROM \n    Team\nJOIN \n    Team_Attributes \n    ON Team.team_api_id = Team_Attributes.team_api_id\nWHERE \n    Team_Attributes.buildUpPlayDribblingClass = 'Normal'\n    AND Team_Attributes.date >= '2014-01-01 00:00:00'\n    AND Team_Attributes.date <= '2014-01-31 00:00:00'\n    AND Team_Attributes.chanceCreationPassing < (\n        SELECT AVG(chanceCreationPassing)\n        FROM Team_Attributes\n        WHERE buildUpPlayDribblingClass = 'Normal'\n          AND date >= '2014-01-01 00:00:00'\n          AND date <= '2014-01-31 00:00:00'\n    )\nORDER BY \n    Team_Attributes.chanceCreationPassing DESC",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT Team.team_long_name\nFROM Team\nJOIN Team_Attributes ON Team.team_api_id = Team_Attributes.team_api_id\nWHERE Team_Attributes.buildUpPlayDribblingClass = 'Normal'\n  AND Team_Attributes.date >= '2014-01-01 00:00:00'\n  AND Team_Attributes.date <= '2014-01-31 00:00:00'\n  AND Team_Attributes.chanceCreationPassing < (\n    SELECT AVG(Team_Attributes.chanceCreationPassing)\n    FROM Team_Attributes\n    JOIN Team ON Team.team_api_id = Team_Attributes.team_api_id\n    WHERE Team_Attributes.buildUpPlayDribblingClass = 'Normal'\n      AND Team_Attributes.date >= '2014-01-01 00:00:00'\n      AND Team_Attributes.date <= '2014-01-31 00:00:00'\n  )\nORDER BY Team_Attributes.chanceCreationPassing DESC",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 10,
+    "n_raw": 1,
+    "beyond_gold": 3,
+    "admissible": true,
+    "agent_sql": "SELECT \n    T.team_long_name\nFROM \n    Team AS T\nJOIN \n    Team_Attributes AS TA \n    ON T.team_api_id = TA.team_api_id\nWHERE \n    TA.buildUpPlayDribblingClass = 'Normal'\n    AND TA.date >= '2014-01-01 00:00:00'\n    AND TA.date <= '2014-01-31 00:00:00'\n    AND TA.chanceCreationPassing < (\n        SELECT AVG(TA2.chanceCreationPassing)\n        FROM Team_Attributes AS TA2\n        JOIN Team AS T2 ON TA2.team_api_id = T2.team_api_id\n        WHERE TA2.buildUpPlayDribblingClass = 'Normal'\n          AND TA2.date >= '2014-01-01 00:00:00'\n          AND TA2.date <= '2014-01-31 00:00:00'\n    )\nORDER BY \n    TA.chanceCreationPassing DESC",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 7,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT Team.team_long_name\nFROM Team\nJOIN Team_Attributes ON Team.team_api_id = Team_Attributes.team_api_id\nWHERE Team_Attributes.buildUpPlayDribblingClass = 'Normal'\n  AND Team_Attributes.date >= '2014-01-01 00:00:00'\n  AND Team_Attributes.date <= '2014-01-31 00:00:00'\n  AND Team_Attributes.chanceCreationPassing < (\n    SELECT AVG(Team_Attributes.chanceCreationPassing)\n    FROM Team_Attributes\n    JOIN Team ON Team_Attributes.team_api_id = Team.team_api_id\n    WHERE Team_Attributes.buildUpPlayDribblingClass = 'Normal'\n      AND Team_Attributes.date >= '2014-01-01 00:00:00'\n      AND Team_Attributes.date <= '2014-01-31 00:00:00'\n  )\nORDER BY Team_Attributes.chanceCreationPassing DESC",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "team_attributes.buildupplaydribblingclass": "filter",
+   "team_attributes.chancecreationpassing": "agg",
+   "team_attributes.date": "filter",
+   "team.team_long_name": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 10,
+   "beyond_gold": 3,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 1087,
+  "db_id": "european_football_2",
+  "difficulty": "simple",
+  "n_schema_columns": 199,
+  "gold_footprint": {
+   "player.id": "filter",
+   "player.player_api_id": "filter",
+   "player_attributes.player_api_id": "filter",
+   "player.height": "filter",
+   "player_attributes.volleys": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 199,
+    "n_raw": 199,
+    "beyond_gold": 199,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM Player_Attributes \nWHERE Player_Attributes.volleys > 70 \n  AND Player_Attributes.height > 180",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 49,
+    "n_raw": 49,
+    "beyond_gold": 49,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM Player_Attributes \nWHERE volleys > 70 \n  AND height > 180",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(*) \nFROM Player_Attributes \nWHERE Player_Attributes.volleys > 70 \n  AND Player.height > 180",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 8,
+    "n_raw": 1,
+    "beyond_gold": 4,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM Player_Attributes \nJOIN Player ON Player_Attributes.player_fifa_api_id = Player.player_fifa_api_id \nWHERE Player.height > 180 AND Player_Attributes.volleys > 70",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM Player_Attributes, Player \nWHERE Player_Attributes.player_api_id = Player.player_api_id \n  AND Player.height > 180 \n  AND Player_Attributes.volleys > 70",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "player.height": "filter",
+   "player_attributes.volleys": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 8,
+   "beyond_gold": 4,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 1135,
+  "db_id": "european_football_2",
+  "difficulty": "moderate",
+  "n_schema_columns": 199,
+  "gold_footprint": {
+   "player_attributes.id": "raw",
+   "player_attributes.preferred_foot": "filter",
+   "player_attributes.potential": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 199,
+    "n_raw": 199,
+    "beyond_gold": 198,
+    "admissible": true,
+    "agent_sql": "SELECT Player_Attributes.id\nFROM Player_Attributes\nWHERE Player_Attributes.potential = (SELECT MIN(potential) FROM Player_Attributes)\n  AND Player_Attributes.preferred_foot = 'right'\nORDER BY Player_Attributes.potential\nLIMIT 5",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 42,
+    "n_raw": 42,
+    "beyond_gold": 41,
+    "admissible": true,
+    "agent_sql": "SELECT Player_Attributes.player_api_id\nFROM Player_Attributes\nWHERE Player_Attributes.potential = (SELECT MIN(potential) FROM Player_Attributes)\n  AND Player_Attributes.preferred_foot = 'right'\nORDER BY Player_Attributes.potential\nLIMIT 5",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT player_fifa_api_id\nFROM Player_Attributes\nWHERE potential = (SELECT MIN(potential) FROM Player_Attributes)\n  AND preferred_foot = 'right'\nORDER BY player_fifa_api_id\nLIMIT 5",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 5,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT Player_Attributes.player_api_id\nFROM Player_Attributes\nWHERE Player_Attributes.preferred_foot = 'right'\n  AND Player_Attributes.potential = (SELECT MIN(potential) FROM Player_Attributes WHERE preferred_foot = 'right')\nORDER BY Player_Attributes.potential\nLIMIT 5",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT Player_Attributes.id\nFROM Player_Attributes\nWHERE Player_Attributes.potential = (SELECT MIN(potential) FROM Player_Attributes)\n  AND Player_Attributes.preferred_foot = 'right'\nLIMIT 5",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "player_attributes.player_fifa_api_id": "raw",
+   "player_attributes.potential": "filter",
+   "player_attributes.preferred_foot": "filter"
+  },
+  "escalation": {
+   "requested_columns": 2,
+   "n_columns": 5,
+   "beyond_gold": 3,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 184,
+  "db_id": "financial",
+  "difficulty": "simple",
+  "n_schema_columns": 55,
+  "gold_footprint": {
+   "client.client_id": "filter",
+   "disp.client_id": "filter",
+   "disp.disp_id": "filter",
+   "card.disp_id": "filter",
+   "client.gender": "filter",
+   "card.type": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 55,
+    "n_raw": 55,
+    "beyond_gold": 55,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM client \nJOIN disp ON client.client_id = disp.client_id \nJOIN card ON disp.account_id = card.disp_id \nWHERE client.gender = 'F' AND card.type = 'junior'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 8,
+    "n_raw": 8,
+    "beyond_gold": 8,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(*) \nFROM card \nJOIN client ON card.client_id = client.client_id \nWHERE client.gender = 'F' AND card.type = 'junior'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(*) \nFROM card \nJOIN client ON card.client_id = client.client_id \nWHERE card.type = 'junior' AND client.gender = 'F'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 6,
+    "n_raw": 1,
+    "beyond_gold": 3,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(*) \nFROM card \nJOIN client ON card.disp_id = client.client_id \nWHERE card.type = 'junior' AND client.gender = 'F'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 6,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM client \nJOIN disp ON client.client_id = disp.client_id \nJOIN card ON disp.disp_id = card.disp_id \nWHERE client.gender = 'F' \n  AND card.type = 'junior'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "client.gender": "filter",
+   "card.type": "filter",
+   "client.client_id": "raw",
+   "card.card_id": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 6,
+   "beyond_gold": 3,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 144,
+  "db_id": "financial",
+  "difficulty": "moderate",
+  "n_schema_columns": 55,
+  "gold_footprint": {
+   "trans.amount": "agg",
+   "card.disp_id": "filter",
+   "disp.disp_id": "filter",
+   "disp.account_id": "filter",
+   "account.account_id": "filter",
+   "trans.account_id": "filter",
+   "trans.operation": "filter",
+   "trans.date": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 55,
+    "n_raw": 55,
+    "beyond_gold": 55,
+    "admissible": true,
+    "agent_sql": "SELECT \n    AVG(t.amount) AS average_amount\nFROM \n    trans t\nJOIN \n    card c ON t.account_id = c.account_id\nWHERE \n    t.type = 'VYDAJ' \n    AND t.operation = 'VYBER KARTOU'\n    AND t.date LIKE '21__ __'\n    AND c.type = 'junior'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 18,
+    "n_raw": 18,
+    "beyond_gold": 18,
+    "admissible": false,
+    "agent_sql": "SELECT AVG(trans.amount) AS average_amount\nFROM trans\nJOIN account ON trans.account_id = account.account_id\nWHERE trans.operation = 'VYBER KARTOU'\n  AND trans.date LIKE '21__%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 6,
+    "n_raw": 1,
+    "beyond_gold": 3,
+    "admissible": false,
+    "agent_sql": "SELECT AVG(trans.amount) AS average_amount\nFROM trans\nJOIN card ON trans.card_id = card.card_id\nWHERE trans.operation = 'VYBER KARTOU'\n  AND strftime('%Y', trans.date) = '2021'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 12,
+    "n_raw": 1,
+    "beyond_gold": 7,
+    "admissible": false,
+    "agent_sql": "SELECT AVG(trans.amount) AS average_amount\nFROM trans\nJOIN account ON trans.account_id = account.account_id\nWHERE trans.operation = 'VYBER KARTOU'\n  AND strftime('%Y', trans.date) = '2021'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 8,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT AVG(trans.amount) AS average_amount\nFROM trans\nJOIN disp ON trans.account_id = disp.account_id\nWHERE trans.operation = 'VYBER KARTOU'\n  AND strftime('%Y', trans.date) = '2021'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "trans.amount": "raw",
+   "trans.type": "filter",
+   "trans.operation": "filter",
+   "trans.date": "filter",
+   "account.account_id": "filter",
+   "card.card_id": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 12,
+   "beyond_gold": 7,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 106,
+  "db_id": "financial",
+  "difficulty": "simple",
+  "n_schema_columns": 55,
+  "gold_footprint": {
+   "trans.amount": "raw",
+   "card.disp_id": "filter",
+   "disp.disp_id": "filter",
+   "disp.account_id": "filter",
+   "account.account_id": "filter",
+   "trans.account_id": "filter",
+   "card.issued": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 55,
+    "n_raw": 55,
+    "beyond_gold": 54,
+    "admissible": true,
+    "agent_sql": "SELECT MAX(t.amount) AS biggest_transaction_amount\nFROM trans t\nJOIN card c ON t.account_id = c.account_id\nJOIN disp d ON c.disp_id = d.disp_id\nJOIN client cl ON d.client_id = cl.client_id\nWHERE c.issued = '961021'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 14,
+    "n_raw": 14,
+    "beyond_gold": 13,
+    "admissible": false,
+    "agent_sql": "SELECT MAX(trans.amount) \nFROM trans \nJOIN card ON trans.account_id = card.card_id \nWHERE card.issued = '19961021'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT MAX(trans.amount) \nFROM trans \nJOIN card ON trans.card_id = card.id \nWHERE card.issued = '19961021'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 8,
+    "n_raw": 1,
+    "beyond_gold": 4,
+    "admissible": false,
+    "agent_sql": "SELECT MAX(trans.amount) \nFROM card \nJOIN trans ON card.card_id = trans.account_id \nWHERE card.issued = '961021'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 7,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT MAX(trans.amount) \nFROM trans\nJOIN card ON trans.account_id = card.account_id\nWHERE card.issued = '961021'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "card.issued": "filter",
+   "trans.amount": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 8,
+   "beyond_gold": 4,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 190,
+  "db_id": "financial",
+  "difficulty": "simple",
+  "n_schema_columns": 55,
+  "gold_footprint": {
+   "client.client_id": "filter",
+   "client.district_id": "filter",
+   "district.district_id": "filter",
+   "district.a3": "filter",
+   "client.birth_date": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 55,
+    "n_raw": 55,
+    "beyond_gold": 55,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(DISTINCT client.client_id)\nFROM client\nJOIN district ON client.district_id = district.district_id\nWHERE client.birth_date LIKE '1920%' \n  AND district.A3 = 'East Bohemia'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 20,
+    "n_raw": 20,
+    "beyond_gold": 20,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM client \nJOIN district ON client.district_id = district.district_id \nWHERE district.A3 = 'East Bohemia' \n  AND strftime('%Y', client.birth_date) = '1920'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(*) \nFROM client \nJOIN district ON client.district_id = district.district_id \nWHERE client.birth_date LIKE '1920-%' \n  AND district.A3 = 'East Bohemia'",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 5,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM client \nJOIN district ON client.district_id = district.district_id \nWHERE client.birth_date LIKE '1920%' \n  AND district.A3 = 'East Bohemia'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM client \nJOIN district ON client.district_id = district.district_id \nWHERE client.birth_date LIKE '1920%' \n  AND district.A3 = 'East Bohemia'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "client.birth_date": "filter",
+   "district.a3": "filter",
+   "client.district_id": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 5,
+   "beyond_gold": 0,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 121,
+  "db_id": "financial",
+  "difficulty": "simple",
+  "n_schema_columns": 55,
+  "gold_footprint": {
+   "account.account_id": "raw",
+   "account.date": "raw",
+   "account.district_id": "filter",
+   "district.district_id": "filter",
+   "district.a2": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 55,
+    "n_raw": 55,
+    "beyond_gold": 53,
+    "admissible": true,
+    "agent_sql": "SELECT account.account_id, account.date\nFROM account\nJOIN district ON account.district_id = district.district_id\nWHERE district.A2 = 'Prachatice'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 20,
+    "n_raw": 20,
+    "beyond_gold": 18,
+    "admissible": true,
+    "agent_sql": "SELECT account.account_id, account.date\nFROM account\nJOIN district ON account.district_id = district.district_id\nWHERE district.A2 = 'Prachatice'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 2,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT account.account_id, account.date\nFROM account\nJOIN district ON account.district_id = district.district_id\nWHERE district.A2 = 'Prachatice'",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 5,
+    "n_raw": 2,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT account.account_id, account.date\nFROM account\nJOIN district ON account.district_id = district.district_id\nWHERE district.A2 = 'Prachatice'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 2,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT account.account_id, account.date\nFROM account\nJOIN district ON account.district_id = district.district_id\nWHERE district.A2 = 'Prachatice'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "account.account_id": "raw",
+   "account.date": "raw",
+   "account.district_id": "filter",
+   "district.a2": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 5,
+   "beyond_gold": 0,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 937,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "n_schema_columns": 94,
+  "gold_footprint": {
+   "results.time": "raw",
+   "results.raceid": "filter",
+   "races.raceid": "filter",
+   "races.year": "filter",
+   "results.rank": "filter",
+   "races.name": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 94,
+    "n_raw": 94,
+    "beyond_gold": 93,
+    "admissible": true,
+    "agent_sql": "SELECT r.time\nFROM results r\nJOIN races ra ON r.raceId = ra.raceId\nWHERE ra.year = 2008\n  AND ra.name = 'Chinese Grand Prix'\n  AND r.position = 2",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 26,
+    "n_raw": 26,
+    "beyond_gold": 25,
+    "admissible": true,
+    "agent_sql": "SELECT results.time \nFROM results \nJOIN races ON results.raceId = races.raceId \nWHERE races.year = 2008 \n  AND races.name = 'Chinese Grand Prix' \n  AND results.rank = 2",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT results.time \nFROM races \nJOIN results ON races.name = results.race_id \nWHERE races.year = 2008 AND races.name = 'Chinese Grand Prix' AND results.position = 2",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 12,
+    "n_raw": 1,
+    "beyond_gold": 7,
+    "admissible": false,
+    "agent_sql": "SELECT results.time \nFROM results \nJOIN races ON results.raceId = races.raceId \nWHERE races.year = 2008 \n  AND races.name = 'Chinese Grand Prix' \n  AND results.position = 2",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 6,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT results.time \nFROM results \nJOIN races ON results.raceId = races.raceId \nWHERE races.year = 2008 \n  AND races.name = 'Chinese Grand Prix' \n  AND results.rank = 2",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "races.name": "filter",
+   "races.year": "filter",
+   "results.position": "filter",
+   "results.time": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 12,
+   "beyond_gold": 7,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 905,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "n_schema_columns": 94,
+  "gold_footprint": {
+   "driverstandings.points": "agg",
+   "driverstandings.driverid": "filter",
+   "drivers.driverid": "filter",
+   "races.raceid": "filter",
+   "driverstandings.raceid": "filter",
+   "races.year": "filter",
+   "drivers.forename": "filter",
+   "drivers.surname": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 94,
+    "n_raw": 94,
+    "beyond_gold": 94,
+    "admissible": true,
+    "agent_sql": "SELECT AVG(r.points) AS average_points\nFROM results r\nJOIN drivers d ON r.driverId = d.driverId\nWHERE d.forename = 'Eddie' AND d.surname = 'Irvine' AND r.year = 2000",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 9,
+    "n_raw": 9,
+    "beyond_gold": 9,
+    "admissible": false,
+    "agent_sql": "SELECT AVG(driverStandings.points) \nFROM driverStandings \nJOIN seasons ON driverStandings.raceId = seasons.year \nWHERE seasons.year = 2000 AND driverStandings.driverId = (SELECT driverId FROM driverStandings WHERE driverName = 'Eddie Irvine')",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 0,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT AVG(driverStandings.points) \nFROM driverStandings \nJOIN seasons ON driverStandings.raceId = seasons.year \nWHERE seasons.year = 2000 AND driverStandings.driverId = (SELECT driverId FROM driverStandings WHERE driverName = 'Eddie Irvine')",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 5,
+    "n_raw": 0,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT AVG(driverStandings.points) \nFROM driverStandings \nJOIN seasons ON driverStandings.raceId = seasons.year \nWHERE seasons.year = 2000 \n  AND driverStandings.driverId = (SELECT driverId FROM driverStandings WHERE driverName = 'Eddie Irvine')",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 8,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT AVG(driverStandings.points) \nFROM driverStandings \nJOIN races ON driverStandings.raceId = races.raceId \nJOIN drivers ON driverStandings.driverId = drivers.driverId \nWHERE drivers.forename = 'Eddie' AND drivers.surname = 'Irvine' AND races.year = 2000",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "driverstandings.points": "agg",
+   "driverstandings.driverid": "filter",
+   "driverstandings.raceid": "filter",
+   "seasons.year": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 5,
+   "beyond_gold": 2,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 970,
+  "db_id": "formula_1",
+  "difficulty": "moderate",
+  "n_schema_columns": 94,
+  "gold_footprint": {
+   "drivers.driverid": "raw",
+   "pitstops.driverid": "filter",
+   "pitstops.time": "filter",
+   "drivers.nationality": "filter",
+   "drivers.dob": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 94,
+    "n_raw": 94,
+    "beyond_gold": 93,
+    "admissible": true,
+    "agent_sql": "SELECT \n    d.forename, \n    d.surname, \n    MIN(l.time) AS earliest_lap_time\nFROM \n    drivers d\nJOIN \n    results r ON d.driverId = r.driverId\nJOIN \n    lapTimes l ON r.resultId = l.resultId\nWHERE \n    d.nationality = 'German' \n    AND strftime('%Y', d.dob) BETWEEN '1980' AND '1990'\nGROUP BY \n    d.driverId\nORDER BY \n    earliest_lap_time ASC\nLIMIT 3",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 23,
+    "n_raw": 23,
+    "beyond_gold": 22,
+    "admissible": false,
+    "agent_sql": "SELECT \n    d.driverRef, \n    d.forename, \n    d.surname, \n    MIN(l.time) AS earliest_lap_time\nFROM \n    drivers d\nJOIN \n    lapTimes l ON d.driverId = l.driverId\nWHERE \n    d.nationality = 'German' \n    AND strftime('%Y', d.dob) BETWEEN '1980' AND '1990'\nGROUP BY \n    d.driverId\nORDER BY \n    earliest_lap_time ASC\nLIMIT 3",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 10,
+    "n_raw": 4,
+    "beyond_gold": 7,
+    "admissible": false,
+    "agent_sql": "SELECT drivers.driverId, drivers.forename, drivers.surname\nFROM drivers\nJOIN lapTimes ON drivers.driverId = lapTimes.driverId\nWHERE drivers.nationality = 'Germany'\n  AND drivers.dob BETWEEN '1980-01-01' AND '1990-12-31'\nGROUP BY drivers.driverId, drivers.forename, drivers.surname\nORDER BY MIN(lapTimes.time) ASC\nLIMIT 3",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 15,
+    "n_raw": 4,
+    "beyond_gold": 12,
+    "admissible": false,
+    "agent_sql": "SELECT \n    d.forename, \n    d.surname, \n    MIN(l.time) AS earliest_lap_time\nFROM \n    drivers d\nJOIN \n    lapTimes l ON d.driverId = l.driverId\nWHERE \n    d.nationality = 'Germany' \n    AND d.dob BETWEEN '1980-01-01' AND '1990-12-31'\nGROUP BY \n    d.driverId, d.forename, d.surname\nORDER BY \n    earliest_lap_time ASC\nLIMIT 3",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT drivers.driverId\nFROM drivers\nJOIN pitStops ON drivers.driverId = pitStops.driverId\nWHERE drivers.nationality = 'Germany'\n  AND strftime('%Y', drivers.dob) BETWEEN '1980' AND '1990'\nGROUP BY drivers.driverId\nORDER BY MIN(pitStops.time)\nLIMIT 3",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "drivers.dob": "filter",
+   "drivers.nationality": "filter",
+   "drivers.driverid": "raw",
+   "drivers.forename": "raw",
+   "drivers.surname": "raw",
+   "laptimes.time": "raw",
+   "laptimes.driverid": "filter",
+   "laptimes.raceid": "filter",
+   "races.raceid": "filter",
+   "races.year": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 15,
+   "beyond_gold": 12,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 986,
+  "db_id": "formula_1",
+  "difficulty": "simple",
+  "n_schema_columns": 94,
+  "gold_footprint": {
+   "laptimes.milliseconds": "raw",
+   "laptimes.raceid": "filter",
+   "races.raceid": "filter",
+   "laptimes.lap": "filter",
+   "laptimes.time": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 94,
+    "n_raw": 94,
+    "beyond_gold": 93,
+    "admissible": true,
+    "agent_sql": "SELECT MIN(lapTimes.time) AS fastest_lap_time\nFROM lapTimes\nJOIN races ON lapTimes.raceId = races.raceId\nWHERE lapTimes.position = 1 AND lapTimes.lap = 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 32,
+    "n_raw": 32,
+    "beyond_gold": 31,
+    "admissible": true,
+    "agent_sql": "SELECT MIN(lapTimes.milliseconds) \nFROM lapTimes \nJOIN races ON lapTimes.raceId = races.raceId \nWHERE lapTimes.position = 1 \n  AND lapTimes.lap = 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 7,
+    "n_raw": 1,
+    "beyond_gold": 4,
+    "admissible": false,
+    "agent_sql": "SELECT MIN(lapTimes.milliseconds) \nFROM lapTimes \nJOIN races ON lapTimes.raceId = races.raceId \nWHERE lapTimes.position = 1 \n  AND lapTimes.time IS NOT NULL",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 20,
+    "n_raw": 1,
+    "beyond_gold": 15,
+    "admissible": true,
+    "agent_sql": "SELECT MIN(lapTimes.milliseconds) \nFROM lapTimes \nJOIN races ON lapTimes.raceId = races.raceId \nWHERE lapTimes.position = 1 \n  AND lapTimes.lap = 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT MIN(lapTimes.milliseconds) \nFROM lapTimes \nWHERE lapTimes.lap = 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "laptimes.time": "filter",
+   "laptimes.milliseconds": "raw",
+   "laptimes.position": "filter",
+   "results.fastestlap": "filter",
+   "results.resultid": "filter",
+   "races.raceid": "filter",
+   "races.name": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 20,
+   "beyond_gold": 15,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 990,
+  "db_id": "formula_1",
+  "difficulty": "challenging",
+  "n_schema_columns": 94,
+  "gold_footprint": {
+   "constructors.constructorref": "raw",
+   "constructors.url": "raw",
+   "results.raceid": "filter",
+   "races.raceid": "filter",
+   "results.constructorid": "filter",
+   "constructors.constructorid": "filter",
+   "results.time": "filter",
+   "races.name": "filter",
+   "races.year": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 94,
+    "n_raw": 94,
+    "beyond_gold": 92,
+    "admissible": true,
+    "agent_sql": "SELECT c.constructorRef, c.url\nFROM constructorStandings cs\nJOIN constructors c ON cs.constructorId = c.constructorId\nWHERE cs.raceId = (\n    SELECT r.raceId\n    FROM races r\n    WHERE r.name = 'Singapore Grand Prix' AND r.year = 2009\n)\nORDER BY cs.points DESC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 23,
+    "n_raw": 23,
+    "beyond_gold": 21,
+    "admissible": false,
+    "agent_sql": "SELECT c.constructorRef, c.url\nFROM results r\nJOIN constructors c ON r.constructorId = c.constructorId\nWHERE r.raceId = (SELECT raceId FROM results WHERE raceName = 'Singapore' AND year = 2009 ORDER BY raceId LIMIT 1)\n  AND r.time IS NOT NULL\nORDER BY r.time ASC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 7,
+    "n_raw": 2,
+    "beyond_gold": 3,
+    "admissible": false,
+    "agent_sql": "SELECT c.constructorRef, c.url\nFROM constructors c\nJOIN results r ON c.constructorId = r.constructorId\nWHERE r.position = (SELECT MIN(position) FROM results WHERE raceId = (SELECT raceId FROM results WHERE circuitName = 'Singapore' AND year = 2009')) AND r.time IS NOT NULL\nORDER BY r.time ASC\nLIMIT 1",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 11,
+    "n_raw": 2,
+    "beyond_gold": 5,
+    "admissible": false,
+    "agent_sql": "SELECT constructors.constructorRef, constructors.url\nFROM results\nJOIN constructors ON results.constructorId = constructors.constructorId\nWHERE results.raceId = (SELECT raceId FROM results WHERE raceName = 'Singapore Grand Prix' AND results.statusId = 1)\nORDER BY results.time ASC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 9,
+    "n_raw": 2,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT constructors.constructorRef, constructors.url\nFROM results\nJOIN constructors ON results.constructorId = constructors.constructorId\nWHERE results.raceId = (\n    SELECT raceId \n    FROM races \n    WHERE races.year = 2009 AND races.name = 'Singapore Grand Prix'\n)\nORDER BY results.time DESC\nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "results.driverid": "filter",
+   "results.constructorid": "filter",
+   "constructors.constructorref": "raw",
+   "constructors.url": "raw",
+   "results.position": "filter",
+   "results.points": "filter",
+   "results.time": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 11,
+   "beyond_gold": 5,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 1421,
+  "db_id": "student_club",
+  "difficulty": "moderate",
+  "n_schema_columns": 48,
+  "gold_footprint": {
+   "member.member_id": "filter",
+   "major.major_name": "agg",
+   "major.major_id": "filter",
+   "member.link_to_major": "filter",
+   "member.position": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 48,
+    "n_raw": 48,
+    "beyond_gold": 48,
+    "admissible": true,
+    "agent_sql": "SELECT \n    (COUNT(CASE WHEN m.member_id IS NOT NULL AND m.link_to_major IS NOT NULL AND major.major_name = 'Business' THEN 1 END) * 100.0) / COUNT(m.member_id) AS percentage\nFROM member m\nLEFT JOIN major ON m.link_to_major = major.major_id",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 13,
+    "n_raw": 13,
+    "beyond_gold": 13,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(COUNT(CASE WHEN m.major_name = 'Business' THEN 1 END) AS FLOAT) * 100.0 / COUNT(*) AS percentage\nFROM member m\nJOIN major ma ON m.link_to_major = ma.major_id",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT \n    CAST(SUM(CASE WHEN m.position = 'Member' AND m.major_name = 'Business' THEN 1 ELSE 0 END) AS FLOAT) * 100.0 / COUNT(*) AS percentage\nFROM member m\nJOIN major ma ON m.link_to_major = ma.major_name",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 6,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(SUM(CASE WHEN m.position = 'Member' AND maj.major_name = 'Business' THEN 1 ELSE 0 END) AS FLOAT) * 100.0 / COUNT(m.member_id) AS percentage\nFROM member m\nJOIN major maj ON m.link_to_major = maj.major_id",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(SUM(CASE WHEN m.position = 'Member' AND maj.major_name = 'Business' THEN 1 ELSE 0 END) AS FLOAT) * 100.0 / COUNT(m.member_id) AS percentage\nFROM member m\nJOIN major maj ON m.link_to_major = maj.major_id",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "member.position": "filter",
+   "member.link_to_major": "filter",
+   "major.major_name": "raw"
+  },
+  "escalation": {
+   "requested_columns": 1,
+   "n_columns": 6,
+   "beyond_gold": 3,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 1405,
+  "db_id": "student_club",
+  "difficulty": "moderate",
+  "n_schema_columns": 48,
+  "gold_footprint": {
+   "budget.category": "raw",
+   "budget.amount": "agg",
+   "event.event_id": "filter",
+   "budget.link_to_event": "filter",
+   "event.event_name": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 48,
+    "n_raw": 48,
+    "beyond_gold": 47,
+    "admissible": true,
+    "agent_sql": "SELECT \n    budget.category,\n    SUM(budget.amount) AS total_budgeted\nFROM \n    budget\nJOIN \n    event ON budget.link_to_event = event.event_id\nWHERE \n    event.event_name = 'April Speaker'\nGROUP BY \n    budget.category\nORDER BY \n    total_budgeted ASC",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 14,
+    "n_raw": 14,
+    "beyond_gold": 13,
+    "admissible": true,
+    "agent_sql": "SELECT \n    budget.category,\n    SUM(budget.amount) AS total_budgeted\nFROM \n    budget\nJOIN \n    event ON budget.link_to_event = event.event_id\nWHERE \n    event.event_name = 'April Speaker'\nGROUP BY \n    budget.category\nORDER BY \n    total_budgeted ASC",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT category, SUM(amount) AS total_amount\nFROM budget\nJOIN event ON budget.event_id = event.event_id\nWHERE event.event_name = 'April Speaker'\nGROUP BY category\nORDER BY total_amount ASC",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 6,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT category, SUM(amount) AS total_amount\nFROM budget\nJOIN event ON budget.link_to_event = event.event_id\nWHERE event.event_name = 'April Speaker'\nGROUP BY category\nORDER BY total_amount ASC",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT category, SUM(amount) AS total_amount\nFROM budget\nJOIN event ON budget.link_to_event = event.event_id\nWHERE event.event_name = 'April Speaker'\nGROUP BY category\nORDER BY total_amount ASC",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "event.event_name": "filter",
+   "event.event_id": "filter",
+   "budget.category": "agg",
+   "budget.amount": "raw"
+  },
+  "escalation": {
+   "requested_columns": 1,
+   "n_columns": 6,
+   "beyond_gold": 2,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 1422,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "n_schema_columns": 48,
+  "gold_footprint": {
+   "budget.category": "raw",
+   "event.event_id": "filter",
+   "budget.link_to_event": "filter",
+   "event.location": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 48,
+    "n_raw": 48,
+    "beyond_gold": 47,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT budget.category\nFROM event\nJOIN budget ON event.event_id = budget.link_to_event\nWHERE event.location = 'MU 215'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 14,
+    "n_raw": 14,
+    "beyond_gold": 13,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT budget.category\nFROM event\nJOIN budget ON event.event_id = budget.link_to_event\nWHERE event.location = 'MU 215'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT budget.category \nFROM event \nJOIN budget ON event.location = budget.category \nWHERE event.location = 'MU 215'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 5,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT budget.category \nFROM budget \nJOIN event ON budget.link_to_event = event.event_id \nWHERE event.location = 'MU 215'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT budget.category \nFROM budget \nJOIN event ON budget.link_to_event = event.event_id \nWHERE event.location = 'MU 215'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "event.location": "filter",
+   "budget.category": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 5,
+   "beyond_gold": 1,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 1392,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "n_schema_columns": 48,
+  "gold_footprint": {
+   "income.source": "raw",
+   "income.date_received": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 48,
+    "n_raw": 48,
+    "beyond_gold": 47,
+    "admissible": true,
+    "agent_sql": "SELECT source \nFROM income \nWHERE date_received BETWEEN '2019-09-01' AND '2019-09-30' \nORDER BY amount DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 6,
+    "n_raw": 6,
+    "beyond_gold": 5,
+    "admissible": true,
+    "agent_sql": "SELECT source \nFROM income \nWHERE date_received BETWEEN '2019-09-01' AND '2019-09-30' \nORDER BY amount DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": true,
+    "agent_sql": "SELECT source \nFROM income \nWHERE date_received BETWEEN '2019-09-01' AND '2019-09-30' \nORDER BY SUM(amount) DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 5,
+    "n_raw": 1,
+    "beyond_gold": 3,
+    "admissible": true,
+    "agent_sql": "SELECT source \nFROM income \nWHERE date_received BETWEEN '2019-09-01' AND '2019-09-30' \nORDER BY amount DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT source \nFROM income \nWHERE date_received BETWEEN '2019-09-01' AND '2019-09-30' \nORDER BY source DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "income.source": "raw",
+   "income.amount": "agg",
+   "income.date_received": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 5,
+   "beyond_gold": 3,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 1342,
+  "db_id": "student_club",
+  "difficulty": "simple",
+  "n_schema_columns": 48,
+  "gold_footprint": {
+   "expense.cost": "raw",
+   "expense.expense_description": "filter",
+   "expense.expense_date": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 48,
+    "n_raw": 48,
+    "beyond_gold": 47,
+    "admissible": true,
+    "agent_sql": "SELECT SUM(e.cost) AS total_cost\nFROM expense e\nJOIN budget b ON e.link_to_budget = b.budget_id\nWHERE b.category = 'Posters'\n  AND e.expense_date = '2019-09-04'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 21,
+    "n_raw": 21,
+    "beyond_gold": 20,
+    "admissible": true,
+    "agent_sql": "SELECT e.cost\nFROM expense e\nJOIN budget b ON e.link_to_budget = b.budget_id\nJOIN event ev ON b.link_to_event = ev.event_id\nWHERE ev.event_name = 'Posters'\n  AND ev.event_date = '2019-09-04'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 9,
+    "n_raw": 1,
+    "beyond_gold": 7,
+    "admissible": false,
+    "agent_sql": "SELECT SUM(e.cost) AS total_cost\nFROM expense e\nJOIN budget b ON e.link_to_budget = b.link_to_budget\nWHERE b.category = 'Posters'\n  AND e.expense_date = '2019-09-04'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 13,
+    "n_raw": 1,
+    "beyond_gold": 11,
+    "admissible": false,
+    "agent_sql": "SELECT e.cost\nFROM expense e\nJOIN budget b ON e.link_to_budget = b.budget_id\nJOIN event ev ON b.link_to_event = ev.event_id\nWHERE ev.event_name = 'Posters'\n  AND ev.event_date = '2019-09-04'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT expense.cost \nFROM expense \nWHERE expense.expense_description = 'Posters' \n  AND expense.expense_date = '2019-09-04'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "budget.category": "filter",
+   "budget.event_status": "filter",
+   "event.event_date": "filter",
+   "event.event_name": "filter",
+   "expense.cost": "raw",
+   "expense.expense_date": "filter",
+   "expense.approved": "filter",
+   "expense.link_to_budget": "filter",
+   "expense.link_to_member": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 13,
+   "beyond_gold": 11,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 805,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "n_schema_columns": 31,
+  "gold_footprint": {
+   "superhero.full_name": "raw",
+   "superhero.weight_kg": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 31,
+    "n_raw": 31,
+    "beyond_gold": 30,
+    "admissible": true,
+    "agent_sql": "SELECT superhero.full_name\nFROM superhero\nWHERE superhero.weight_kg = 0 OR superhero.weight_kg IS NULL",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 12,
+    "n_raw": 12,
+    "beyond_gold": 11,
+    "admissible": true,
+    "agent_sql": "SELECT superhero.full_name\nFROM superhero\nWHERE weight_kg = 0 OR weight_kg IS NULL",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT full_name \nFROM superhero \nWHERE weight_kg = 0 OR weight_kg IS NULL",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 10,
+    "n_raw": 1,
+    "beyond_gold": 8,
+    "admissible": true,
+    "agent_sql": "SELECT superhero.full_name\nFROM superhero\nWHERE superhero.weight_kg = 0 OR superhero.weight_kg IS NULL",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT full_name \nFROM superhero \nWHERE weight_kg = 0 OR weight_kg IS NULL",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "superhero.full_name": "raw",
+   "superhero.weight_kg": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 10,
+   "beyond_gold": 8,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 784,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "n_schema_columns": 31,
+  "gold_footprint": {
+   "superhero.full_name": "raw",
+   "superhero.race_id": "filter",
+   "race.id": "filter",
+   "race.race": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 31,
+    "n_raw": 31,
+    "beyond_gold": 30,
+    "admissible": true,
+    "agent_sql": "SELECT superhero.full_name\nFROM superhero\nJOIN race ON superhero.race_id = race.id\nWHERE race.race = 'Vampire'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 14,
+    "n_raw": 14,
+    "beyond_gold": 13,
+    "admissible": true,
+    "agent_sql": "SELECT superhero.full_name\nFROM superhero\nJOIN race ON superhero.race_id = race.id\nWHERE race.race = 'Vampire'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT superhero.full_name \nFROM race \nJOIN superhero ON race.race = superhero.full_name \nWHERE race.race = 'Vampire'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 11,
+    "n_raw": 1,
+    "beyond_gold": 7,
+    "admissible": true,
+    "agent_sql": "SELECT superhero.full_name\nFROM superhero\nJOIN race ON superhero.race_id = race.id\nWHERE race.race = 'Vampire'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT superhero.full_name \nFROM race \nJOIN superhero ON race.id = superhero.race_id \nWHERE race.race = 'Vampire'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "superhero.full_name": "raw",
+   "race.race": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 11,
+   "beyond_gold": 7,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 831,
+  "db_id": "superhero",
+  "difficulty": "simple",
+  "n_schema_columns": 31,
+  "gold_footprint": {
+   "colour.colour": "raw",
+   "superhero.eye_colour_id": "filter",
+   "colour.id": "filter",
+   "superhero.superhero_name": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 31,
+    "n_raw": 31,
+    "beyond_gold": 30,
+    "admissible": true,
+    "agent_sql": "SELECT colour.colour\nFROM superhero\nJOIN colour ON superhero.eye_colour_id = colour.id\nWHERE superhero.superhero_name = 'Abomination'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 14,
+    "n_raw": 14,
+    "beyond_gold": 13,
+    "admissible": true,
+    "agent_sql": "SELECT c.colour\nFROM superhero\nJOIN colour c ON superhero.eye_colour_id = c.id\nWHERE superhero.superhero_name = 'Abomination'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT colour.colour \nFROM superhero \nJOIN colour ON superhero.eye_colour_id = colour.id \nWHERE superhero.superhero_name = 'Abomination'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns+keys": {
+    "n_columns": 11,
+    "n_raw": 1,
+    "beyond_gold": 7,
+    "admissible": true,
+    "agent_sql": "SELECT colour.colour \nFROM superhero \nJOIN colour ON superhero.eye_colour_id = colour.id \nWHERE superhero.superhero_name = 'Abomination'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT colour.colour \nFROM superhero \nJOIN colour ON superhero.eye_colour_id = colour.id \nWHERE superhero.superhero_name = 'Abomination'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "superhero.superhero_name": "filter",
+   "superhero.eye_colour_id": "filter",
+   "colour.id": "filter",
+   "colour.colour": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 11,
+   "beyond_gold": 7,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 751,
+  "db_id": "superhero",
+  "difficulty": "moderate",
+  "n_schema_columns": 31,
+  "gold_footprint": {
+   "superpower.power_name": "raw",
+   "superhero.id": "filter",
+   "hero_power.hero_id": "filter",
+   "superpower.id": "filter",
+   "hero_power.power_id": "filter",
+   "gender.id": "filter",
+   "superhero.gender_id": "filter",
+   "gender.gender": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 31,
+    "n_raw": 31,
+    "beyond_gold": 30,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT sp.power_name\nFROM superhero s\nJOIN gender g ON s.gender_id = g.id\nJOIN hero_power hp ON s.id = hp.hero_id\nJOIN superpower sp ON hp.power_id = sp.id\nWHERE g.gender = 'Male'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 16,
+    "n_raw": 16,
+    "beyond_gold": 15,
+    "admissible": false,
+    "agent_sql": "SELECT DISTINCT sp.power_name\nFROM superhero s\nJOIN gender g ON s.gender_id = g.id\nJOIN superpower sp ON s.id = sp.superhero_id\nWHERE g.gender = 'Male'\nLIMIT 5",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": false,
+    "agent_sql": "SELECT superpower.power_name\nFROM superhero\nJOIN superpower ON superhero.superpower_id = superpower.id\nWHERE superhero.gender_id = (SELECT gender_id FROM gender WHERE gender = 'Male')\nLIMIT 5",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 12,
+    "n_raw": 1,
+    "beyond_gold": 6,
+    "admissible": false,
+    "agent_sql": "SELECT DISTINCT sp.power_name\nFROM superhero s\nJOIN gender g ON s.gender_id = g.id\nJOIN superpower sp ON s.id = sp.superhero_id\nWHERE g.gender = 'Male'\nLIMIT 5",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 8,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT sp.power_name\nFROM superhero su\nJOIN gender g ON su.gender_id = g.id\nJOIN hero_power hp ON su.id = hp.hero_id\nJOIN superpower sp ON hp.power_id = sp.id\nWHERE g.gender = 'Male'\nLIMIT 5",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "superhero.gender_id": "filter",
+   "gender.gender": "filter",
+   "superpower.id": "filter",
+   "superpower.power_name": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 12,
+   "beyond_gold": 6,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 829,
+  "db_id": "superhero",
+  "difficulty": "challenging",
+  "n_schema_columns": 31,
+  "gold_footprint": {
+   "publisher.publisher_name": "agg",
+   "superhero.publisher_id": "filter",
+   "publisher.id": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 31,
+    "n_raw": 31,
+    "beyond_gold": 31,
+    "admissible": true,
+    "agent_sql": "SELECT \n    SUM(CASE WHEN publisher.publisher_name = 'DC Comics' THEN 1 ELSE 0 END) - \n    SUM(CASE WHEN publisher.publisher_name = 'Marvel Comics' THEN 1 ELSE 0 END) AS difference\nFROM superhero\nJOIN publisher ON superhero.publisher_id = publisher.id",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 14,
+    "n_raw": 14,
+    "beyond_gold": 14,
+    "admissible": true,
+    "agent_sql": "SELECT \n    SUM(CASE WHEN publisher.publisher_name = 'DC Comics' THEN 1 ELSE 0 END) - \n    SUM(CASE WHEN publisher.publisher_name = 'Marvel Comics' THEN 1 ELSE 0 END) AS difference\nFROM publisher\nJOIN superhero ON publisher.id = superhero.publisher_id",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT \n    SUM(CASE WHEN publisher.publisher_name = 'DC Comics' THEN 1 ELSE 0 END) - \n    SUM(CASE WHEN publisher.publisher_name = 'Marvel Comics' THEN 1 ELSE 0 END) AS difference\nFROM superhero\nJOIN publisher ON superhero.publisher_id = publisher.publisher_id",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 11,
+    "n_raw": 1,
+    "beyond_gold": 8,
+    "admissible": false,
+    "agent_sql": "SELECT \n    SUM(CASE WHEN publisher.publisher_name = 'DC Comics' THEN 1 ELSE 0 END) - \n    SUM(CASE WHEN publisher.publisher_name = 'Marvel Comics' THEN 1 ELSE 0 END) AS difference\nFROM publisher\nJOIN superhero ON publisher.id = superhero.publisher_id",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 3,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    SUM(CASE WHEN publisher.publisher_name = 'DC Comics' THEN 1 ELSE 0 END) - \n    SUM(CASE WHEN publisher.publisher_name = 'Marvel Comics' THEN 1 ELSE 0 END) AS difference\nFROM publisher\nJOIN superhero ON publisher.id = superhero.publisher_id",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "superhero.publisher_id": "filter",
+   "publisher.publisher_name": "filter",
+   "superhero.superhero_name": "raw"
+  },
+  "escalation": {
+   "requested_columns": 1,
+   "n_columns": 11,
+   "beyond_gold": 8,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 1262,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "moderate",
+  "n_schema_columns": 64,
+  "gold_footprint": {
+   "examination.id": "filter",
+   "laboratory.id": "filter",
+   "laboratory.c3": "filter",
+   "examination.ana pattern": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 64,
+    "n_raw": 64,
+    "beyond_gold": 64,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(DISTINCT Examination.ID)\nFROM Examination\nWHERE Examination.ANA Pattern = 'P'\n  AND Examination.ANA > 35",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 57,
+    "n_raw": 57,
+    "beyond_gold": 57,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(DISTINCT Examination.ID)\nFROM Examination\nJOIN Laboratory ON Examination.ID = Laboratory.ID\nWHERE Laboratory.C3 > 35\n  AND Examination.\"ANA Pattern\" = 'P'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(*) \nFROM Examination \nJOIN Laboratory ON Examination.rowid = Laboratory.rowid \nWHERE Laboratory.C3 > 35 \n  AND Examination.\"ANA Pattern\" = 'P'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 6,
+    "n_raw": 1,
+    "beyond_gold": 3,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(DISTINCT Examination.ID)\nFROM Examination\nJOIN Laboratory ON Examination.ID = Laboratory.ID\nWHERE Laboratory.C3 > 35\n  AND Examination.\"ANA Pattern\" = 'P'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(DISTINCT Examination.ID)\nFROM Examination\nJOIN Laboratory ON Examination.ID = Laboratory.ID\nWHERE Laboratory.C3 > 35\n  AND Examination.\"ANA Pattern\" = 'P'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "examination.ana pattern": "raw",
+   "examination.kct": "filter",
+   "laboratory.c3": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 6,
+   "beyond_gold": 3,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 1286,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "simple",
+  "n_schema_columns": 64,
+  "gold_footprint": {
+   "patient.id": "filter",
+   "laboratory.id": "filter",
+   "laboratory.alp": "filter",
+   "patient.admission": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 64,
+    "n_raw": 64,
+    "beyond_gold": 64,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM Examination \nJOIN Patient ON Examination.ID = Patient.ID \nJOIN Laboratory ON Patient.ID = Laboratory.ID \nWHERE Laboratory.ALP >= 300 \n  AND Patient.Admission = '+'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 51,
+    "n_raw": 51,
+    "beyond_gold": 51,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM Patient \nJOIN Laboratory ON Patient.ID = Laboratory.ID \nWHERE Laboratory.ALP >= 300 \n  AND Patient.Admission = '+'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 0,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(*) \nFROM Laboratory \nJOIN Patient ON Laboratory.PatientID = Patient.PatientID \nWHERE Laboratory.ALP >= 300 \n  AND Patient.Admission = '+'",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 5,
+    "n_raw": 0,
+    "beyond_gold": 2,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM Patient, Laboratory \nWHERE Patient.ID = Laboratory.ID \n  AND Laboratory.ALP >= 300 \n  AND Patient.Admission = '+'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(*) \nFROM Patient \nJOIN Laboratory ON Patient.ID = Laboratory.ID \nWHERE Laboratory.ALP >= 300 \n  AND Patient.Admission = '+'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "laboratory.alp": "agg",
+   "patient.admission": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 5,
+   "beyond_gold": 2,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 1194,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "challenging",
+  "n_schema_columns": 64,
+  "gold_footprint": {
+   "patient.sex": "raw",
+   "patient.id": "filter",
+   "examination.id": "filter",
+   "laboratory.id": "filter",
+   "laboratory.ldh": "filter",
+   "laboratory.cre": "filter",
+   "examination.diagnosis": "filter",
+   "laboratory.crp": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 64,
+    "n_raw": 64,
+    "beyond_gold": 63,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT Patient.SEX\nFROM Examination\nJOIN Patient ON Examination.ID = Patient.ID\nJOIN Laboratory ON Patient.ID = Laboratory.ID\nWHERE Examination.Diagnosis = 'PSS'\n  AND Laboratory.CRP > 2\n  AND Laboratory.CRE = 1\n  AND Laboratory.LDH = 123",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 64,
+    "n_raw": 64,
+    "beyond_gold": 63,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT Patient.SEX\nFROM Examination\nJOIN Patient ON Examination.ID = Patient.ID\nJOIN Laboratory ON Patient.ID = Laboratory.ID\nWHERE Examination.Diagnosis = 'PSS'\n  AND Laboratory.CRP > 2\n  AND Laboratory.CRE = 1\n  AND Laboratory.LDH = 123",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 5,
+    "n_raw": 5,
+    "beyond_gold": 4,
+    "admissible": false,
+    "agent_sql": "SELECT Patient.SEX\nFROM Examination\nJOIN Patient ON Examination.PatientID = Patient.PatientID\nJOIN Laboratory ON Examination.PatientID = Laboratory.PatientID\nWHERE Examination.Diagnosis = 'PSS'\n  AND Laboratory.CRP >= '2+'\n  AND Laboratory.CRE = 1\n  AND Laboratory.LDH = 123",
+    "agent_valid": false,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 10,
+    "n_raw": 5,
+    "beyond_gold": 6,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT Patient.SEX\nFROM Examination\nJOIN Patient ON Examination.ID = Patient.ID\nJOIN Laboratory ON Patient.ID = Laboratory.ID\nWHERE Examination.Diagnosis = 'PSS'\n  AND Laboratory.CRP >= '2+'\n  AND Laboratory.CRE = 1.0\n  AND Laboratory.LDH = 123",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 8,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT Patient.SEX \nFROM Examination \nJOIN Patient ON Examination.ID = Patient.ID \nJOIN Laboratory ON Patient.ID = Laboratory.ID \nWHERE Examination.Diagnosis = 'PSS' \n  AND Laboratory.CRP >= '2+' \n  AND Laboratory.CRE = 1.0 \n  AND Laboratory.LDH = 123",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "examination.diagnosis": "raw",
+   "laboratory.crp": "raw",
+   "laboratory.cre": "raw",
+   "laboratory.ldh": "raw",
+   "patient.sex": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 10,
+   "beyond_gold": 6,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 1224,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "simple",
+  "n_schema_columns": 64,
+  "gold_footprint": {
+   "laboratory.t-bil": "raw",
+   "patient.id": "raw",
+   "patient.sex": "raw",
+   "patient.birthday": "raw",
+   "laboratory.id": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 64,
+    "n_raw": 64,
+    "beyond_gold": 60,
+    "admissible": true,
+    "agent_sql": "SELECT \n    Patient.ID AS Patient_ID, \n    Patient.SEX, \n    Patient.Birthday \nFROM \n    Laboratory \nJOIN \n    Patient \nON \n    Laboratory.ID = Patient.ID \nWHERE \n    Laboratory.\"T-BIL\" = (SELECT MAX(\"T-BIL\") FROM Laboratory)",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 51,
+    "n_raw": 51,
+    "beyond_gold": 47,
+    "admissible": true,
+    "agent_sql": "SELECT \n    Patient.ID, \n    Patient.SEX, \n    Patient.Birthday \nFROM \n    Patient \nJOIN \n    Laboratory \nON \n    Patient.ID = Laboratory.ID \nWHERE \n    Laboratory.\"T-BIL\" = (SELECT MAX(\"T-BIL\") FROM Laboratory)",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 5,
+    "n_raw": 4,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    Patient.ID, \n    Patient.SEX, \n    Patient.Birthday \nFROM \n    Patient \nJOIN \n    Laboratory \nON \n    Patient.ID = Laboratory.ID \nORDER BY \n    Laboratory.\"T-BIL\" DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 6,
+    "n_raw": 4,
+    "beyond_gold": 1,
+    "admissible": true,
+    "agent_sql": "SELECT \n    Patient.ID, \n    Patient.SEX, \n    Patient.Birthday \nFROM \n    Patient \nJOIN \n    Laboratory \nON \n    Patient.ID = Laboratory.ID \nORDER BY \n    Laboratory.\"T-BIL\" DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 4,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    Patient.ID, \n    Patient.SEX, \n    Patient.Birthday \nFROM \n    Patient \nJOIN \n    Laboratory \nON \n    Patient.ID = Laboratory.ID \nORDER BY \n    Laboratory.\"T-BIL\" DESC \nLIMIT 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "laboratory.t-bil": "raw",
+   "laboratory.id": "filter",
+   "patient.id": "raw",
+   "patient.sex": "raw",
+   "patient.birthday": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 6,
+   "beyond_gold": 1,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 1200,
+  "db_id": "thrombosis_prediction",
+  "difficulty": "moderate",
+  "n_schema_columns": 64,
+  "gold_footprint": {
+   "examination.id": "filter",
+   "examination.diagnosis": "agg",
+   "examination.symptoms": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 64,
+    "n_raw": 64,
+    "beyond_gold": 64,
+    "admissible": true,
+    "agent_sql": "SELECT \n    SUM(CASE WHEN Examination.Diagnosis LIKE '%ITP%' THEN 1 ELSE 0 END) * 100.0 / NULLIF(SUM(CASE WHEN Examination.Diagnosis LIKE '%SLE%' THEN 1 ELSE 0 END), 0) AS proportion\nFROM Examination\nWHERE Examination.Thrombosis >= 1",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 13,
+    "n_raw": 13,
+    "beyond_gold": 13,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(SUM(CASE WHEN Examination.Diagnosis LIKE '%ITP%' THEN 1 ELSE 0 END) AS REAL) * 100.0 / SUM(CASE WHEN Examination.Diagnosis LIKE '%SLE%' THEN 1 ELSE 0 END) AS proportion\nFROM Examination\nWHERE Examination.Symptoms LIKE '%thrombocytopenia%'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT \n    CAST(SUM(CASE WHEN Diagnosis LIKE '%SLE%' THEN 1 ELSE 0 END) AS FLOAT) * 100.0 / SUM(CASE WHEN Diagnosis LIKE '%ITP%' THEN 1 ELSE 0 END) AS proportion\nFROM Examination\nWHERE Thrombosis IN (1, 2, 3)",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": false,
+    "agent_sql": "SELECT \n    CAST(SUM(CASE WHEN Diagnosis LIKE '%ITP%' THEN 1 ELSE 0 END) AS FLOAT) * 100.0 / SUM(CASE WHEN Diagnosis LIKE '%SLE%' THEN 1 ELSE 0 END) AS proportion\nFROM Examination",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 3,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(SUM(CASE WHEN Examination.Diagnosis LIKE '%SLE%' THEN 1 ELSE 0 END) AS FLOAT) * 100.0 / \n    SUM(CASE WHEN Examination.Symptoms LIKE '%thrombocytopenia%' THEN 1 ELSE 0 END) AS proportion\nFROM Examination",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "examination.thrombosis": "filter",
+   "examination.diagnosis": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 3,
+   "beyond_gold": 2,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 240,
+  "db_id": "toxicology",
+  "difficulty": "challenging",
+  "n_schema_columns": 11,
+  "gold_footprint": {
+   "atom.element": "raw",
+   "atom.molecule_id": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 11,
+    "n_raw": 11,
+    "beyond_gold": 10,
+    "admissible": true,
+    "agent_sql": "SELECT atom.element\nFROM atom\nWHERE atom.molecule_id = 'TR004'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 3,
+    "n_raw": 3,
+    "beyond_gold": 2,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT atom.element \nFROM atom \nWHERE atom.molecule_id = 'TR004'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT atom.element \nFROM atom \nWHERE atom.molecule_id = 'TR004'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns+keys": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT atom.element \nFROM atom \nWHERE atom.molecule_id = 'TR004'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT atom.element \nFROM atom \nWHERE atom.molecule_id = 'TR004'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "atom.molecule_id": "filter",
+   "atom.element": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 3,
+   "beyond_gold": 1,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 328,
+  "db_id": "toxicology",
+  "difficulty": "challenging",
+  "n_schema_columns": 11,
+  "gold_footprint": {
+   "atom.element": "raw",
+   "atom.molecule_id": "filter",
+   "bond.molecule_id": "filter",
+   "bond.bond_type": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 11,
+    "n_raw": 11,
+    "beyond_gold": 10,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT atom.element\nFROM atom\nJOIN bond ON atom.atom_id = connected.atom_id AND bond.bond_id = connected.bond_id\nJOIN connected ON atom.atom_id = connected.atom_id\nWHERE bond.bond_type = '='\n  AND atom.molecule_id = 'TR024'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 6,
+    "n_raw": 6,
+    "beyond_gold": 5,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT atom.element\nFROM atom\nJOIN bond ON atom.molecule_id = bond.molecule_id AND atom.atom_id IN (SELECT SUBSTR(bond.bond_id, 3, 1) FROM bond WHERE bond.bond_type = '=' AND bond.molecule_id = 'TR024')\nWHERE bond.molecule_id = 'TR024' AND bond.bond_type = '='",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT atom.element\nFROM atom\nJOIN bond ON atom.molecule_id = bond.molecule_id\nWHERE atom.molecule_id = 'TR024'\n  AND bond.bond_type = '='",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns+keys": {
+    "n_columns": 6,
+    "n_raw": 1,
+    "beyond_gold": 2,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT atom.element\nFROM atom\nJOIN bond ON atom.molecule_id = bond.molecule_id AND atom.atom_id IN (SELECT atom_id FROM bond WHERE bond.bond_type = '=')\nWHERE atom.molecule_id = 'TR024'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 4,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT atom.element\nFROM atom\nJOIN bond ON atom.molecule_id = bond.molecule_id\nWHERE atom.molecule_id = 'TR024'\n  AND bond.bond_type = '='",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "atom.element": "raw",
+   "bond.bond_type": "filter",
+   "bond.molecule_id": "filter",
+   "atom.molecule_id": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 6,
+   "beyond_gold": 2,
+   "agent_correct": true
+  }
+ },
+ {
+  "question_id": 286,
+  "db_id": "toxicology",
+  "difficulty": "simple",
+  "n_schema_columns": 11,
+  "gold_footprint": {
+   "bond.bond_id": "filter",
+   "bond.bond_type": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 11,
+    "n_raw": 11,
+    "beyond_gold": 11,
+    "admissible": true,
+    "agent_sql": "SELECT \n    COUNT(CASE WHEN bond.bond_type = '#' THEN 1 END) * 100.0 / COUNT(*) AS percentage\nFROM molecule\nJOIN bond ON molecule.molecule_id = bond.molecule_id",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 5,
+    "n_raw": 5,
+    "beyond_gold": 5,
+    "admissible": true,
+    "agent_sql": "SELECT \n    COUNT(CASE WHEN b.bond_type = '#' THEN 1 END) * 100.0 / COUNT(*) AS percentage\nFROM bond b\nJOIN molecule m ON b.molecule_id = m.molecule_id",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 0,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT \n    COUNT(CASE WHEN bond.bond_type = '#' THEN 1 END) * 100.0 / COUNT(*) AS percentage\nFROM molecule\nLEFT JOIN bond ON molecule.molecule_id = bond.molecule_id",
+    "agent_valid": true,
+    "agent_allowed": false,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 4,
+    "n_raw": 0,
+    "beyond_gold": 2,
+    "admissible": true,
+    "agent_sql": "SELECT \n    COUNT(CASE WHEN b.bond_type = '#' THEN 1 END) * 100.0 / COUNT(*) AS percentage\nFROM bond b\nJOIN molecule m ON b.molecule_id = m.molecule_id",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 2,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT \n    CAST(COUNT(CASE WHEN bond_type = '#' THEN 1 END) AS FLOAT) * 100.0 / COUNT(*) AS percentage\nFROM bond",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "bond.bond_type": "filter",
+   "molecule.molecule_id": "filter"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 4,
+   "beyond_gold": 2,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 259,
+  "db_id": "toxicology",
+  "difficulty": "simple",
+  "n_schema_columns": 11,
+  "gold_footprint": {
+   "molecule.molecule_id": "filter",
+   "atom.element": "filter",
+   "atom.molecule_id": "filter",
+   "bond.molecule_id": "filter",
+   "bond.bond_type": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 11,
+    "n_raw": 11,
+    "beyond_gold": 11,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(DISTINCT atom.element) \nFROM atom \nJOIN bond ON atom.atom_id = connected.atom_id AND bond.bond_id = connected.bond_id \nJOIN connected ON atom.atom_id = connected.atom_id \nWHERE bond.bond_type = '-' \n  AND bond.molecule_id = atom.molecule_id",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "tables": {
+    "n_columns": 6,
+    "n_raw": 6,
+    "beyond_gold": 6,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(DISTINCT atom.element) \nFROM atom \nJOIN bond ON atom.molecule_id = bond.molecule_id \nWHERE bond.bond_type = '-'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(atom.element) \nFROM atom \nWHERE bond.bond_type = '-'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "columns+keys": {
+    "n_columns": 6,
+    "n_raw": 1,
+    "beyond_gold": 3,
+    "admissible": false,
+    "agent_sql": "SELECT COUNT(DISTINCT atom.element) \nFROM atom \nJOIN bond ON atom.molecule_id = bond.molecule_id \nWHERE bond.bond_type = '-'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   },
+   "gold": {
+    "n_columns": 5,
+    "n_raw": 0,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT COUNT(DISTINCT atom.element) \nFROM atom \nJOIN bond ON atom.molecule_id = bond.molecule_id \nWHERE bond.bond_type = '-' \n  AND molecule.molecule_id = atom.molecule_id",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": false
+   }
+  },
+  "capability": {
+   "bond.bond_type": "filter",
+   "atom.element": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 6,
+   "beyond_gold": 3,
+   "agent_correct": false
+  }
+ },
+ {
+  "question_id": 290,
+  "db_id": "toxicology",
+  "difficulty": "challenging",
+  "n_schema_columns": 11,
+  "gold_footprint": {
+   "atom.element": "raw",
+   "atom.molecule_id": "filter"
+  },
+  "grants": {
+   "full": {
+    "n_columns": 11,
+    "n_raw": 11,
+    "beyond_gold": 10,
+    "admissible": true,
+    "agent_sql": "SELECT DISTINCT atom.element\nFROM atom\nJOIN molecule ON atom.molecule_id = molecule.molecule_id\nWHERE molecule.molecule_id = 'TR151' \n  AND atom.element IN ('cl', 'c', 'h', 'o', 's', 'n', 'p', 'na', 'br', 'f', 'i', 'sn', 'pb', 'te', 'ca')",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "tables": {
+    "n_columns": 3,
+    "n_raw": 3,
+    "beyond_gold": 2,
+    "admissible": true,
+    "agent_sql": "SELECT element \nFROM atom \nWHERE molecule_id = 'TR151'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT element \nFROM atom \nWHERE molecule_id = 'TR151'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "columns+keys": {
+    "n_columns": 3,
+    "n_raw": 1,
+    "beyond_gold": 1,
+    "admissible": true,
+    "agent_sql": "SELECT element \nFROM atom \nWHERE molecule_id = 'TR151'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   },
+   "gold": {
+    "n_columns": 2,
+    "n_raw": 1,
+    "beyond_gold": 0,
+    "admissible": true,
+    "agent_sql": "SELECT element \nFROM atom \nWHERE molecule_id = 'TR151'",
+    "agent_valid": true,
+    "agent_allowed": true,
+    "agent_correct": true
+   }
+  },
+  "capability": {
+   "atom.molecule_id": "filter",
+   "atom.element": "raw"
+  },
+  "escalation": {
+   "requested_columns": 0,
+   "n_columns": 3,
+   "beyond_gold": 1,
+   "agent_correct": true
+  }
+ }
+]

@@ -95,3 +95,20 @@ def test_count_is_filter_and_projected_max_is_raw():
     q = analyze("SELECT COUNT(c_name), MAX(c_acctbal) FROM customer WHERE c_seg IN "
                 "(SELECT c_seg FROM customer GROUP BY c_seg HAVING MAX(c_acctbal) > 5)", policy())
     assert q.uses == {"customer.c_name": "filter", "customer.c_acctbal": "raw", "customer.c_seg": "filter"}
+
+
+def test_linear_audit_catches_three_query_differencing(run):
+    seq = ["SELECT SUM(c_acctbal) FROM customer WHERE c_custkey BETWEEN 1 AND 6",
+           "SELECT SUM(c_acctbal) FROM customer WHERE c_custkey BETWEEN 7 AND 12",
+           "SELECT SUM(c_acctbal) FROM customer WHERE c_custkey BETWEEN 2 AND 12"]
+    pairwise = PurposeMonitor(policy(min_isolation=2), "finance", executor=run)
+    assert not any(pairwise.check(q).refuse for q in seq)       # no nested pair differs by < 2
+    linear = PurposeMonitor(policy(min_isolation=2, linear_audit=True), "finance", executor=run)
+    assert [linear.check(q).refuse for q in seq] == [False, False, True]   # 1 = q1 + q2 - q3
+
+
+def test_strict_mode_refuses_predicates_on_protected_columns(run):
+    m = PurposeMonitor(policy(min_isolation=2, strict_protected=True), "finance", executor=run)
+    assert m.check("SELECT c_seg, AVG(c_acctbal) FROM customer GROUP BY c_seg").refuse is False
+    s = m.check("SELECT AVG(c_acctbal) FROM customer WHERE c_acctbal > 500")
+    assert s.refuse and "c_acctbal" in s.reasons[-1]
