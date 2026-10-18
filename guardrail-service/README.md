@@ -83,6 +83,9 @@ against a nominal 5%.
 - **No "intent drift" or other conversation-shape scores.** In our evaluation
   they tracked session length, not risk. The only state kept is the data
   exposure budget, a violation that is defined over a session.
+  `guardrail/purpose.py` is a research prototype of purpose-anchored SQL
+  signals (column footprint, differencing audit); it is not wired to an
+  endpoint yet. See `experiments/purpose_sql/`.
 - **It is not a substitute for database permissions.** Give the application
   a read-only database user; the SQL guard is the second line, not the first.
 - **The exposure ledger is in memory, per process.** Run one replica, or

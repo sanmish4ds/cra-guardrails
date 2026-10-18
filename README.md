@@ -20,8 +20,12 @@ accumulation in conversational AI systems.
 | `data/human_cra_transfer/` | Local-only CoSafe/ShareGPT-derived transfer corpus; excluded from Git distribution pending rights review |
 | `paper/figures/` | Figures used in the manuscript |
 | `integration/cra-telemetry.js` | Reference telemetry integration; not a production-ready enforcement layer |
+| `integration/cra-session-glue.js` | Server-side CRA hooks (per-turn recording, blocked turns counted as refusals, soft notices) extracted from SQLclMCP `sql-learn-server.js` |
+| `integration/nemo-guardrails/` | NVIDIA NeMo Guardrails sidecar from SQLclMCP: input/output rails, SQL firewall, PII/injection checks (see its README) |
+| `integration/guardrails-client.js` | Dependency-free JS port of the SQL firewall plus sidecar client |
 | `experiments/v2/` | Confound-controlled evaluation of stateful guardrails: corpus builders, guard/goal feature extraction, detectors, evaluation; run with `experiments/v2/pipeline.sh` (see `experiments/v2/PROTOCOL.md`) |
 | `experiments/results/v2/` | Aggregate metrics from that evaluation (no third-party conversation text) |
+| `experiments/purpose_sql/` | Purpose-anchored session signals for SQL agents (column-footprint drift, small-cell / differencing audit, entity breadth) on a synthetic TPC-H benchmark; see its README |
 | `guardrail-service/` | Pluggable HTTP guardrail service: text safety scores, SQL action guard, per-user data-exposure budgets (see its README) |
 
 ## What the benchmark does and does not show

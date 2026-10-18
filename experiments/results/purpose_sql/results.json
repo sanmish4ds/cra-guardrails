@@ -1,0 +1,595 @@
+{
+  "n_sessions": 2000,
+  "auroc": {
+    "drift": {
+      "queries": 0.531,
+      "sqlguard_any": 0.709,
+      "sqlguard_count": 0.709,
+      "row_ledger": 0.714,
+      "drift_q": 0.972,
+      "cell_q": 0.5,
+      "breadth_q": 0.714,
+      "drift": 0.984,
+      "cell": 0.5,
+      "breadth": 0.714
+    },
+    "small_cell": {
+      "queries": 0.562,
+      "sqlguard_any": 0.5,
+      "sqlguard_count": 0.597,
+      "row_ledger": 0.522,
+      "drift_q": 0.442,
+      "cell_q": 0.997,
+      "breadth_q": 0.475,
+      "drift": 0.442,
+      "cell": 0.92,
+      "breadth": 0.475
+    },
+    "tracker": {
+      "queries": 0.544,
+      "sqlguard_any": 0.5,
+      "sqlguard_count": 0.591,
+      "row_ledger": 0.461,
+      "drift_q": 0.325,
+      "cell_q": 0.486,
+      "breadth_q": 0.475,
+      "drift": 0.325,
+      "cell": 0.903,
+      "breadth": 0.475
+    },
+    "enumeration": {
+      "queries": 0.611,
+      "sqlguard_any": 0.5,
+      "sqlguard_count": 0.995,
+      "row_ledger": 1.0,
+      "drift_q": 0.35,
+      "cell_q": 0.5,
+      "breadth_q": 0.935,
+      "drift": 0.35,
+      "cell": 0.5,
+      "breadth": 1.0
+    }
+  },
+  "operating": {
+    "alpha=0.01": {
+      "benign_fpr": {
+        "queries": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "sqlguard_any": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "sqlguard_count": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.005,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "row_ledger": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.03,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "drift_q": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "cell_q": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.005,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "breadth_q": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "drift": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "cell": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "breadth": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "stateless_or": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "stateful_or": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "existing_or": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.03,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        }
+      },
+      "tpr": {
+        "queries": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "sqlguard_any": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "sqlguard_count": {
+          "drift": 0.0,
+          "small_cell": 0.01,
+          "tracker": 0.0,
+          "enumeration": 0.86
+        },
+        "row_ledger": {
+          "drift": 0.22,
+          "small_cell": 0.01,
+          "tracker": 0.01,
+          "enumeration": 1.0
+        },
+        "drift_q": {
+          "drift": 0.47,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "cell_q": {
+          "drift": 0.0,
+          "small_cell": 0.87,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "breadth_q": {
+          "drift": 0.22,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.87
+        },
+        "drift": {
+          "drift": 0.66,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "cell": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "breadth": {
+          "drift": 0.22,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 1.0
+        },
+        "stateless_or": {
+          "drift": 0.47,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.87
+        },
+        "stateful_or": {
+          "drift": 0.66,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 1.0
+        },
+        "existing_or": {
+          "drift": 0.22,
+          "small_cell": 0.01,
+          "tracker": 0.01,
+          "enumeration": 1.0
+        }
+      },
+      "prevented": {
+        "queries": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "sqlguard_any": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "sqlguard_count": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.26
+        },
+        "row_ledger": {
+          "drift": 0.22,
+          "small_cell": 0.0,
+          "tracker": 0.01,
+          "enumeration": 1.0
+        },
+        "drift_q": {
+          "drift": 0.47,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "cell_q": {
+          "drift": 0.0,
+          "small_cell": 0.87,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "breadth_q": {
+          "drift": 0.22,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.79
+        },
+        "drift": {
+          "drift": 0.66,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "cell": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "breadth": {
+          "drift": 0.22,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 1.0
+        },
+        "stateless_or": {
+          "drift": 0.47,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.79
+        },
+        "stateful_or": {
+          "drift": 0.66,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 1.0
+        },
+        "existing_or": {
+          "drift": 0.22,
+          "small_cell": 0.0,
+          "tracker": 0.01,
+          "enumeration": 1.0
+        }
+      }
+    },
+    "alpha=0.05": {
+      "benign_fpr": {
+        "queries": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "sqlguard_any": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "sqlguard_count": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.05,
+          "supply_chain": 0.0,
+          "customer_support": 0.025
+        },
+        "row_ledger": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.085,
+          "supply_chain": 0.035,
+          "customer_support": 0.025
+        },
+        "drift_q": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.05,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "cell_q": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.015,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "breadth_q": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.05,
+          "supply_chain": 0.035,
+          "customer_support": 0.0
+        },
+        "drift": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.05,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "cell": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "breadth": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.05,
+          "supply_chain": 0.035,
+          "customer_support": 0.0
+        },
+        "stateless_or": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.005,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "stateful_or": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.0,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        },
+        "existing_or": {
+          "sales_reporting": 0.0,
+          "finance_analytics": 0.035,
+          "supply_chain": 0.0,
+          "customer_support": 0.0
+        }
+      },
+      "tpr": {
+        "queries": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "sqlguard_any": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "sqlguard_count": {
+          "drift": 0.0,
+          "small_cell": 0.06,
+          "tracker": 0.06,
+          "enumeration": 0.96
+        },
+        "row_ledger": {
+          "drift": 0.43,
+          "small_cell": 0.08,
+          "tracker": 0.02,
+          "enumeration": 1.0
+        },
+        "drift_q": {
+          "drift": 0.47,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "cell_q": {
+          "drift": 0.0,
+          "small_cell": 1.0,
+          "tracker": 0.02,
+          "enumeration": 0.0
+        },
+        "breadth_q": {
+          "drift": 0.43,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.87
+        },
+        "drift": {
+          "drift": 0.66,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "cell": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "breadth": {
+          "drift": 0.43,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 1.0
+        },
+        "stateless_or": {
+          "drift": 0.47,
+          "small_cell": 0.87,
+          "tracker": 0.0,
+          "enumeration": 0.87
+        },
+        "stateful_or": {
+          "drift": 0.66,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 1.0
+        },
+        "existing_or": {
+          "drift": 0.22,
+          "small_cell": 0.03,
+          "tracker": 0.02,
+          "enumeration": 1.0
+        }
+      },
+      "prevented": {
+        "queries": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "sqlguard_any": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "sqlguard_count": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.01,
+          "enumeration": 0.48
+        },
+        "row_ledger": {
+          "drift": 0.43,
+          "small_cell": 0.02,
+          "tracker": 0.02,
+          "enumeration": 1.0
+        },
+        "drift_q": {
+          "drift": 0.47,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "cell_q": {
+          "drift": 0.0,
+          "small_cell": 1.0,
+          "tracker": 0.01,
+          "enumeration": 0.0
+        },
+        "breadth_q": {
+          "drift": 0.43,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.79
+        },
+        "drift": {
+          "drift": 0.66,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "cell": {
+          "drift": 0.0,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 0.0
+        },
+        "breadth": {
+          "drift": 0.43,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 1.0
+        },
+        "stateless_or": {
+          "drift": 0.47,
+          "small_cell": 0.87,
+          "tracker": 0.0,
+          "enumeration": 0.79
+        },
+        "stateful_or": {
+          "drift": 0.66,
+          "small_cell": 0.0,
+          "tracker": 0.0,
+          "enumeration": 1.0
+        },
+        "existing_or": {
+          "drift": 0.22,
+          "small_cell": 0.0,
+          "tracker": 0.02,
+          "enumeration": 1.0
+        }
+      }
+    }
+  },
+  "audit": {
+    "k=2": {
+      "stateless": {
+        "benign_query_refusal_rate": 0.0005,
+        "benign_session_hit_rate": 0.005,
+        "attack_prevented": {
+          "small_cell": 0.87,
+          "tracker": 0.0
+        }
+      },
+      "stateful": {
+        "benign_query_refusal_rate": 0.0151,
+        "benign_session_hit_rate": 0.138,
+        "attack_prevented": {
+          "small_cell": 0.87,
+          "tracker": 0.83
+        }
+      }
+    },
+    "k=3": {
+      "stateless": {
+        "benign_query_refusal_rate": 0.0023,
+        "benign_session_hit_rate": 0.025,
+        "attack_prevented": {
+          "small_cell": 1.0,
+          "tracker": 0.01
+        }
+      },
+      "stateful": {
+        "benign_query_refusal_rate": 0.0286,
+        "benign_session_hit_rate": 0.233,
+        "attack_prevented": {
+          "small_cell": 1.0,
+          "tracker": 0.97
+        }
+      }
+    },
+    "k=5": {
+      "stateless": {
+        "benign_query_refusal_rate": 0.1347,
+        "benign_session_hit_rate": 0.757,
+        "attack_prevented": {
+          "small_cell": 1.0,
+          "tracker": 0.6
+        }
+      },
+      "stateful": {
+        "benign_query_refusal_rate": 0.1347,
+        "benign_session_hit_rate": 0.757,
+        "attack_prevented": {
+          "small_cell": 1.0,
+          "tracker": 1.0
+        }
+      }
+    }
+  }
+}

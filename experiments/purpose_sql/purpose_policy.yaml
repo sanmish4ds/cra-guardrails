@@ -1,0 +1,108 @@
+# Purposes for the TPC-H purpose-SQL study. The schema is filled in from
+# tpch_db.SCHEMA at load time. Modes: filter < agg < raw (a higher mode
+# implies the lower ones). Columns not listed are outside the purpose.
+
+dialect: sqlite
+entities: {customer: c_custkey, supplier: s_suppkey}
+sensitivity:                     # default 0.1
+  customer.c_phone: 1.0
+  customer.c_address: 1.0
+  customer.c_acctbal: 0.8
+  customer.c_name: 0.3
+  supplier.s_phone: 1.0
+  supplier.s_address: 1.0
+  supplier.s_acctbal: 0.8
+protected_threshold: 0.5
+default_entity_budget: 25
+
+purposes:
+  sales_reporting:               # revenue and order dashboards
+    columns:
+      orders.o_orderdate: raw
+      orders.o_orderpriority: raw
+      orders.o_orderstatus: raw
+      orders.o_totalprice: agg
+      orders.o_orderkey: filter
+      orders.o_custkey: filter
+      lineitem.l_shipmode: raw
+      lineitem.l_shipdate: raw
+      lineitem.l_extendedprice: agg
+      lineitem.l_discount: agg
+      lineitem.l_quantity: agg
+      lineitem.l_orderkey: filter
+      lineitem.l_partkey: filter
+      customer.c_mktsegment: raw
+      customer.c_name: raw
+      customer.c_custkey: filter
+      customer.c_nationkey: filter
+      nation.n_name: raw
+      nation.n_nationkey: filter
+      nation.n_regionkey: filter
+      region.r_name: raw
+      region.r_regionkey: filter
+      part.p_type: raw
+      part.p_brand: raw
+      part.p_partkey: filter
+
+  finance_analytics:             # customer balance statistics, aggregates only
+    columns:
+      customer.c_acctbal: agg    # protected: aggregates only, small cells / differencing checked
+      customer.c_mktsegment: raw
+      customer.c_custkey: filter
+      customer.c_nationkey: filter
+      nation.n_name: raw
+      nation.n_nationkey: filter
+      nation.n_regionkey: filter
+      region.r_name: raw
+      region.r_regionkey: filter
+      orders.o_totalprice: agg
+      orders.o_orderdate: raw
+      orders.o_custkey: filter
+
+  customer_support:              # look up the customers you are helping
+    entity_budget: {customer: 5}
+    columns:
+      customer.c_custkey: raw
+      customer.c_name: raw
+      customer.c_phone: raw
+      customer.c_address: raw
+      customer.c_mktsegment: raw
+      customer.c_nationkey: filter
+      nation.n_name: raw
+      nation.n_nationkey: filter
+      orders.o_orderkey: raw
+      orders.o_custkey: raw
+      orders.o_orderstatus: raw
+      orders.o_totalprice: raw
+      orders.o_orderdate: raw
+      orders.o_orderpriority: raw
+      lineitem.l_orderkey: raw
+      lineitem.l_linenumber: raw
+      lineitem.l_quantity: raw
+      lineitem.l_extendedprice: raw
+      lineitem.l_shipmode: raw
+      lineitem.l_shipdate: raw
+
+  supply_chain:                  # parts availability and supplier performance
+    columns:
+      supplier.s_suppkey: raw
+      supplier.s_name: raw
+      supplier.s_nationkey: filter
+      nation.n_name: raw
+      nation.n_nationkey: filter
+      nation.n_regionkey: filter
+      region.r_name: raw
+      region.r_regionkey: filter
+      part.p_partkey: raw
+      part.p_name: raw
+      part.p_type: raw
+      part.p_brand: raw
+      partsupp.ps_partkey: filter
+      partsupp.ps_suppkey: filter
+      partsupp.ps_availqty: raw
+      partsupp.ps_supplycost: agg
+      lineitem.l_suppkey: filter
+      lineitem.l_partkey: filter
+      lineitem.l_quantity: agg
+      lineitem.l_extendedprice: agg
+      lineitem.l_shipdate: raw
