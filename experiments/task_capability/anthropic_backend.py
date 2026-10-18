@@ -30,3 +30,19 @@ async def complete(model: str, prompt: str, effort: str = "low") -> str:
     if response.stop_reason == "refusal":
         return ""
     return "".join(b.text for b in response.content if b.type == "text")
+
+
+async def complete_messages(model: str, messages: list[dict], effort: str = "low") -> tuple[str, bool]:
+    """Multi-turn call without refusal fallbacks (the attacker study must stay on one model).
+
+    Returns (text, refused). Consecutive same-role messages are allowed by the API.
+    """
+    response = await client().messages.create(
+        model=model,
+        max_tokens=16000,
+        output_config={"effort": effort},
+        messages=messages,
+    )
+    if response.stop_reason == "refusal":
+        return "", True
+    return "".join(b.text for b in response.content if b.type == "text"), False

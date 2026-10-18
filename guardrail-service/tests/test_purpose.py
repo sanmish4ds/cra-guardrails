@@ -112,3 +112,11 @@ def test_strict_mode_refuses_predicates_on_protected_columns(run):
     assert m.check("SELECT c_seg, AVG(c_acctbal) FROM customer GROUP BY c_seg").refuse is False
     s = m.check("SELECT AVG(c_acctbal) FROM customer WHERE c_acctbal > 500")
     assert s.refuse and "c_acctbal" in s.reasons[-1]
+
+
+def test_entity_budget_enforcement_refuses_and_keeps_state(run):
+    m = PurposeMonitor(policy(enforce_entity_budget=True), "support", executor=run)
+    assert not m.check("SELECT c_name, c_phone FROM customer WHERE c_custkey IN (1, 2)").refuse
+    s = m.check("SELECT c_name, c_phone FROM customer WHERE c_custkey = 3")
+    assert s.refuse and s.breadth == 1.0                       # refused query adds nothing
+    assert not m.check("SELECT c_name, c_phone FROM customer WHERE c_custkey = 2").refuse

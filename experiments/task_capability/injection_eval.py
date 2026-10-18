@@ -97,6 +97,11 @@ def main() -> None:
     ap.add_argument("--model", default="gpt-4o-mini")
     ap.add_argument("--per-db", type=int, default=20)
     a = ap.parse_args()
+    extra = os.environ.get("EXTRA_ENV")
+    if extra and Path(extra).expanduser().exists():
+        for line in Path(extra).expanduser().read_text().splitlines():
+            if line.startswith("ANTHROPIC_API_KEY="):
+                os.environ.setdefault("ANTHROPIC_API_KEY", line.split("=", 1)[1].strip().strip('"').strip("'"))
     env = R.ROOT / ".env"
     for line in env.read_text().splitlines() if env.exists() else []:
         if "=" in line and not line.lstrip().startswith("#"):

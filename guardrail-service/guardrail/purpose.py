@@ -70,6 +70,7 @@ class PurposePolicy(BaseModel):
     min_isolation: int | None = None   # audit mode: refuse a query whose aggregate isolates fewer entities
     linear_audit: bool = False         # also refuse a query that makes one entity's value exactly derivable
     max_linear_sets: int = 2000        # groups per query the linear audit will handle; more are refused
+    enforce_entity_budget: bool = False  # refuse a query that would exceed the purpose's entity budget
     strict_protected: bool = False     # refuse predicates on protected columns: audit decisions then
                                        # depend only on non-protected data (simulatable)
     purposes: dict[str, PurposeSpec]
@@ -314,10 +315,15 @@ class PurposeMonitor:
                                               p.dialect, grouped=False) or [set()])
                 budget = self.spec.entity_budget.get(table, p.default_entity_budget)
                 s.breadth_q = max(s.breadth_q, len(keys) / budget)
-                self.revealed[table] |= keys
-                if len(self.revealed[table]) > budget:
-                    s.reasons.append(f"{table}: sensitive columns returned for "
-                                     f"{len(self.revealed[table])} entities (budget {budget})")
+                seen = self.revealed[table] | keys
+                if p.enforce_entity_budget and len(seen) > budget:
+                    s.refuse = True
+                    s.reasons.append(f"refused: {table} sensitive columns would be returned for "
+                                     f"{len(seen)} entities (budget {budget})")
+                    continue                     # refused: nothing returned, keep state
+                self.revealed[table] = seen
+                if len(seen) > budget:
+                    s.reasons.append(f"{table}: sensitive columns returned for {len(seen)} entities (budget {budget})")
 
         return self._finish(s)
 

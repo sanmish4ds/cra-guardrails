@@ -63,6 +63,31 @@ Both clients fail **closed** by default: if the service is unreachable they
 return `block`. Pass `failOpen: true` / `fail_open=True` only for checks
 you can afford to skip.
 
+## MCP gateway (research prototype)
+
+`guardrail/mcp_gateway.py` is an MCP server that agents connect to instead of
+the database. Each connection is one session:
+
+1. `begin_session(purpose)` picks a purpose from a policy file (for example
+   `experiments/purpose_sql/purpose_policy.yaml`).
+2. `run_sql(sql)` checks every query against the purpose's column modes,
+   runs the session audit (small groups, nested pairs, linear derivation,
+   entity budget), and only then executes it.
+
+The gateway either runs SQL on Postgres itself through a read-only role
+(`GATEWAY_BACKEND=postgres`), or forwards it to a downstream database MCP
+server (`GATEWAY_BACKEND=mcp`, `DOWNSTREAM_CMD=...`).
+`guardrail/db_mcp_server.py` is a minimal stand-in for such a vendor server.
+
+```bash
+pip install -e '.[mcp]'
+GATEWAY_POLICY=../experiments/purpose_sql/purpose_policy.yaml \
+DB_DSN="host=localhost port=55432 user=gateway_ro dbname=tpch" \
+.venv/bin/python -m guardrail.mcp_gateway          # stdio MCP server
+```
+
+End-to-end evaluation at TPC-H scale factor 1: `experiments/mcp_e2e/`.
+
 ## Calibrate the thresholds
 
 The policy's `0.5` thresholds are placeholders. Collect conversations from
@@ -84,8 +109,8 @@ against a nominal 5%.
   they tracked session length, not risk. The only state kept is the data
   exposure budget, a violation that is defined over a session.
   `guardrail/purpose.py` is a research prototype of purpose-anchored SQL
-  signals (column footprint, differencing audit); it is not wired to an
-  endpoint yet. See `experiments/purpose_sql/`.
+  signals (column footprint, differencing audit). It is exposed through the
+  MCP gateway described above, not through the HTTP endpoints. See `experiments/purpose_sql/`.
 - **It is not a substitute for database permissions.** Give the application
   a read-only database user; the SQL guard is the second line, not the first.
 - **The exposure ledger is in memory, per process.** Run one replica, or

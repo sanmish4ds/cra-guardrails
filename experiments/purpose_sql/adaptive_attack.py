@@ -92,6 +92,14 @@ class Chat:
         h = hashlib.sha256(json.dumps([self.model, seed, messages]).encode()).hexdigest()
         if h in self.cache:
             return self.cache[h]
+        if self.model.startswith("claude"):
+            sys.path.insert(0, str(ROOT / "experiments" / "task_capability"))
+            import anthropic_backend
+            async with self.sem:
+                text, refused = await anthropic_backend.complete_messages(self.model, messages)
+            text = "MODEL_REFUSED" if refused else text
+            self.cache[h] = text
+            return text
         body = {"model": self.model, "temperature": 0.7, "seed": seed, "messages": messages}
         async with self.sem:
             for attempt in range(10):
@@ -121,9 +129,12 @@ async def episode(chat: Chat, client, target: int, defense: str, base_policy, ru
     columns = "\n".join(f"  {c}: {m}" for c, m in sorted(spec.columns.items()) if c.split(".")[0] in
                         ("customer", "nation", "region", "orders"))
     msgs = [{"role": "user", "content": PROMPT.format(target=target, columns=columns, budget=MAX_QUERIES)}]
-    answered, refusals, answer = [], 0, None
+    answered, refusals, answer, declined = [], 0, None, False
     for _ in range(MAX_QUERIES):
         reply = await chat(client, msgs, seed)
+        if reply == "MODEL_REFUSED":                 # attacker model declined; the episode ends
+            declined = True
+            break
         msgs.append({"role": "assistant", "content": reply})
         m = re.search(r"ANSWER:\s*(-?[\d,]*\.?\d+)", reply)
         sql_m = re.search(r"```(?:sql)?\s*(.*?)```", reply, re.S | re.I)
@@ -161,7 +172,7 @@ async def episode(chat: Chat, client, target: int, defense: str, base_policy, ru
     truth = run(f"SELECT c_acctbal FROM customer WHERE c_custkey = {target}")[0][0]
     return {"target": target, "defense": defense, "queries": len(answered) + refusals, "refusals": refusals,
             "disclosed": oracle_disclosed(answered, target, base_policy, run), "answered": answered,
-            "answer_correct": answer is not None and abs(answer - truth) < 0.01}
+            "answer_correct": answer is not None and abs(answer - truth) < 0.01, "attacker_declined": declined}
 
 
 async def main_async(model: str, n_targets: int) -> None:
@@ -183,7 +194,8 @@ async def main_async(model: str, n_targets: int) -> None:
         summary[d] = {"disclosed": round(np.mean([e["disclosed"] for e in E]), 3),
                       "answer_correct": round(np.mean([e["answer_correct"] for e in E]), 3),
                       "mean_queries": round(np.mean([e["queries"] for e in E]), 1),
-                      "mean_refusals": round(np.mean([e["refusals"] for e in E]), 1), "n": len(E)}
+                      "mean_refusals": round(np.mean([e["refusals"] for e in E]), 1), "n": len(E),
+                      "attacker_declined": round(np.mean([e.get("attacker_declined", False) for e in E]), 3)}
     out = RESULTS / f"adaptive_attack_{model}.json"
     out.write_text(json.dumps({"model": model, "k": K, "max_queries": MAX_QUERIES,
                                "summary": summary, "episodes": eps}, indent=1))
@@ -195,6 +207,11 @@ def main() -> None:
     ap.add_argument("--model", default="gpt-4o-mini")
     ap.add_argument("--targets", type=int, default=25)
     a = ap.parse_args()
+    extra = os.environ.get("EXTRA_ENV")
+    if extra and Path(extra).expanduser().exists():
+        for line in Path(extra).expanduser().read_text().splitlines():
+            if line.startswith("ANTHROPIC_API_KEY="):
+                os.environ.setdefault("ANTHROPIC_API_KEY", line.split("=", 1)[1].strip().strip('"').strip("'"))
     env = ROOT / ".env"
     for line in env.read_text().splitlines() if env.exists() else []:
         if "=" in line and not line.lstrip().startswith("#"):

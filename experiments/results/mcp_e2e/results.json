@@ -1,0 +1,80 @@
+{
+  "n_sessions": 260,
+  "n_queries": 2942,
+  "paths": {
+    "direct": {
+      "decision_parity_with_library": 1.0,
+      "errors": 0,
+      "check_ms": {
+        "median": 1.29,
+        "p95": 567.57
+      },
+      "execute_ms": {
+        "median": 11.05,
+        "p95": 168.91
+      },
+      "roundtrip_ms": {
+        "median": 22.34,
+        "p95": 580.0
+      },
+      "transport_overhead_ms": {
+        "median": 0.97,
+        "p95": 1.16
+      },
+      "check_over_execute": {
+        "median": 3.59,
+        "p95": 51.17
+      },
+      "attack_prevented": {
+        "drift": 1.0,
+        "small_cell": 1.0,
+        "tracker": 1.0,
+        "enumeration": 1.0,
+        "tracker3": 1.0
+      },
+      "benign_query_refusal": {
+        "sales_reporting": 0.0253,
+        "finance_analytics": 0.0312,
+        "supply_chain": 0.032,
+        "customer_support": 0.0377
+      }
+    },
+    "proxy": {
+      "decision_parity_with_library": 1.0,
+      "errors": 0,
+      "check_ms": {
+        "median": 1.6,
+        "p95": 738.12
+      },
+      "execute_ms": {
+        "median": 12.02,
+        "p95": 170.45
+      },
+      "roundtrip_ms": {
+        "median": 24.4,
+        "p95": 752.05
+      },
+      "transport_overhead_ms": {
+        "median": 0.89,
+        "p95": 1.16
+      },
+      "check_over_execute": {
+        "median": 1.06,
+        "p95": 58.38
+      },
+      "attack_prevented": {
+        "drift": 1.0,
+        "small_cell": 1.0,
+        "tracker": 1.0,
+        "enumeration": 1.0,
+        "tracker3": 1.0
+      },
+      "benign_query_refusal": {
+        "sales_reporting": 0.0253,
+        "finance_analytics": 0.0312,
+        "supply_chain": 0.032,
+        "customer_support": 0.0377
+      }
+    }
+  }
+}
