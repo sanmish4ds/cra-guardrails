@@ -120,3 +120,24 @@ def test_entity_budget_enforcement_refuses_and_keeps_state(run):
     s = m.check("SELECT c_name, c_phone FROM customer WHERE c_custkey = 3")
     assert s.refuse and s.breadth == 1.0                       # refused query adds nothing
     assert not m.check("SELECT c_name, c_phone FROM customer WHERE c_custkey = 2").refuse
+
+
+def test_fail_closed_refuses_protected_column_inside_cte_or_derived_table(run):
+    m = PurposeMonitor(policy(min_isolation=3, linear_audit=True), "finance", executor=run)
+    for sql in ["WITH t AS (SELECT c_acctbal AS b FROM customer WHERE c_custkey = 4) SELECT SUM(b) FROM t",
+                "SELECT SUM(b) FROM (SELECT c_acctbal AS b FROM customer WHERE c_custkey = 4) AS t",
+                "SELECT SUM(c_acctbal) FROM customer WHERE c_custkey < 5 UNION SELECT SUM(c_acctbal) FROM customer"]:
+        s = m.check(sql)
+        assert s.refuse and "cannot be audited" in s.reasons[-1], sql
+    assert not m.check("SELECT c_seg, COUNT(*) FROM (SELECT c_seg FROM customer) AS t GROUP BY c_seg").refuse
+
+
+def test_fail_closed_distinguishes_empty_result_from_failed_rewrite(run):
+    m = PurposeMonitor(policy(min_isolation=3, linear_audit=True), "finance", executor=run)
+    assert not m.check("SELECT AVG(c_acctbal) FROM customer WHERE c_custkey > 1000").refuse   # no entity matched
+
+    def broken(sql):
+        raise RuntimeError("rewrite failed")
+    m2 = PurposeMonitor(policy(min_isolation=3, linear_audit=True), "finance", executor=broken)
+    s = m2.check("SELECT AVG(c_acctbal) FROM customer WHERE c_seg = 'A'")
+    assert s.refuse and "could not be computed" in s.reasons[-1]

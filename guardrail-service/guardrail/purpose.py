@@ -71,6 +71,7 @@ class PurposePolicy(BaseModel):
     linear_audit: bool = False         # also refuse a query that makes one entity's value exactly derivable
     max_linear_sets: int = 2000        # groups per query the linear audit will handle; more are refused
     enforce_entity_budget: bool = False  # refuse a query that would exceed the purpose's entity budget
+    fail_closed: bool = True           # refuse guarded queries whose entity sets cannot be computed
     strict_protected: bool = False     # refuse predicates on protected columns: audit decisions then
                                        # depend only on non-protected data (simulatable)
     purposes: dict[str, PurposeSpec]
@@ -85,6 +86,7 @@ class QueryUses:
     aliases: dict[str, str]       # alias -> table
     tree: exp.Expression | None   # qualified tree, None if unparseable
     predicates: set = field(default_factory=set)   # columns used outside aggregates and the select list
+    opaque: bool = False          # CTE, derived table or set operation: entity sets cannot be audited
 
 
 @dataclass
@@ -144,7 +146,9 @@ def analyze(sql: str, policy: PurposePolicy) -> QueryUses:
     for c in tree.find_all(exp.Column):
         if id(c) not in projected:
             note(c, _mode(c, projected=False))
-    return QueryUses(uses, aliases, tree, predicates)
+    opaque = (any(True for _ in tree.find_all(exp.CTE, exp.Union, exp.Intersect, exp.Except))
+              or any(isinstance(sq.parent, (exp.From, exp.Join)) for sq in tree.find_all(exp.Subquery)))
+    return QueryUses(uses, aliases, tree, predicates, opaque)
 
 
 def violations(q: QueryUses, spec: PurposeSpec, policy: PurposePolicy) -> dict[str, float]:
@@ -158,9 +162,13 @@ def violations(q: QueryUses, spec: PurposeSpec, policy: PurposePolicy) -> dict[s
 
 def _key_sets(tree: exp.Expression, alias: str, key: str, executor: Executor, dialect: str,
               grouped: bool) -> list[frozenset]:
-    """Entity keys each output group (or the whole result) is computed from."""
+    """Entity keys each output group (or the whole result) is computed from.
+
+    Returns None when the sets cannot be computed (unsupported shape or a failed
+    rewrite), and [] when the query matches no entity.
+    """
     if not isinstance(tree, exp.Select):
-        return []
+        return None
     q = tree.copy()
     group = q.args.get("group")
     group_exprs = [g.copy() for g in group.expressions] if (grouped and group) else []
@@ -172,7 +180,7 @@ def _key_sets(tree: exp.Expression, alias: str, key: str, executor: Executor, di
     try:
         rows = executor(q.sql(dialect=dialect))
     except Exception:
-        return []
+        return None
     sets: dict[tuple, set] = defaultdict(set)
     for r in rows:
         sets[tuple(r[1:])].add(r[0])
@@ -263,16 +271,32 @@ class PurposeMonitor:
                 s.reasons.append("refused: predicate on protected column " + ", ".join(bad))
                 return self._finish(s)
 
+        if self.executor is not None and p.fail_closed:
+            guarded = self._protected_cols() | self._sensitive_cols()
+            touched = sorted(c for c in q.uses if c in guarded)
+            tables = [t for t in q.aliases.values()]
+            repeated = any(tables.count(c.split(".")[0]) > 1 for c in touched)
+            if touched and (q.tree is None or q.opaque or repeated):
+                s.refuse = True
+                s.reasons.append("refused: query shape cannot be audited (CTE, derived table, set operation "
+                                 "or repeated entity table) for " + ", ".join(touched))
+                return self._finish(s)
+
         if self.executor is not None and q.tree is not None:
             by_table = {t: a for a, t in q.aliases.items()}
             for col in self._protected_agg(q):
                 table = col.split(".")[0]
                 alias, key = by_table.get(table), p.entities[table]
-                if alias is None:
+                sets = None if alias is None else _key_sets(q.tree, alias, key, self.executor, p.dialect,
+                                                             grouped=True)
+                if sets is None:
+                    if p.fail_closed:
+                        s.refuse = True
+                        s.reasons.append(f"refused: entity sets for {col} could not be computed")
+                        return self._finish(s)
                     continue
-                sets = _key_sets(q.tree, alias, key, self.executor, p.dialect, grouped=True)
                 if not sets:
-                    continue
+                    continue                     # matches no entity: reveals nothing
                 isolated = min(len(x) for x in sets)
                 s.cell_q = max(s.cell_q, 1.0 / isolated)
                 prior = self.agg_sets[col]
@@ -309,10 +333,15 @@ class PurposeMonitor:
             for col in self._raw_sensitive(q):
                 table = col.split(".")[0]
                 alias = by_table.get(table)
-                if alias is None:
+                found = None if alias is None else _key_sets(q.tree, alias, p.entities[table], self.executor,
+                                                              p.dialect, grouped=False)
+                if found is None:
+                    if p.fail_closed:
+                        s.refuse = True
+                        s.reasons.append(f"refused: entities returned for {col} could not be computed")
+                        return self._finish(s)
                     continue
-                keys = set().union(*_key_sets(q.tree, alias, p.entities[table], self.executor,
-                                              p.dialect, grouped=False) or [set()])
+                keys = set().union(*found) if found else set()
                 budget = self.spec.entity_budget.get(table, p.default_entity_budget)
                 s.breadth_q = max(s.breadth_q, len(keys) / budget)
                 seen = self.revealed[table] | keys
@@ -331,6 +360,12 @@ class PurposeMonitor:
         p = self.policy
         return {c for c, m in self.spec.columns.items() if m == "agg" and p.weight(c) >= p.protected_threshold
                 and c.split(".")[0] in p.entities}
+
+    def _sensitive_cols(self) -> set[str]:
+        """Sensitive entity columns: their raw values count toward the entity budget."""
+        p = self.policy
+        return {c for t in p.entities for c in (f"{t}.{col.lower()}" for col in p.schema_.get(t, {}))
+                if p.weight(c) >= p.protected_threshold}
 
     def _finish(self, s: PurposeSignals) -> PurposeSignals:
         p = self.policy

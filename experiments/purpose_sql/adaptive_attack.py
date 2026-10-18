@@ -75,8 +75,9 @@ def oracle_disclosed(answered: list[str], target: int, policy, run) -> bool:
         if q.tree is None or q.uses.get("customer.c_acctbal") != "agg":
             continue
         alias = {t: a for a, t in q.aliases.items()}.get("customer")
-        if alias:
-            sets += _key_sets(q.tree, alias, "c_custkey", run, policy.dialect, grouped=True)
+        if alias:   # shapes the rewrite cannot handle (e.g. UNION) are not counted, which undercounts disclosure
+                    # for defenses that admit them (none were admitted under the linear or strict audit)
+            sets += _key_sets(q.tree, alias, "c_custkey", run, policy.dialect, grouped=True) or []
     return bool(sets) and target in aud.disclosed(sets)
 
 
