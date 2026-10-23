@@ -12,6 +12,7 @@
 #   actorattack  generate MT-ActorAttack, judge it twice, build the corpus, score and evaluate it
 #   granite      Granite Guardian 3 replication
 #   goal         goal-inference and sequential-monitor evidence, and its evaluation
+#   strong       Llama Guard 3 8B and a full-transcript 8B judge (Llama 3.1)
 #   diagnostics  onset visibility, shift-length check, turn location, Ollama version check
 #   all          every stage above, in order
 #
@@ -63,6 +64,21 @@ stage_goal() {
   py run_v2_eval.py --goal --corpora hh_rt bad prosocial actorattack --transfer
 }
 
+stage_strong() {
+  # Per corpus: Llama Guard 3 8B features, then the Llama 3.1 8B judge (seed-0 stratified subsamples).
+  local spec
+  for spec in actorattack:0 prosocial:1200 hh_rt:1500 bad:1000; do
+    local c=${spec%%:*} n=${spec##*:} sub=""
+    [ "$n" != 0 ] && sub="--max-sessions $n"
+    clear_ollama_log; py run_guard_features.py --model llama-guard3:8b --corpora "$c" $sub
+    unload llama-guard3:8b
+    clear_ollama_log; py run_llm_judge.py --corpora "$c" $sub
+    unload llama3.1:8b
+  done
+  py run_v2_eval.py --guard llamaguard8b --corpora actorattack prosocial hh_rt bad
+  py eval_strong_guard_judge.py
+}
+
 stage_diagnostics() {
   py run_onset_visibility.py
   py run_shift_length_check.py
@@ -70,9 +86,9 @@ stage_diagnostics() {
   py check_ollama_version.py
 }
 
-[ $# -gt 0 ] || { sed -n '2,19p' "$SELF"; exit 1; }
+[ $# -gt 0 ] || { sed -n '2,20p' "$SELF"; exit 1; }
 stages=("$@")
-[ "${stages[0]}" = all ] && stages=(corpora signals guard eval actorattack granite goal diagnostics)
+[ "${stages[0]}" = all ] && stages=(corpora signals guard eval actorattack granite goal strong diagnostics)
 for s in "${stages[@]}"; do
   declare -F "stage_$s" > /dev/null || { echo "unknown stage: $s" >&2; exit 1; }
   echo "[pipeline] $s"

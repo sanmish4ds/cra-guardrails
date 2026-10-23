@@ -60,6 +60,13 @@ attack chain.
   log-probabilities. Context view: earlier exchanges prepended as text to the
   final user message (the template reads only the last message or pair). HH
   uses a stratified seed-0 subsample of 3,000 sessions.
+- Larger readers (`pipeline.sh strong`): `llama-guard3:8b` (digest `46f211c3d866`,
+  Q4_K_M) in all three views, and `llama3.1:8b` (digest `46e0c10c039e`, Q4_K_M)
+  as a whole-transcript safety judge (`run_llm_judge.py`; P(Yes)/(P(Yes)+P(No))
+  at the first token), matched by the same judge on single exchanges. Ollama
+  0.40.8. Seed-0 stratified subsamples: ProsocialDialog 1,200, HH 1,500, BAD 902
+  (`--max-sessions 1000`: 500 positives, all 402 negatives); all MT-ActorAttack.
+  Results: `strong_guard_judge.json`, `llamaguard8b/`.
 - Ollama was auto-updated from 0.34.2 to 0.35.1 during the extension runs;
   `check_ollama_version.py` re-scores stored sessions for both guards
   (max |diff| 5.6e-4; `experiments/results/v2/ollama_version_check.json`).

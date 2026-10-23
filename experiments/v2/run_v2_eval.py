@@ -15,7 +15,7 @@ Experimental unit and uncertainty
     negatives, so thresholds are never set on sessions a model was fitted on.
 
 Output: <out>/<corpus>.json and transfer/shift files, where <out> is
-experiments/results/v2, its granite/ subfolder (--guard granite) or its goal/
+experiments/results/v2, a subfolder named after a non-default --guard, or its goal/
 subfolder (--goal).
 """
 from __future__ import annotations
@@ -41,8 +41,9 @@ N_BOOT = 2000
 FPR_TARGET = 0.05
 LABELED = ["hh_rt", "bad", "prosocial", "crabench"]
 GOAL_LABELED = ["hh_rt", "bad", "prosocial"]          # corpora with goal evidence
-KMAX = {"hh_rt": 6, "bad": 7, "prosocial": 3, "crabench": 8, "actorattack": 5}
-GUARD_TAGS = {"llamaguard": "", "granite": "_granite3guardian"}
+KMAX = {"hh_rt": 6, "bad": 7, "prosocial": 3, "crabench": 8, "actorattack": 5,
+        "hh_long": 15, "crabench_long": 12}
+GUARD_TAGS = {"llamaguard": "", "granite": "_granite3guardian", "llamaguard8b": "_llamaguard3"}
 
 # Paired contrasts reported for every corpus (stateful/variant - reference).
 PAIRS = [("CRA-Acc[L]", "Turn-LR"), ("CRA-Acc", "Guard-Context"), ("CRA-Acc", "Guard-Turn"),
@@ -50,7 +51,7 @@ PAIRS = [("CRA-Acc[L]", "Turn-LR"), ("CRA-Acc", "Guard-Context"), ("CRA-Acc", "G
          ("CRA-Acc[L+C]", "CRA-Acc[L]"), ("Guard-Context", "Guard-Turn"), ("CRA-Acc", "CRA-Net (prior)"),
          ("GRU-State", "Turn-LR"), ("CRA-Acc-GBM[L]", "Turn-GBM"), ("CRA-Acc (no t)", "Turn-LR"),
          ("CRA-Acc[C]", "CRA-Convex"), ("Turn-LR-NOR", "Turn-LR"), ("CRA-Acc-P[L]", "Turn-LR"),
-         ("CRA-Acc-P", "CRA-Acc")]
+         ("CRA-Acc-P", "CRA-Acc"), ("THRD", "Guard-Turn"), ("THRD", "Turn-LR"), ("CRA-Acc", "THRD")]
 GOAL_PAIRS = [("Goal-LR", "Turn-LR"), ("Goal-GBM", "Turn-GBM"), ("CRA-Acc[L+G]", "CRA-Acc[L]"),
               ("Goal-Resp", "Guard-Resp"), ("Goal-Turn", "Guard-Turn"), ("Seq-Monitor", "Guard-Turn"),
               ("Goal-LR", "Seq-Monitor"), ("Goal-LR", "Guard-Context"), ("Goal-LR", "GRU-State"),
@@ -59,7 +60,7 @@ GOAL_PAIRS = [("Goal-LR", "Turn-LR"), ("Goal-GBM", "Turn-GBM"), ("CRA-Acc[L+G]",
 SHIFT_DETECTORS = {"Turn-LR", "CRA-Acc", "CRA-Acc[L]", "CRA-Acc[C]", "CRA-Net (prior)", "GRU-State",
                    "Goal-LR", "CRA-Acc[L+G]"}
 TRANSFER_DETECTORS = SHIFT_DETECTORS - {"GRU-State"}
-ROC_DETECTORS = ["Length", "CRA-Convex", "Guard-Turn", "Guard-Resp", "Guard-Context", "Turn-LR",
+ROC_DETECTORS = ["Length", "CRA-Convex", "Guard-Turn", "Guard-Resp", "Guard-Context", "THRD", "Turn-LR",
                  "CRA-Net (prior)", "CRA-Acc"]
 
 
@@ -276,7 +277,7 @@ def evaluate_corpus(corpus: str, setup: Setup):
     }
     if corpus == "hh_rt":
         res["hh_extras"] = hh_extras(recs, session0)
-    if corpus == "crabench":
+    if corpus in ("crabench", "crabench_long"):
         res["lofo"] = crabench_lofo(recs, setup)
     setup.write(f"{corpus}.json", res)
     print(f"[{corpus}] wrote results ({time.time() - t0:.0f}s)")
@@ -425,7 +426,7 @@ def main():
     ap.add_argument("--goal", action="store_true", help="attach goal-inference evidence and its detectors")
     ap.add_argument("--out-dir", type=Path, default=None, help="override the results folder")
     args = ap.parse_args()
-    out = RESULTS / ("granite" if args.guard == "granite" else "") / ("goal" if args.goal else "")
+    out = RESULTS / ("" if args.guard == "llamaguard" else args.guard) / ("goal" if args.goal else "")
     setup = Setup(guard=args.guard, goal=args.goal, out=args.out_dir or out)
     for c in setup.labeled if args.corpora is None else args.corpora:
         evaluate_corpus(c, setup)

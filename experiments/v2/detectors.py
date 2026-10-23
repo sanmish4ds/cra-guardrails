@@ -63,12 +63,33 @@ def score_guard_ctx(rec: dict) -> np.ndarray:
     return np.array(rec["g_ctx"], dtype=float)
 
 
+def score_thrd(rec: dict) -> np.ndarray:
+    """THRD (Ma et al., 2026, arXiv:2606.01738): Temporal Hierarchical Risk
+    Detection combining turn-level risk R_t = 1 + 4 g_t^u in [1, 5],
+    historical context risk J_h = g_t^c, and response risk J_r = g_t^r via
+    F_t = R_t + (1 - (R_t - 1)/4) * sqrt(0.5 * J_h^2 + 0.5 * J_r^2) plus a
+    monotonic 3-turn escalation bonus delta = 0.25."""
+    gu = np.asarray(rec["g_user"], dtype=float)
+    gr = np.asarray(rec["g_resp"], dtype=float)
+    gc = np.asarray(rec["g_ctx"], dtype=float)
+    R = 1.0 + 4.0 * gu
+    lam = 1.0 - (R - 1.0) / 4.0
+    omega = np.sqrt(0.5 * gc ** 2 + 0.5 * gr ** 2)
+    F = R + lam * omega
+    F_adj = F.copy()
+    for t in range(2, len(F)):
+        if F[t - 2] <= F[t - 1] <= F[t]:
+            F_adj[t] += 0.25
+    return (F_adj - 1.0) / 4.25
+
+
 FIXED = {
     "Length": score_length,
     "CRA-Convex": score_convex,
     "Guard-Turn": score_guard_turn,
     "Guard-Resp": score_guard_resp,
     "Guard-Context": score_guard_ctx,
+    "THRD": score_thrd,
 }
 
 
