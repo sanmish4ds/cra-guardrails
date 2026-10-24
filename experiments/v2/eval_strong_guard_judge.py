@@ -4,8 +4,9 @@
 On the sessions scored by every reader, compares untrained session-level scores
 (maximum over exchanges for per-exchange readers):
 
-  LG1B-* / LG8B-*   Llama Guard 3 1B / 8B on the user turn (Turn), the exchange
+  LG1B-* / LG8B-*   Llama Guard 3 1B (Q8_0) / 8B (Q4_K_M) on the user turn (Turn), the exchange
                     (Resp), or the causal prefix (Context)
+  LG1BQ4-*          Llama Guard 3 1B at Q4_K_M, a quantization control (when scored)
   Judge-Exchange    the 8B judge on one exchange at a time, maximum over the session
   Judge-Full        the same judge on the whole transcript, once
 
@@ -47,6 +48,12 @@ def scores_for(corpus: str) -> tuple[dict, np.ndarray, np.ndarray] | None:
     for tag, g in (("LG1B", "g1"), ("LG8B", "g8")):
         for name, key in (("Turn", "g_user"), ("Resp", "g_resp"), ("Context", "g_ctx")):
             sc[f"{tag}-{name}"] = [max(d[g][i][key]) for i in ids]
+    q4 = DERIVED / f"guard_llamaguard3_1bq4km_{corpus}.jsonl"  # quantization control, if scored
+    if q4.exists():
+        g4 = index_jsonl(q4)
+        if all(i in g4 for i in ids):
+            for name, key in (("Turn", "g_user"), ("Resp", "g_resp"), ("Context", "g_ctx")):
+                sc[f"LG1BQ4-{name}"] = [max(g4[i][key]) for i in ids]
     sc["Judge-Exchange"] = [max(d["j"][i]["j_turn"]) for i in ids]
     sc["Judge-Full"] = [d["j"][i]["j_full"] for i in ids]
     y = np.array([d["s"][i]["label"] for i in ids])
@@ -62,7 +69,9 @@ def main() -> None:
             print(f"[{corpus}] not scored yet, skipped")
             continue
         sc, y, groups = got
-        ci, dci = boot_ci(y, sc, groups, PAIRS)
+        pairs = PAIRS + ([("LG1BQ4-Resp", "LG1B-Resp"), ("LG8B-Resp", "LG1BQ4-Resp")]
+                         if "LG1BQ4-Resp" in sc else [])
+        ci, dci = boot_ci(y, sc, groups, pairs)
         out[corpus] = {"n": int(len(y)), "n_pos": int(y.sum()), "n_groups": int(len(set(groups))),
                        "auroc": {k: auroc(y, v) for k, v in sc.items()}, "auroc_ci95": ci,
                        "paired_differences": dci}

@@ -75,6 +75,9 @@ stage_strong() {
     clear_ollama_log; py run_llm_judge.py --corpora "$c" $sub
     unload llama3.1:8b
   done
+  # Quantization control for the HH 1B-vs-8B gap: the 1B guard at the 8B guard's Q4_K_M.
+  clear_ollama_log; py run_guard_features.py --model llama-guard3:1b-q4_K_M --corpora hh_rt --max-sessions 1500
+  unload llama-guard3:1b-q4_K_M
   py run_v2_eval.py --guard llamaguard8b --corpora actorattack prosocial hh_rt bad
   py eval_strong_guard_judge.py
 }

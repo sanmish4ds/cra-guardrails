@@ -51,6 +51,8 @@ def main() -> None:
                     help="score a stratified random subset (seed 0) of this size")
     args = ap.parse_args()
     tag = "" if args.model == MODEL else "_" + args.model.split(":")[0].replace("-", "")
+    if "-q" in args.model.split(":")[-1]:  # explicit quantization tag, e.g. 1b-q4_K_M
+        tag += "_" + args.model.split(":")[-1].replace("-", "").replace("_", "").lower()
     for corpus in args.corpora:
         src = DERIVED / f"{corpus}.jsonl"
         dst = DERIVED / f"guard{tag}_{corpus}.jsonl"

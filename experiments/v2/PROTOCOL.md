@@ -67,6 +67,8 @@ attack chain.
   0.40.8. Seed-0 stratified subsamples: ProsocialDialog 1,200, HH 1,500, BAD 902
   (`--max-sessions 1000`: 500 positives, all 402 negatives); all MT-ActorAttack.
   Results: `strong_guard_judge.json`, `llamaguard8b/`.
+  Quantization control: `llama-guard3:1b-q4_K_M` (digest `f00008beff55`) on the
+  same 1,500 HH sessions (`guard_llamaguard3_1bq4km_hh_rt.jsonl`).
 - Ollama was auto-updated from 0.34.2 to 0.35.1 during the extension runs;
   `check_ollama_version.py` re-scores stored sessions for both guards
   (max |diff| 5.6e-4; `experiments/results/v2/ollama_version_check.json`).
