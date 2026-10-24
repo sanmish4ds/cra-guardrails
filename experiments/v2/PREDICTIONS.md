@@ -171,4 +171,15 @@ These do not affect any prediction. Each is fixed and recorded under
 
 ## Deviations
 
-(None yet.)
+**2026-10-24, before any full run (found in a 10-session test of
+`run_api_judge.py`; test outputs are kept separately under the `test` tag):**
+
+- The Anthropic API rejects `temperature` for Claude Sonnet 5.5, so R-FM runs
+  at the model's default sampling, not temperature 0, and its scores may vary
+  between runs.
+- R-FM writes a short explanation before its score, so its output limit is
+  300 tokens; a 32-token limit cut off 21 of 57 test calls before the score.
+- For R-FM and R-SG, the JSON score format is requested in the prompt and
+  parsed from the reply, not enforced by a schema; R-8B uses Ollama's schema
+  enforcement. A reply without a parseable score counts as missing, as
+  registered.
