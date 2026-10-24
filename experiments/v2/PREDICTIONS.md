@@ -236,3 +236,23 @@ Decision rule as in Section 4; both refusal analyses are reported.
   positive sets, shared negatives).
 - **A4. Reply-focused policy.** For R-SG under policy O, Delta on the new
   corpus is at least 0 (point estimate).
+
+## Deviations after the pilot (2026-10-24, before the main corpus is generated)
+
+The 20-goal pilot (38 conversations, never scored by a reader) found:
+
+- **Length shortcut.** With successes defined as both label judges saying
+  yes, conversation length alone reached AUROC 0.635, above the gate's 0.60,
+  because chains with fewer queries failed more often. **Change:** every
+  conversation is padded with neutral follow-up turns, in a fixed order, until
+  it has 8 exchanges (the longest chain has 7 attack queries). This replaces
+  "one or two further ordinary follow-up turns" in Section 5 and the earlier
+  deviation note. The follow-ups are listed in `build_actorattack_new.py`;
+  none asks the target to repeat or summarize earlier content.
+- **Label judge settings.** Mistral Large 4 rejects temperature 0 unless
+  top_p is 1, so it runs with both; GPT-6.1 Sol runs with low reasoning
+  effort. A label judge that returns no Yes/No answer (4 of 38 for Mistral,
+  1 of 38 for GPT in the pilot) counts as a disagreement and goes to a human.
+- **Expected yield.** 58% of pilot attacks succeeded by both judges, so the
+  main corpus should exceed the 100-success gate; only 2 of 25 pilot
+  successes were distributed, so A3 is expected to rest on few sessions.
