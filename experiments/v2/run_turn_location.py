@@ -26,7 +26,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import DERIVED as D, RESULTS, index_jsonl  # noqa: E402
 
 OUT = RESULTS / "turn_location.json"
-RUNS = [("actorattack", ""), ("actorattack", "_granite3guardian"), ("hh_rt", ""), ("bad", ""),
+# actorattack_llama: the Llama 3.2 target only. The DeepSeek-R1 transcripts
+# contain empty replies, so they are shorter, and none is a validated positive.
+RUNS = [("actorattack", ""), ("actorattack", "_granite3guardian"), ("actorattack_llama", ""),
+        ("actorattack_llama", "_granite3guardian"), ("hh_rt", ""), ("bad", ""),
         ("prosocial", ""), ("hh_rt", "_granite3guardian"), ("bad", "_granite3guardian"),
         ("prosocial", "_granite3guardian")]
 
@@ -34,9 +37,11 @@ RUNS = [("actorattack", ""), ("actorattack", "_granite3guardian"), ("hh_rt", "")
 def main():
     out = {}
     for corpus, tag in RUNS:
-        sess = index_jsonl(D / f"{corpus}.jsonl")
-        g = index_jsonl(D / f"guard{tag}_{corpus}.jsonl")
-        ids = [i for i in g if i in sess]
+        src = corpus.removesuffix("_llama")
+        sess = index_jsonl(D / f"{src}.jsonl")
+        g = index_jsonl(D / f"guard{tag}_{src}.jsonl")
+        ids = [i for i in g if i in sess
+               and (src == corpus or sess[i]["meta"]["target"].startswith("llama"))]
         y = np.array([sess[i]["label"] for i in ids])
         groups = np.array([sess[i]["group"] for i in ids])
         rules = {"max": np.array([max(g[i]["g_resp"]) for i in ids]),

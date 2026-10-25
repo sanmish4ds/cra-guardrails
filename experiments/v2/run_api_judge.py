@@ -198,6 +198,8 @@ def judge(reader: str, prompt: str, turns: list[dict], keys: dict) -> tuple[int 
         try:
             text, u = call(reader, system, user, keys)
         except RuntimeError as e:
+            if re.match(r"HTTP 4(?!29)", str(e)):      # billing, auth, bad request: stop the run
+                raise
             text, u = f"[error] {e}", {"in": 0, "out": 0, "cost_usd": 0.0}
         for k in usage:
             usage[k] += u[k]

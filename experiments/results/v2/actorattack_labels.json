@@ -1,21 +1,106 @@
 {
- "n_raw": 610,
- "n_labeled": 610,
- "n_dropped_unparsed": 0,
- "by_target": {
-  "deepseek-r1:1.5b": {
-   "n": 200,
-   "attack_success_rate": 0.07
+  "n_raw": 610,
+  "n_labeled": 610,
+  "n_dropped_unparsed": 0,
+  "by_target": {
+    "deepseek-r1:1.5b": {
+      "n": 200,
+      "n_pos": 0,
+      "attack_success_rate": 0.0
+    },
+    "llama3.2:latest": {
+      "n": 410,
+      "n_pos": 27,
+      "attack_success_rate": 0.06585365853658537
+    }
   },
-  "llama3.2:latest": {
-   "n": 410,
-   "attack_success_rate": 0.1048780487804878
+  "by_target_gemma4_unvalidated": {
+    "deepseek-r1:1.5b": {
+      "n": 200,
+      "n_pos": 14,
+      "attack_success_rate": 0.07
+    },
+    "llama3.2:latest": {
+      "n": 410,
+      "n_pos": 43,
+      "attack_success_rate": 0.1048780487804878
+    }
+  },
+  "by_target_mistral_unvalidated": {
+    "deepseek-r1:1.5b": {
+      "n": 200,
+      "n_pos": 6,
+      "attack_success_rate": 0.03
+    },
+    "llama3.2:latest": {
+      "n": 410,
+      "n_pos": 21,
+      "attack_success_rate": 0.05121951219512195
+    }
+  },
+  "unvalidated_gemma4_vs_mistral_agreement": {
+    "n": 610,
+    "raw_agreement": 0.8819672131147541,
+    "cohen_kappa": 0.08807773763548021
+  },
+  "human_validation_150_audit": {
+    "n_total_corpus": 610,
+    "n_human_audited": 150,
+    "n_union_positives_audited": 78,
+    "n_agreed_negatives_audited": 72,
+    "n_human_positives": 27,
+    "judges_vs_human_audit_150": {
+      "gemma4:e4b": {
+        "n": 150,
+        "n_pos_true": 27,
+        "n_pos_pred": 57,
+        "raw_agreement": 0.7733333333333333,
+        "cohen_kappa": 0.46439823566477634,
+        "precision": 0.43859649122807015,
+        "recall": 0.9259259259259259,
+        "f1": 0.5952380952380952,
+        "auroc": 0.8157181571815718
+      },
+      "mistral:7b": {
+        "n": 150,
+        "n_pos_true": 27,
+        "n_pos_pred": 27,
+        "raw_agreement": 0.7066666666666667,
+        "cohen_kappa": 0.006323396567299078,
+        "precision": 0.18518518518518517,
+        "recall": 0.18518518518518517,
+        "f1": 0.18518518518518517,
+        "auroc": 0.5398976211984342
+      },
+      "Qwen3Guard-Gen-0.6B": {
+        "n": 150,
+        "n_pos_true": 27,
+        "n_pos_pred": 66,
+        "raw_agreement": 0.62,
+        "cohen_kappa": 0.1767764298093587,
+        "precision": 0.2727272727272727,
+        "recall": 0.6666666666666666,
+        "f1": 0.3870967741935484,
+        "auroc": 0.7163504968383017
+      },
+      "HV-Judge (5-fold OOF CV)": {
+        "n": 150,
+        "n_pos_true": 27,
+        "n_pos_pred": 40,
+        "raw_agreement": 0.8866666666666667,
+        "cohen_kappa": 0.6768060836501901,
+        "precision": 0.625,
+        "recall": 0.9259259259259259,
+        "f1": 0.746268656716418,
+        "auroc": 0.9439927732610659
+      }
+    },
+    "failure_mode_breakdown_of_78_union_positives": {
+      "true_positive_harmbench_compliance": 26,
+      "historical_or_fictional_summary_without_actionable_steps": 28,
+      "defensive_or_benign_pivot": 14,
+      "explicit_refusal": 1,
+      "empty_or_truncated_reply": 9
+    }
   }
- },
- "agreement": {
-  "secondary_judge": "mistral",
-  "n": 610,
-  "raw_agreement": 0.8819672131147541,
-  "cohen_kappa": 0.08807773763547953
- }
 }
