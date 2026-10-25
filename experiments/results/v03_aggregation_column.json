@@ -1,0 +1,16 @@
+{
+  "v03_bench": "data/cra_bench_v03_5fam/sessions.jsonl",
+  "source": "cra_extended_protocol_v03_5fam.json standard_split per_family_test_auroc",
+  "keyword_s3": {
+    "s3_mode": "keyword",
+    "convex_aggregation": 1.0,
+    "cranet_aggregation": 1.0,
+    "convex_overall": 0.576,
+    "cranet_overall": 0.9725
+  },
+  "v02_reference": {
+    "convex_aggregation": 0.4168,
+    "cranet_aggregation": 0.971,
+    "source": "cra_extended_protocol_v0_2_5fam_final.json"
+  }
+}

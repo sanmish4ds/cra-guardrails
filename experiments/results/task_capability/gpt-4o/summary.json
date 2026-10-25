@@ -1,0 +1,137 @@
+{
+  "n_tasks": 220,
+  "grants": {
+    "full": {
+      "admissible": 0.995,
+      "agent_ex": 0.564,
+      "agent_refused": 0.005,
+      "agent_invalid": 0.0,
+      "mean_columns": 72.5,
+      "mean_raw": 72.5,
+      "mean_beyond_gold": 71.6,
+      "share_of_schema": 1.0
+    },
+    "tables": {
+      "admissible": 0.85,
+      "agent_ex": 0.559,
+      "agent_refused": 0.0,
+      "agent_invalid": 0.005,
+      "mean_columns": 27.8,
+      "mean_raw": 27.8,
+      "mean_beyond_gold": 26.9,
+      "share_of_schema": 0.408
+    },
+    "columns": {
+      "admissible": 0.518,
+      "agent_ex": 0.468,
+      "agent_refused": 0.159,
+      "agent_invalid": 0.032,
+      "mean_columns": 4.4,
+      "mean_raw": 0.9,
+      "mean_beyond_gold": 0.7,
+      "share_of_schema": 0.108
+    },
+    "columns+keys": {
+      "admissible": 0.655,
+      "agent_ex": 0.505,
+      "agent_refused": 0.1,
+      "agent_invalid": 0.005,
+      "mean_columns": 7.3,
+      "mean_raw": 0.9,
+      "mean_beyond_gold": 3.5,
+      "share_of_schema": 0.166
+    },
+    "gold": {
+      "admissible": 1.0,
+      "agent_ex": 0.586,
+      "agent_refused": 0.127,
+      "agent_invalid": 0.005,
+      "mean_columns": 4.6,
+      "mean_raw": 0.9,
+      "mean_beyond_gold": 0.0,
+      "share_of_schema": 0.111
+    }
+  },
+  "columns+keys+escalation": {
+    "agent_ex": 0.55,
+    "tasks_escalating": 0.1,
+    "mean_requested": 0.12,
+    "mean_columns": 7.3,
+    "mean_beyond_gold": 3.5
+  },
+  "by_difficulty": {
+    "challenging": {
+      "full": {
+        "admissible": 0.963,
+        "agent_ex": 0.481
+      },
+      "tables": {
+        "admissible": 0.852,
+        "agent_ex": 0.519
+      },
+      "columns": {
+        "admissible": 0.333,
+        "agent_ex": 0.333
+      },
+      "columns+keys": {
+        "admissible": 0.519,
+        "agent_ex": 0.407
+      },
+      "gold": {
+        "admissible": 1.0,
+        "agent_ex": 0.481
+      },
+      "n": 27
+    },
+    "moderate": {
+      "full": {
+        "admissible": 1.0,
+        "agent_ex": 0.466
+      },
+      "tables": {
+        "admissible": 0.89,
+        "agent_ex": 0.452
+      },
+      "columns": {
+        "admissible": 0.521,
+        "agent_ex": 0.384
+      },
+      "columns+keys": {
+        "admissible": 0.63,
+        "agent_ex": 0.425
+      },
+      "gold": {
+        "admissible": 1.0,
+        "agent_ex": 0.521
+      },
+      "n": 73
+    },
+    "simple": {
+      "full": {
+        "admissible": 1.0,
+        "agent_ex": 0.642
+      },
+      "tables": {
+        "admissible": 0.825,
+        "agent_ex": 0.633
+      },
+      "columns": {
+        "admissible": 0.558,
+        "agent_ex": 0.55
+      },
+      "columns+keys": {
+        "admissible": 0.7,
+        "agent_ex": 0.575
+      },
+      "gold": {
+        "admissible": 1.0,
+        "agent_ex": 0.65
+      },
+      "n": 120
+    }
+  },
+  "model": "gpt-4o",
+  "seed": 13,
+  "per_db": 20,
+  "llm_calls": 1101
+}

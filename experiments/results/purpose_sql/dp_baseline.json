@@ -1,0 +1,20 @@
+{
+  "eps=1": {
+    "benign_median_rel_error": 0.877,
+    "benign_within_5pct": 0.081,
+    "n_benign_answers": 83858,
+    "tracker_estimate_within_10pct": 0.001
+  },
+  "eps=10": {
+    "benign_median_rel_error": 0.088,
+    "benign_within_5pct": 0.37,
+    "n_benign_answers": 83858,
+    "tracker_estimate_within_10pct": 0.022
+  },
+  "eps=100": {
+    "benign_median_rel_error": 0.009,
+    "benign_within_5pct": 0.916,
+    "n_benign_answers": 83858,
+    "tracker_estimate_within_10pct": 0.187
+  }
+}

@@ -1,0 +1,78 @@
+{
+ "guard": "llamaguard",
+ "llama": {
+  "n": 410,
+  "n_pos": 27,
+  "detectors": {
+   "CRA-Acc[L]": {
+    "auroc_online_max": 0.7011894400928343,
+    "auroc_final": 0.7003191180736872,
+    "argmax_exchange_counts": {
+     "4": 10,
+     "5": 400
+    }
+   },
+   "CRA-Acc[L] (no t)": {
+    "auroc_online_max": 0.4959868484672662,
+    "auroc_final": 0.6969345324436708,
+    "argmax_exchange_counts": {
+     "1": 135,
+     "2": 99,
+     "3": 64,
+     "4": 49,
+     "5": 63
+    }
+   },
+   "Turn-LR": {
+    "auroc_online_max": 0.4896044869935209,
+    "auroc_final": 0.6193791702930084,
+    "argmax_exchange_counts": {
+     "1": 58,
+     "2": 122,
+     "3": 92,
+     "4": 65,
+     "5": 73
+    }
+   }
+  }
+ },
+ "len5_llama": {
+  "n": 408,
+  "n_pos": 27,
+  "detectors": {
+   "CRA-Acc[L]": {
+    "auroc_online_max": 0.5207543501506756,
+    "auroc_final": 0.7021483425682901,
+    "argmax_exchange_counts": {
+     "1": 136,
+     "2": 98,
+     "3": 65,
+     "4": 45,
+     "5": 64
+    }
+   },
+   "CRA-Acc[L] (no t)": {
+    "auroc_online_max": 0.5207543501506756,
+    "auroc_final": 0.7021483425682901,
+    "argmax_exchange_counts": {
+     "1": 136,
+     "2": 98,
+     "3": 65,
+     "4": 45,
+     "5": 64
+    }
+   },
+   "Turn-LR": {
+    "auroc_online_max": 0.4892582871585496,
+    "auroc_final": 0.6276854282103627,
+    "argmax_exchange_counts": {
+     "1": 64,
+     "2": 122,
+     "3": 91,
+     "4": 65,
+     "5": 66
+    }
+   }
+  }
+ }
+}

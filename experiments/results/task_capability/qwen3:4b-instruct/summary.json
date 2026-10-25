@@ -1,0 +1,137 @@
+{
+  "n_tasks": 55,
+  "grants": {
+    "full": {
+      "admissible": 1.0,
+      "agent_ex": 0.364,
+      "agent_refused": 0.0,
+      "agent_invalid": 0.182,
+      "mean_columns": 72.5,
+      "mean_raw": 72.5,
+      "mean_beyond_gold": 71.7,
+      "share_of_schema": 1.0
+    },
+    "tables": {
+      "admissible": 0.8,
+      "agent_ex": 0.418,
+      "agent_refused": 0.0,
+      "agent_invalid": 0.091,
+      "mean_columns": 31.9,
+      "mean_raw": 31.9,
+      "mean_beyond_gold": 31.0,
+      "share_of_schema": 0.448
+    },
+    "columns": {
+      "admissible": 0.2,
+      "agent_ex": 0.127,
+      "agent_refused": 0.218,
+      "agent_invalid": 0.309,
+      "mean_columns": 3.8,
+      "mean_raw": 1.3,
+      "mean_beyond_gold": 1.5,
+      "share_of_schema": 0.084
+    },
+    "columns+keys": {
+      "admissible": 0.527,
+      "agent_ex": 0.345,
+      "agent_refused": 0.109,
+      "agent_invalid": 0.073,
+      "mean_columns": 7.9,
+      "mean_raw": 1.3,
+      "mean_beyond_gold": 4.5,
+      "share_of_schema": 0.166
+    },
+    "gold": {
+      "admissible": 1.0,
+      "agent_ex": 0.636,
+      "agent_refused": 0.073,
+      "agent_invalid": 0.036,
+      "mean_columns": 4.7,
+      "mean_raw": 0.9,
+      "mean_beyond_gold": 0.0,
+      "share_of_schema": 0.099
+    }
+  },
+  "columns+keys+escalation": {
+    "agent_ex": 0.4,
+    "tasks_escalating": 0.109,
+    "mean_requested": 0.18,
+    "mean_columns": 8.0,
+    "mean_beyond_gold": 4.5
+  },
+  "by_difficulty": {
+    "challenging": {
+      "full": {
+        "admissible": 1.0,
+        "agent_ex": 0.444
+      },
+      "tables": {
+        "admissible": 0.778,
+        "agent_ex": 0.444
+      },
+      "columns": {
+        "admissible": 0.333,
+        "agent_ex": 0.333
+      },
+      "columns+keys": {
+        "admissible": 0.556,
+        "agent_ex": 0.444
+      },
+      "gold": {
+        "admissible": 1.0,
+        "agent_ex": 0.778
+      },
+      "n": 9
+    },
+    "moderate": {
+      "full": {
+        "admissible": 1.0,
+        "agent_ex": 0.267
+      },
+      "tables": {
+        "admissible": 0.733,
+        "agent_ex": 0.333
+      },
+      "columns": {
+        "admissible": 0.067,
+        "agent_ex": 0.067
+      },
+      "columns+keys": {
+        "admissible": 0.4,
+        "agent_ex": 0.267
+      },
+      "gold": {
+        "admissible": 1.0,
+        "agent_ex": 0.533
+      },
+      "n": 15
+    },
+    "simple": {
+      "full": {
+        "admissible": 1.0,
+        "agent_ex": 0.387
+      },
+      "tables": {
+        "admissible": 0.839,
+        "agent_ex": 0.452
+      },
+      "columns": {
+        "admissible": 0.226,
+        "agent_ex": 0.097
+      },
+      "columns+keys": {
+        "admissible": 0.581,
+        "agent_ex": 0.355
+      },
+      "gold": {
+        "admissible": 1.0,
+        "agent_ex": 0.645
+      },
+      "n": 31
+    }
+  },
+  "model": "qwen3:4b-instruct",
+  "seed": 13,
+  "per_db": 5,
+  "llm_calls": 324
+}

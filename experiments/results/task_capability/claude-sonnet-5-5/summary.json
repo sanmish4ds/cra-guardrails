@@ -1,0 +1,137 @@
+{
+  "n_tasks": 220,
+  "grants": {
+    "full": {
+      "admissible": 0.995,
+      "agent_ex": 0.664,
+      "agent_refused": 0.005,
+      "agent_invalid": 0.014,
+      "mean_columns": 72.5,
+      "mean_raw": 72.5,
+      "mean_beyond_gold": 71.6,
+      "share_of_schema": 1.0
+    },
+    "tables": {
+      "admissible": 0.873,
+      "agent_ex": 0.686,
+      "agent_refused": 0.0,
+      "agent_invalid": 0.018,
+      "mean_columns": 28.0,
+      "mean_raw": 28.0,
+      "mean_beyond_gold": 27.1,
+      "share_of_schema": 0.403
+    },
+    "columns": {
+      "admissible": 0.6,
+      "agent_ex": 0.655,
+      "agent_refused": 0.032,
+      "agent_invalid": 0.041,
+      "mean_columns": 4.4,
+      "mean_raw": 0.9,
+      "mean_beyond_gold": 0.3,
+      "share_of_schema": 0.107
+    },
+    "columns+keys": {
+      "admissible": 0.7,
+      "agent_ex": 0.641,
+      "agent_refused": 0.055,
+      "agent_invalid": 0.027,
+      "mean_columns": 7.3,
+      "mean_raw": 0.9,
+      "mean_beyond_gold": 3.1,
+      "share_of_schema": 0.16
+    },
+    "gold": {
+      "admissible": 1.0,
+      "agent_ex": 0.75,
+      "agent_refused": 0.009,
+      "agent_invalid": 0.045,
+      "mean_columns": 4.6,
+      "mean_raw": 0.9,
+      "mean_beyond_gold": 0.0,
+      "share_of_schema": 0.111
+    }
+  },
+  "columns+keys+escalation": {
+    "agent_ex": 0.668,
+    "tasks_escalating": 0.055,
+    "mean_requested": 0.1,
+    "mean_columns": 7.4,
+    "mean_beyond_gold": 3.2
+  },
+  "by_difficulty": {
+    "challenging": {
+      "full": {
+        "admissible": 0.963,
+        "agent_ex": 0.593
+      },
+      "tables": {
+        "admissible": 0.852,
+        "agent_ex": 0.63
+      },
+      "columns": {
+        "admissible": 0.37,
+        "agent_ex": 0.556
+      },
+      "columns+keys": {
+        "admissible": 0.519,
+        "agent_ex": 0.481
+      },
+      "gold": {
+        "admissible": 1.0,
+        "agent_ex": 0.593
+      },
+      "n": 27
+    },
+    "moderate": {
+      "full": {
+        "admissible": 1.0,
+        "agent_ex": 0.589
+      },
+      "tables": {
+        "admissible": 0.932,
+        "agent_ex": 0.616
+      },
+      "columns": {
+        "admissible": 0.671,
+        "agent_ex": 0.562
+      },
+      "columns+keys": {
+        "admissible": 0.712,
+        "agent_ex": 0.534
+      },
+      "gold": {
+        "admissible": 1.0,
+        "agent_ex": 0.685
+      },
+      "n": 73
+    },
+    "simple": {
+      "full": {
+        "admissible": 1.0,
+        "agent_ex": 0.725
+      },
+      "tables": {
+        "admissible": 0.842,
+        "agent_ex": 0.742
+      },
+      "columns": {
+        "admissible": 0.608,
+        "agent_ex": 0.733
+      },
+      "columns+keys": {
+        "admissible": 0.733,
+        "agent_ex": 0.742
+      },
+      "gold": {
+        "admissible": 1.0,
+        "agent_ex": 0.825
+      },
+      "n": 120
+    }
+  },
+  "model": "claude-sonnet-5-5",
+  "seed": 13,
+  "per_db": 20,
+  "llm_calls": 1228
+}

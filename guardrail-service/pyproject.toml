@@ -1,0 +1,28 @@
+[project]
+name = "guardrail-service"
+version = "0.1.0"
+description = "Pluggable guardrail service: text safety scoring, SQL action guard, per-user data-exposure budgets"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.29",
+  "pydantic>=2.6",
+  "sqlglot>=25",
+  "pyyaml>=6",
+  "httpx>=0.27",
+  "numpy>=1.26",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+mcp = ["mcp>=2", "psycopg[binary]>=3.2"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["guardrail"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
